@@ -17,3 +17,22 @@ export function timeAgo(time: number) {
     return `${hoursAgo}小时前`;
   }
 }
+
+export function transformSellDataArrayToDict(sellDataArray: SellDataResponse[]): TransformedSellDataDict {
+  return sellDataArray.reduce((acc: TransformedSellDataDict, current) => {
+    const { good_id } = current;
+    acc[good_id] = current;
+    return acc;
+  }, {});
+}
+
+export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): TransformedBuyData {
+  return buyDataArray.reduce((acc: TransformedBuyData, current) => {
+    const { good_id, station_id } = current;
+    if (!acc[good_id]) {
+      acc[good_id] = {};
+    }
+    acc[good_id][station_id] = current;
+    return acc;
+  }, {});
+}

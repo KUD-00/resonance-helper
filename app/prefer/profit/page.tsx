@@ -7,6 +7,8 @@ export default async function Index() {
   const sell_datas: SellDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/sell`, { next: { revalidate: 30 }})).json();
 
   return (
-    <ProfitTable buy_datas={buy_datas} sell_datas={sell_datas} />
+    <div className="md:w-1/2 flex gap-20">
+      <ProfitTable buy_datas={buy_datas} sell_datas={sell_datas} />
+    </div>
   );
 }

@@ -40,6 +40,17 @@ interface SellDataResponse {
   price: number;
 }
 
+type TransformedSellDataDict = {
+  [goodId: string]: SellDataResponse;
+};
+
+interface TransformedBuyData {
+  [key: string]: {
+    [key: string]: BuyDataResponse
+  }
+}
+
+
 interface StationProfitTable {
   [station_id: string]: ProfitTableCell[]
 }
@@ -54,6 +65,14 @@ interface ProfitTableCell {
   updated_at: number;
 }
 
-type TransformedSellData = {
-  [goodId: string]: SellDataResponse;
-};
+interface MakeryProfitTable {
+  [key: string]: MakeryProfitCell[]
+}
+
+interface MakeryProfitCell {
+  station_id: string,
+  price: number,
+  profit: number,
+  profit_ratio: number,
+  updated_at: number
+}

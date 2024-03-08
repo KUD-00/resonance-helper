@@ -10,12 +10,11 @@ import {
   TableRow,
   TableFooter
 } from "@/components/ui/table"
-import { allStationsDict } from "@/config/stations";
+import { getStationName } from "@/config/stations";
 import { buyToSellGoodsDict, sellToBuyGoodsDict } from "@/config/goods";
-import { supabase } from "@/server/db";
 
 export default async function Index() {
-  const sell_data: SellDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/sell`, { next: { revalidate: 30 }})).json();
+  const sellDataArray: SellDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/sell`, { next: { revalidate: 30 }})).json();
 
   return (
     <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">
@@ -31,17 +30,17 @@ export default async function Index() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sell_data.map((item, index) => (
+          {sellDataArray.map(({station_id, trend, price, updated_at, good_id}, index) => (
             <TableRow key={index}>
-              <TableCell>{allStationsDict[item.station_id].name.cn}</TableCell>
+              <TableCell>{getStationName(station_id)}</TableCell>
               <TableCell>{
-                buyToSellGoodsDict[sellToBuyGoodsDict[item.good_id]?.[0]]?.name ?? item.good_id
+                buyToSellGoodsDict[sellToBuyGoodsDict[good_id]?.[0]]?.name ?? good_id
               }</TableCell>
-              <TableCell className={item.trend === 1 ? 'text-red-500' : item.trend === -1 ? 'text-green-500' : 'text-gray-500'}>
-                {item.trend === 1 ? '上涨' : item.trend === -1 ? '下降' : '稳定'}
+              <TableCell className={trend === 1 ? 'text-red-500' : trend === -1 ? 'text-green-500' : 'text-gray-500'}>
+                {trend === 1 ? '上涨' : trend === -1 ? '下降' : '稳定'}
               </TableCell>
-              <TableCell>{item.price}</TableCell>
-              <TableCell className="text-right">{new Date(item.updated_at).toLocaleString()}</TableCell>
+              <TableCell>{price}</TableCell>
+              <TableCell className="text-right">{new Date(updated_at).toLocaleString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>
