@@ -5,10 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function timeAgo(dateString: string) {
-  const date = new Date(dateString);
+export function timeAgo(time: number) {
   const now = new Date();
-  const difference = now.getTime() - date.getTime();
+  const difference = now.getTime() - time;
 
   const hoursAgo = Math.floor(difference / (1000 * 60 * 60));
 

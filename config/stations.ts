@@ -70,7 +70,8 @@ export const allStationsDict: { [key: string]: Omit<Station, 'sell_price_list' |
   )
 }
 
-export const stations = Object.entries(allStationsDict);
+export const stations = Object.entries(allStationsDict)
+  .filter(([station_id, station]) => station.type !== 'unknown' && station.type !== 'make');
 
 export const getStationGoods = (station_id: string) => Object.entries(allStationsDict[station_id].goods_list)
 

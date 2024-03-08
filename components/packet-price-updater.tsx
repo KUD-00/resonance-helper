@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from "@/components/ui/label";
 
@@ -83,8 +83,9 @@ export function PacketPriceUpdater() {
         body: JSON.stringify(buy_goods_array),
       });
 
-      console.log(update_buy_response);
-      console.log(update_sell_response);
+      toast(`${update_sell_response.ok}`, {
+        description: "Sunday, December 03, 2023 at 9:00 AM"
+      })
 
     } catch (error) {
       console.error("处理JSON数据时出错：", (error as Error).message);
@@ -92,7 +93,7 @@ export function PacketPriceUpdater() {
   }
 
   return (
-    <Card className="w-full md:w-[400px]">
+    <Card className="w-full sm:w-[400px]">
       <CardHeader>
         <CardTitle>抓包数据批量更新</CardTitle>
         <CardDescription></CardDescription>
@@ -115,7 +116,7 @@ export function PacketPriceUpdater() {
                     />
                   </FormControl>
                   <FormDescription>
-                    不会收集个人隐私数据
+                    不会收集个人隐私数据,提交数据后半分钟才会刷新服务器缓存
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -32,10 +32,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700232: {
@@ -69,10 +65,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -108,10 +100,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700615: {
@@ -145,10 +133,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -184,10 +168,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700135: {
@@ -221,10 +201,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -262,10 +238,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700199: {
@@ -299,10 +271,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -338,10 +306,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700509: {
@@ -375,10 +339,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -414,10 +374,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700311: {
@@ -451,10 +407,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -490,10 +442,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700563: {
@@ -528,10 +476,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700443: {
@@ -565,10 +509,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -606,10 +546,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700548: {
@@ -643,10 +579,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -682,10 +614,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700530: {
@@ -719,10 +647,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -758,10 +682,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700195: {
@@ -795,10 +715,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -836,10 +752,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   }, 
   84700291: {
@@ -873,10 +785,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   }, 
@@ -912,10 +820,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   }, 
   84700342: {
@@ -949,10 +853,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   }, 
@@ -988,10 +888,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   }, 
   84700423: {
@@ -1025,10 +921,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   }, 
@@ -1064,10 +956,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   }, 
   84700453: {
@@ -1101,10 +989,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   }, 
@@ -1142,10 +1026,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84701612: {
@@ -1179,10 +1059,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1218,10 +1094,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700395: {
@@ -1255,10 +1127,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1294,10 +1162,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700511: {
@@ -1331,10 +1195,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1370,10 +1230,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700262: {
@@ -1407,10 +1263,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1446,10 +1298,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700392: {
@@ -1483,10 +1331,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1524,10 +1368,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700368: {
@@ -1561,10 +1401,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1600,10 +1436,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700079: {
@@ -1637,10 +1469,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1676,10 +1504,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700389: {
@@ -1713,10 +1537,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1752,10 +1572,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700597: {
@@ -1790,10 +1606,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700493: {
@@ -1827,10 +1639,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1868,10 +1676,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700994: {
@@ -1905,10 +1709,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -1944,10 +1744,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700996: {
@@ -1981,10 +1777,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2020,10 +1812,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700998: {
@@ -2057,10 +1845,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2096,10 +1880,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700465: {
@@ -2133,10 +1913,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2174,10 +1950,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700816: {
@@ -2211,10 +1983,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2250,10 +2018,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700440: {
@@ -2287,10 +2051,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2326,10 +2086,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   84700307: {
@@ -2363,10 +2119,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2404,10 +2156,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000002: {
@@ -2441,10 +2189,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2480,10 +2224,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000004: {
@@ -2517,10 +2257,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2556,10 +2292,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000006: {
@@ -2593,10 +2325,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2632,10 +2360,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000008: {
@@ -2670,10 +2394,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000009: {
@@ -2706,10 +2426,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2745,10 +2461,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000011: {
@@ -2782,10 +2494,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2821,10 +2529,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000013: {
@@ -2858,10 +2562,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2897,10 +2597,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000015: {
@@ -2934,10 +2630,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -2973,10 +2665,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000017: {
@@ -3010,10 +2698,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -3049,10 +2733,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000019: {
@@ -3086,10 +2766,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -3125,10 +2801,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000021: {
@@ -3162,10 +2834,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -3201,10 +2869,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000023: {
@@ -3239,10 +2903,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   10000024: {
@@ -3276,10 +2936,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -3316,10 +2972,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   },
   20000002: {
@@ -3353,10 +3005,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       {
         good_id: "",
         station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
       },
     ]
   },
@@ -3392,10 +3040,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         good_id: "",
         station_id: "83000029"
       },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
     ]
   }
 }
@@ -3419,7 +3063,7 @@ export const makeryGoodsDict: MakeryGoodsDict = {
     output: 3,
     cost: 4
   },
-  20000003: {
+  20000002: {
     recipe: [
       ["84700154", 1],
       ["84700501", 1],
@@ -3429,7 +3073,7 @@ export const makeryGoodsDict: MakeryGoodsDict = {
     output: 3,
     cost: 3
   },
-  20000002: {
+  20000003: {
     recipe: [
       ["84700019", 1]
     ],

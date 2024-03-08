@@ -12,8 +12,7 @@ import { allStationsDict } from "@/config/stations";
 import { buyToSellGoodsDict, sellToBuyGoodsDict } from "@/config/goods";
 
 export default async function Index() {
-  const response = await fetch(`${process.env.BASE_URL}/api/sell`, { cache: 'no-store' });
-  const sell_data: SellDataResponse[] = await response.json();
+  const sell_data: SellDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/sell`, { next: { revalidate: 30 }})).json();
 
   return (
     <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">

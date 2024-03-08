@@ -39,3 +39,21 @@ interface SellDataResponse {
   trend: number;
   price: number;
 }
+
+interface StationProfitTable {
+  [station_id: string]: ProfitTableCell[]
+}
+
+interface ProfitTableCell {
+  good_id: string;
+  target_station_id: string;
+  buy_price: number;
+  sell_price: number;
+  per_profit: number;
+  all_profit: number;
+  updated_at: number;
+}
+
+type TransformedSellData = {
+  [goodId: string]: SellDataResponse;
+};

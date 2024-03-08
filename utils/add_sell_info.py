@@ -1,7 +1,7 @@
 file_path = 'goods.ts'
 backup_file_path = 'goods_backup.ts'
 
-append_str = '      {\n        good_id: "",\n        station_id: "83000001"\n      },\n'
+append_str = '      {\n        good_id: "",\n        station_id: "83000020"\n      },\n'
 
 with open(file_path, 'r', encoding='utf-8') as file:
     lines = file.readlines()

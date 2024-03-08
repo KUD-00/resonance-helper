@@ -35,11 +35,6 @@ const components: { title: string; href: string; description: string }[] = [
       ""
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: ""
-  },
-  {
     title: "API",
     href: "/data/api",
     description:
@@ -65,7 +60,7 @@ export function Navi() {
                 <NavigationMenuLink asChild>
                   <a
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
+                    href="/prefer/profit"
                   >
                     <Icons.logo className="h-6 w-6" />
                     <div className="mb-2 mt-4 text-lg font-medium">
@@ -83,7 +78,7 @@ export function Navi() {
               <ListItem href="/prefer/makery" title="商品制作利润">
                 疲劳值MAX
               </ListItem>
-              <ListItem href="/chat" title="留言灌水">
+              <ListItem href="/prefer/chat" title="留言灌水">
                 列车长有话要说
               </ListItem>
             </ul>

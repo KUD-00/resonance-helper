@@ -66,7 +66,6 @@ export function ManualPriceUpdater() {
       }
 
       const result = await response.json();
-      console.log(result);
     } catch (error) {
       console.error("Failed to submit form:", error);
     }

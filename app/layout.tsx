@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { cn } from "@/utils/utils"
 import "./globals.css";
 import { Navi } from "@/components/navigation";
+import { Suspense } from "react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -27,9 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className={cn("bg-background text-foreground font-sans antialiased", fontSans.variable)}>
-        <main className="min-h-screen flex flex-col items-center gap-10">
+        <header className="w-full flex justify-center">
           <Navi />
-          {children}
+        </header>
+        <main className="min-h-screen flex flex-col items-center mt-16">
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
         </main>
       </body>
     </html>
