@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import ProfitTable from "@/components/profit-table";
 
 export default async function Index() {

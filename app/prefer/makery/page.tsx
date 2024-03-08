@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import MakeryProfitTable from "@/components/makery-profit-table";
 
 export default async function Index() {

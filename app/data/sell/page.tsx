@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import {
   Table,
   TableBody,
@@ -10,6 +12,7 @@ import {
 } from "@/components/ui/table"
 import { allStationsDict } from "@/config/stations";
 import { buyToSellGoodsDict, sellToBuyGoodsDict } from "@/config/goods";
+import { supabase } from "@/server/db";
 
 export default async function Index() {
   const sell_data: SellDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/sell`, { next: { revalidate: 30 }})).json();
