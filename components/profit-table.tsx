@@ -8,8 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { allStationsDict, getStationName, getStock, stations } from "@/config/stations";
-import { buyToSellGoodsDict, getBuyGoodName, getSellCorresponds } from "@/config/goods";
+import { getStationName, getStock, stations } from "@/config/stations";
+import { getBuyGoodName, getSellCorresponds } from "@/config/goods";
 import { calculateProfit } from "@/utils/calculate";
 import { timeAgo, transformSellDataArrayToDict } from "@/utils/utils";
 import React from "react";
@@ -72,33 +72,35 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
 
   return (
     <>
-      <Select onValueChange={handleStationChange} defaultValue={selectedStationId}>
-        <SelectTrigger className="">
-          <SelectValue placeholder="选择起点" />
-        </SelectTrigger>
-        <SelectContent>
-          {stations.map(([station_id, info]) => (
-            <SelectItem key={station_id} value={station_id}>
-              {info.name.cn}
+      <div className="md:w-1/2 flex gap-20">
+        <Select onValueChange={handleStationChange} defaultValue={selectedStationId}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="选择起点" />
+          </SelectTrigger>
+          <SelectContent>
+            {stations.map(([station_id, info]) => (
+              <SelectItem key={station_id} value={station_id}>
+                {info.name.cn}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleTargetStationChange} defaultValue={selectedTargetStationId}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="选择终点" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem key={"all"} value={"all"}>
+              选择终点
             </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select onValueChange={handleTargetStationChange} defaultValue={selectedTargetStationId}>
-        <SelectTrigger className="">
-          <SelectValue placeholder="选择终点" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem key={"all"} value={"all"}>
-            选择终点
-          </SelectItem>
-          {stations.map(([station_id, info]) => (
-            <SelectItem key={station_id} value={station_id}>
-              {info.name.cn}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+            {stations.map(([station_id, info]) => (
+              <SelectItem key={station_id} value={station_id}>
+                {info.name.cn}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">
         <Table>
           <TableCaption>红色获利，绿色亏本。税率10%，无砍价抬价</TableCaption>

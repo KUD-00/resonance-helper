@@ -52,6 +52,7 @@ export default function MakeryProfitTable({ buy_datas: buyDataArray, sell_datas:
         updated_at: sellTime
       })
     })
+    makeryProfitTable[good_id].sort((a, b) => b.profit - a.profit)
   })
 
   return (

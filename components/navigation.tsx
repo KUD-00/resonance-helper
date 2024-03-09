@@ -46,6 +46,12 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       ""
   },
+  {
+    title: "情报更新状况",
+    href: "/data/status",
+    description:
+      ""
+  },
 ]
 
 export function Navi() {
