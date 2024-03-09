@@ -5,7 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function timeAgo(time: number) {
+export const dateTimeStringToHoursAgo = (dateTime: string) => {
+  return linuxTimeToHoursAgo(new Date(dateTime).getTime())
+}
+
+export function linuxTimeToHoursAgo(time: number) {
   const now = new Date();
   const difference = now.getTime() - time;
 

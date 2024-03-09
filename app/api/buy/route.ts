@@ -11,12 +11,12 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const data = await request.json();
+  const buyGoodsArray = await request.json();
   const supabase = createClient();
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('buy')
-    .upsert(data)
+    .upsert(buyGoodsArray)
 
-  return Response.json(error)
+  return Response.json(data)
 }

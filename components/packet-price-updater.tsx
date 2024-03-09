@@ -12,12 +12,12 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react"
 
 interface PriceDetail {
   trend: number;
@@ -35,23 +35,25 @@ const FormSchema = z.object({
 })
 
 export function PacketPriceUpdater() {
+  const [msg, setMsg] = useState("提交")
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const jsonData = JSON.parse(data.packetData);
-      const stationIdKeys = Object.keys(jsonData.stations);
+      setMsg("正在更新...")
+      const submitData = JSON.parse(data.packetData);
+      const stationIdKeys = Object.keys(submitData.stations);
 
       if (stationIdKeys.length !== 1) {
-        throw new Error("stations对象中必须有且只有一个key");
+        setMsg("stations对象中必须有且只有一个key")
       }
 
       const station_id = stationIdKeys[0];
       const updated_at = new Date().toISOString();
 
-      const buy_goods_array = Object.entries(jsonData.goods_price.buy_price).map(([good_id, details]) => ({
+      const buyGoodsArray = Object.entries(submitData.goods_price.buy_price).map(([good_id, details]) => ({
         good_id,
         trend: (details as PriceDetail).trend,
         price: (details as PriceDetail).price,
@@ -59,7 +61,7 @@ export function PacketPriceUpdater() {
         station_id
       }));
 
-      const sell_goods_array = Object.entries(jsonData.goods_price.sell_price).map(([good_id, details]) => ({
+      const sellGoodsArray = Object.entries(submitData.goods_price.sell_price).map(([good_id, details]) => ({
         good_id,
         trend: (details as PriceDetail).trend,
         price: (details as PriceDetail).price,
@@ -67,28 +69,29 @@ export function PacketPriceUpdater() {
         station_id
       }));
 
-      const update_buy_response =  await fetch("/api/buy", {
+      const buyResponse = await fetch("/api/buy", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(sell_goods_array),
+        body: JSON.stringify(sellGoodsArray),
       });
 
-      const update_sell_response = await fetch("/api/sell", {
+      const sellResponse = await fetch("/api/sell", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(buy_goods_array),
+        body: JSON.stringify(buyGoodsArray),
       });
 
-      toast(`${update_sell_response.ok}`, {
-        description: "Sunday, December 03, 2023 at 9:00 AM"
-      })
-
+      if (buyResponse.ok && sellResponse.ok) {
+        setMsg(`成功更新`)
+      } else {
+        setMsg(`网络错误或数据库错误`)
+      }
     } catch (error) {
-      console.error("处理JSON数据时出错：", (error as Error).message);
+        setMsg(`数据格式错误`)
     }
   }
 
@@ -122,7 +125,7 @@ export function PacketPriceUpdater() {
                 </FormItem>
               )}
             />
-            <Button type="submit">提交</Button>
+            <Button type="submit">{msg}</Button>
           </form>
         </Form>
       </CardContent>

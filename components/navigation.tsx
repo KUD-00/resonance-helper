@@ -82,7 +82,7 @@ export function Navi() {
                 倒什么详情
               </ListItem>
               <ListItem href="/prefer/makery" title="商品制作利润">
-                疲劳值MAX
+                疲劳值MAX，别搓太多了
               </ListItem>
               <ListItem href="/prefer/chat" title="留言灌水">
                 列车长有话要说

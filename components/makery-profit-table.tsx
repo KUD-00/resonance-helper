@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table"
 import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/goods";
 import { getStationName } from "@/config/stations";
-import { timeAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
+import { linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 
 export default function MakeryProfitTable({ buy_datas: buyDataArray, sell_datas: sellDataArray }: { buy_datas: BuyDataResponse[], sell_datas: SellDataResponse[] }) {
   const sellDataDict = transformSellDataArrayToDict(sellDataArray);
@@ -78,7 +78,7 @@ export default function MakeryProfitTable({ buy_datas: buyDataArray, sell_datas:
                     <TableCell>{price}</TableCell>
                     <TableCell>{profit}</TableCell>
                     <TableCell>{profit_ratio}</TableCell>
-                    <TableCell className="text-right">{timeAgo(updated_at)}</TableCell>
+                    <TableCell className="text-right">{linuxTimeToHoursAgo(updated_at)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

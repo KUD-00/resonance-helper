@@ -11,7 +11,7 @@ import {
 import { getStationName, getStock, stations } from "@/config/stations";
 import { getBuyGoodName, getSellCorresponds } from "@/config/goods";
 import { calculateProfit } from "@/utils/calculate";
-import { timeAgo, transformSellDataArrayToDict } from "@/utils/utils";
+import { linuxTimeToHoursAgo, transformSellDataArrayToDict } from "@/utils/utils";
 import React from "react";
 
 import {
@@ -28,7 +28,6 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
 
   const stationProfitTable: StationProfitTable = {}
 
-  console.log(buyArrayDatas)
   buyArrayDatas.map(({ price, station_id, good_id, updated_at }) => {
     getSellCorresponds(good_id).map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
       const sellGood = sellDataDict[sell_good_id]
@@ -37,8 +36,6 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
       if (!stationProfitTable[station_id]) {
         stationProfitTable[station_id] = []
       }
-      console.log(updated_at)
-      console.log(sellGood?.updated_at)
       stationProfitTable[station_id].push({
         good_id,
         target_station_id: sell_station_id,
@@ -75,11 +72,10 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
 
   return (
     <>
-      <p className="mb-8">如果提交数据后发现此处没有更新，请多刷新几次使服务器抛弃缓存，按道理来说是半分钟一次刷新缓存</p>
       <div className="md:w-1/2 flex gap-20">
         <Select onValueChange={handleStationChange} defaultValue={selectedStationId}>
           <SelectTrigger className="">
-            <SelectValue placeholder="选择起点" />
+            <SelectValue placeholder="起点" />
           </SelectTrigger>
           <SelectContent>
             {stations.map(([station_id, info]) => (
@@ -91,11 +87,11 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
         </Select>
         <Select onValueChange={handleTargetStationChange} defaultValue={selectedTargetStationId}>
           <SelectTrigger className="">
-            <SelectValue placeholder="选择终点" />
+            <SelectValue placeholder="终点" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem key={"all"} value={"all"}>
-              选择终点
+              终点
             </SelectItem>
             {stations.map(([station_id, info]) => (
               <SelectItem key={station_id} value={station_id}>
@@ -111,9 +107,9 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
           <TableHeader>
             <TableHead>商品</TableHead>
             <TableHead>目的地</TableHead>
-            <TableHead>贩卖价格</TableHead>
-            <TableHead>单体利润</TableHead>
-            <TableHead className="text-right">更新时间</TableHead>
+            <TableHead>卖价</TableHead>
+            <TableHead>利润</TableHead>
+            <TableHead className="text-right">时效</TableHead>
           </TableHeader>
           <TableBody>
             {profitTable.map(({ good_id, target_station_id, buy_price, sell_price, per_profit, all_profit, updated_at }, index) => {
@@ -124,7 +120,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
                   <TableCell>{getStationName(target_station_id)}</TableCell>
                   <TableCell>{sell_price}</TableCell>
                   <TableCell>{per_profit}</TableCell>
-                  <TableCell className="text-right">{timeAgo(updated_at)}</TableCell>
+                  <TableCell className="text-right">{linuxTimeToHoursAgo(updated_at)}</TableCell>
                 </TableRow>
               )
             })}
