@@ -28,6 +28,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
 
   const stationProfitTable: StationProfitTable = {}
 
+  console.log(buyArrayDatas)
   buyArrayDatas.map(({ price, station_id, good_id, updated_at }) => {
     getSellCorresponds(good_id).map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
       const sellGood = sellDataDict[sell_good_id]
@@ -36,6 +37,8 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
       if (!stationProfitTable[station_id]) {
         stationProfitTable[station_id] = []
       }
+      console.log(updated_at)
+      console.log(sellGood?.updated_at)
       stationProfitTable[station_id].push({
         good_id,
         target_station_id: sell_station_id,
@@ -72,6 +75,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
 
   return (
     <>
+      <p className="mb-8">如果提交数据后发现此处没有更新，请多刷新几次使服务器抛弃缓存，按道理来说是半分钟一次刷新缓存</p>
       <div className="md:w-1/2 flex gap-20">
         <Select onValueChange={handleStationChange} defaultValue={selectedStationId}>
           <SelectTrigger className="">

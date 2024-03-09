@@ -57,6 +57,7 @@ export default function MakeryProfitTable({ buy_datas: buyDataArray, sell_datas:
 
   return (
     <>
+      <p>如果提交数据后发现此处没有更新，请多刷新几次使服务器抛弃缓存，按道理来说是半分钟一次刷新缓存</p>
       {Object.entries(makeryProfitTable).map(([good_id, cells]) => {
         return (
           <>

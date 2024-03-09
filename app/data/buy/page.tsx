@@ -14,7 +14,7 @@ import { allStationsDict } from "@/config/stations";
 import { buyToSellGoodsDict } from "@/config/goods";
 
 export default async function Index() {
-  const buy_data: BuyDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/buy`, { next: { revalidate: 60 } })).json();
+  const buy_data: BuyDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/buy`, { next: { revalidate: 30 } })).json();
 
   return (
     <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">
