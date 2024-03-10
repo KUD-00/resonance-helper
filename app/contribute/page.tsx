@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 export default function Index() {
   return (
     <div className="flex-1 flex flex-col gap-10 items-center">
-      <div className="w-5/6">
+      <div className="w-5/6 sm:w-[400px]">
         <PacketPriceUpdater />
       </div>
       <Card className="w-5/6 sm:w-[400px]">

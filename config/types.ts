@@ -76,3 +76,13 @@ interface MakeryProfitCell {
   profit_ratio: number,
   updated_at: number
 }
+
+interface PriceDetail {
+  trend: number;
+  not_num: number;
+  is_rise: number;
+  price: number;
+  trade_num: number;
+  interval_num: number;
+  is_rare: number;
+}
