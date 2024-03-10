@@ -10,8 +10,7 @@ class Capture:
             flow.request.url == "http://reso-online-ddos.soli-reso.com:9001/api/"
             and "method=station.goods_info" in flow.request.content.decode("utf-8")
         ):
-            goods_info_json = eval(flow.response.content.decode("utf-8"))
-            goods_info = json.loads(goods_info_json)
+            goods_info = flow.response.text
             self.post_goods_info(goods_info)
 
     def post_goods_info(self, goods_info):
@@ -21,6 +20,7 @@ class Capture:
         if response.ok:
             print("Goods info posted successfully to your website.")
         else:
+            print(response)
             print("Failed to post goods info to your website.")
 
 addons = [Capture()]

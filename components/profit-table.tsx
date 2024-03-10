@@ -76,8 +76,8 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
   }, [selectedStationId, selectedTargetStationId]);
 
   return (
-    <>
-      <div className="md:w-1/2 flex gap-20">
+    <div className="flex flex-col gap-10">
+      <div className="flex gap-20">
         <Select onValueChange={handleStationChange} defaultValue={selectedStationId}>
           <SelectTrigger className="">
             <SelectValue placeholder="起点" />
@@ -106,7 +106,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
           </SelectContent>
         </Select>
       </div>
-      <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">
+      <div className="flex-1 w-full flex flex-col gap-10 items-center">
         <Table>
           <TableCaption>红色获利，绿色亏本。税率10%，无砍价抬价</TableCaption>
           <TableHeader>
@@ -132,6 +132,6 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
           </TableBody>
         </Table >
       </div>
-    </>
+    </div>
   );
 }
