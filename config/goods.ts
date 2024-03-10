@@ -3493,9 +3493,9 @@ export const sellToBuyGoodsDict: SellToBuyGoodsDict = Object.entries(buyToSellGo
 }, {} as SellToBuyGoodsDict);
 
 export const getBuyGoodName = (good_id: string) => {
-  return buyToSellGoodsDict[good_id].name
+  return buyToSellGoodsDict[good_id]?.name ?? undefined
 }
 
 export const getSellCorresponds = (good_id: string) => {
-  return buyToSellGoodsDict[good_id].sell_correspond
+  return buyToSellGoodsDict[good_id]?.sell_correspond ?? undefined
 }

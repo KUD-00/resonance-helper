@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const station_id = stationIdKeys[0];
   const updated_at = new Date().toISOString();
 
-  const buyGoodsArray = Object.entries(submitData.goods_price.buy_price).map(([good_id, details]) => ({
+  const buyGoodsArray = Object.entries(submitData.goods_price.sell_price).map(([good_id, details]) => ({
     good_id,
     trend: (details as PriceDetail).trend,
     price: (details as PriceDetail).price,
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     station_id
   }));
 
-  const sellGoodsArray = Object.entries(submitData.goods_price.sell_price).map(([good_id, details]) => ({
+  const sellGoodsArray = Object.entries(submitData.goods_price.buy_price).map(([good_id, details]) => ({
     good_id,
     trend: (details as PriceDetail).trend,
     price: (details as PriceDetail).price,
