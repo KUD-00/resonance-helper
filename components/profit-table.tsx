@@ -35,6 +35,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
         const sellGood = sellDataDict[sell_good_id]
         const sellTime = new Date(sellGood?.updated_at ?? 1000000000000000)
         const buyTime = new Date(updated_at)
+        const per_profit = Math.floor(calculateProfit(price, sellGood?.price ?? 0, 0.1, 0.1, 1))
         if (!stationProfitTable[station_id]) {
           stationProfitTable[station_id] = []
         }
@@ -43,8 +44,8 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
           target_station_id: sell_station_id,
           buy_price: price,
           sell_price: sellGood?.price ?? 0,
-          per_profit: Math.floor(calculateProfit(price, sellGood?.price ?? 0, 0.1, 0.1, 1)),
-          all_profit: Math.floor(calculateProfit(price, sellGood?.price ?? 0, 0.1, 0.1, 1)) * getStock(station_id, good_id),
+          per_profit: per_profit,
+          all_profit: per_profit * getStock(station_id, good_id),
           updated_at: Math.min(sellTime.getTime(), buyTime.getTime())
         })
       })
@@ -108,7 +109,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
       </div>
       <div className="flex-1 w-full flex flex-col gap-10 items-center">
         <Table>
-          <TableCaption>红色获利，绿色亏本。税率10%，无砍价抬价</TableCaption>
+          <TableCaption>红色获利，绿色亏本。税率10%，砍价抬价20%</TableCaption>
           <TableHeader>
             <TableHead>商品</TableHead>
             <TableHead>目的地</TableHead>

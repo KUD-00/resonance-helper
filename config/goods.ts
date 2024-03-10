@@ -1763,7 +1763,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "84700699",
+        good_id: "84700169",
         station_id: "83000014"
       },
       {

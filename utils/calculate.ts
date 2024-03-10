@@ -1,5 +1,5 @@
 export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number): number => {
-  return (sell - buy - sell * sell_tax - buy * buy_tax) * amount;
+  return sell * amount * 1.2 * (1 - sell_tax) - buy * amount * (1 + buy_tax)
 };
 
 export const bestSellerStation = (good: string, stations: Station[]): [Station, number]=> {
