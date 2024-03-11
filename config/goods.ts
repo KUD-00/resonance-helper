@@ -3308,7 +3308,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700025",
         station_id: "83000001"
       },
       {
@@ -3321,6 +3321,350 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
+  10000026: {
+    name: "火澄石",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701298",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701340",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000027: {
+    name: "鱼子酱",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700179",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84700048",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000028: {
+    name: "高端护肤品",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700223",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84700015",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000029: {
+    name: "抗污染防护服",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701293",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701344",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000030: {
+    name: "单晶硅",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700695",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84700538",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000031: {
+    name: "碳纤维",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701306",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701345",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000032: {
+    name: "随身听",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84700761",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000033: {
+    name: "带鱼",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700185",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84700523",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000034: {
+    name: "海角辣椒",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700249",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701339",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+
+
   // 手作商品
   20000001: {
     name: "年货大礼包",

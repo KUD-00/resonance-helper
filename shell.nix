@@ -1,4 +1,12 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
-  buildInputs = [ pkgs.curl pkgs.jq ];
+  buildInputs = with pkgs; [ 
+    git
+    gh
+    nodejs
+    nodePackages_latest.pnpm
+    openssl
+    curl
+    jq 
+  ];
 }
