@@ -8,10 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getStationName, getStock, stations } from "@/config/stations";
-import { getBuyGoodName, getSellCorresponds } from "@/config/goods";
-import { calculateProfit } from "@/utils/calculate";
-import { linuxTimeToHoursAgo, transformSellDataArrayToDict } from "@/utils/utils";
+import { getStationName, filteredStationDict } from "@/config/stations";
+import { getBuyGoodName} from "@/config/goods";
+import { calculateStationProfitTable, linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 import React from "react";
 
 import {
@@ -22,38 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sellArrayDatas }: { buy_datas: BuyDataResponse[], sell_datas: SellDataResponse[] }) {
-  console.log(buyArrayDatas)
-
+const ProfitTable = ({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[] }) => {
   const sellDataDict = transformSellDataArrayToDict(sellArrayDatas);
+  const buyDataDict = transformBuyDataArrayToDict(buyArrayDatas)
 
-  const stationProfitTable: StationProfitTable = {}
-
-  buyArrayDatas.map(({ price, station_id, good_id, updated_at }) => {
-    if (getSellCorresponds(good_id))
-      getSellCorresponds(good_id).map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
-        const sellGood = sellDataDict[sell_good_id]
-        const sellTime = new Date(sellGood?.updated_at ?? 1000000000000000)
-        const buyTime = new Date(updated_at)
-        const per_profit = Math.floor(calculateProfit(price, sellGood?.price ?? 0, 0.1, 0.1, 1))
-        if (!stationProfitTable[station_id]) {
-          stationProfitTable[station_id] = []
-        }
-        stationProfitTable[station_id].push({
-          good_id,
-          target_station_id: sell_station_id,
-          buy_price: price,
-          sell_price: sellGood?.price ?? 0,
-          per_profit: per_profit,
-          all_profit: per_profit * getStock(station_id, good_id),
-          updated_at: Math.min(sellTime.getTime(), buyTime.getTime())
-        })
-      })
-    if (!stationProfitTable[station_id]) {
-      stationProfitTable[station_id] = []
-    }
-    stationProfitTable[station_id].sort((a, b) => b.per_profit - a.per_profit)
-  })
+  const stationProfitTable: StationProfitTable = calculateStationProfitTable(buyDataDict, sellDataDict)
 
   const handleStationChange = (station_id: string) => {
     setSelectedStationId(station_id);
@@ -84,7 +56,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
             <SelectValue placeholder="起点" />
           </SelectTrigger>
           <SelectContent>
-            {stations.map(([station_id, info]) => (
+            {filteredStationDict.map(([station_id, info]) => (
               <SelectItem key={station_id} value={station_id}>
                 {info.name.cn}
               </SelectItem>
@@ -99,7 +71,7 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
             <SelectItem key={"all"} value={"all"}>
               终点
             </SelectItem>
-            {stations.map(([station_id, info]) => (
+            {filteredStationDict.map(([station_id, info]) => (
               <SelectItem key={station_id} value={station_id}>
                 {info.name.cn}
               </SelectItem>
@@ -136,3 +108,5 @@ export default function ProfitTable({ buy_datas: buyArrayDatas, sell_datas: sell
     </div>
   );
 }
+
+export default ProfitTable;

@@ -7,7 +7,7 @@ const createStation = (station_id: string, type: string, name: I18string, goods_
   };
 }
 
-export const allStationsDict: { [key: string]: Omit<Station, 'sell_price_list' | 'buy_price_list'>} = {
+export const allStationDict: { [key: string]: Omit<Station, 'sell_price_list' | 'buy_price_list'>} = {
   83000001: createStation(
     "83000001",
     "city",
@@ -70,15 +70,17 @@ export const allStationsDict: { [key: string]: Omit<Station, 'sell_price_list' |
   )
 }
 
-export const stations = Object.entries(allStationsDict)
+export const filteredStationDict = Object.entries(allStationDict)
   .filter(([station_id, station]) => station.type !== 'unknown' && station.type !== 'make');
 
-export const getStationGoods = (station_id: string) => Object.entries(allStationsDict[station_id].goods_list)
+export const filterdStationIds = filteredStationDict.map(([station_id, station]) => station_id);
+
+export const getStationGoods = (station_id: string) => Object.entries(allStationDict[station_id].goods_list)
 
 export const getStationName = (station_id: string) => {
-  return allStationsDict[station_id].name.cn
+  return allStationDict[station_id].name.cn
 }
 
 export const getStock = (station_id: string, good_id: string) => {
-  return allStationsDict[station_id].goods_list[good_id]
+  return allStationDict[station_id].goods_list[good_id]
 }

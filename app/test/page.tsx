@@ -8,7 +8,7 @@ import {
   TableRow,
   TableFooter
 } from "@/components/ui/table"
-import { allStationsDict, getStock } from "@/config/stations";
+import { allStationDict, getStock } from "@/config/stations";
 import { buyToSellGoodsDict, getSellCorresponds, sellToBuyGoodsDict } from "@/config/goods";
 import { DataTableDemo } from "@/components/table";
 import { calculateProfit } from "@/utils/calculate";

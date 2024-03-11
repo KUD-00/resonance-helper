@@ -11,9 +11,9 @@ import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/go
 import { getStationName } from "@/config/stations";
 import { linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 
-export default function MakeryProfitTable({ buy_datas: buyDataArray, sell_datas: sellDataArray }: { buy_datas: BuyDataResponse[], sell_datas: SellDataResponse[] }) {
-  const sellDataDict = transformSellDataArrayToDict(sellDataArray);
-  const buyDataDict = transformBuyDataArrayToDict(buyDataArray)
+export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[] }) {
+  const sellDataDict = transformSellDataArrayToDict(sellArrayDatas);
+  const buyDataDict = transformBuyDataArrayToDict(buyArrayDatas)
 
   const makeryProfitTable: MakeryProfitTable = {}
 

@@ -1,5 +1,8 @@
+import { getSellCorresponds } from "@/config/goods"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { calculateProfit } from "./calculate"
+import { filterdStationIds, getStationGoods, getStock } from "@/config/stations"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -40,3 +43,38 @@ export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): T
     return acc;
   }, {});
 }
+
+export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sellDataDict: TransformedSellDataDict): StationProfitTable => {
+  const stationProfitTable: StationProfitTable = {};
+
+  filterdStationIds.map((station_id) => {
+    stationProfitTable[station_id] = [];
+
+    getStationGoods(station_id).map(([good_id, stock]) => {
+      const sellCorresponds = getSellCorresponds(good_id);
+      sellCorresponds.map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
+        if (sell_good_id != "") { // 存在没有写对应的商品
+          const sellGood = sellDataDict[sell_good_id]; // 商品在目标站点的售卖信息
+          const buyGood = buyDataDict[good_id][station_id] // 商品在当前站点的购买信息
+          const sellTime = new Date(sellGood.updated_at);
+          const buyTime = new Date(buyGood.updated_at);
+          const per_profit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
+
+          stationProfitTable[station_id].push({
+            good_id,
+            target_station_id: sell_station_id,
+            buy_price: buyGood.price,
+            sell_price: sellGood.price,
+            per_profit,
+            all_profit: per_profit * stock,
+            updated_at: Math.min(sellTime.getTime(), buyTime.getTime())
+          });
+        }
+      });
+    });
+
+    stationProfitTable[station_id].sort((a, b) => b.per_profit - a.per_profit);
+  });
+
+  return stationProfitTable;
+};

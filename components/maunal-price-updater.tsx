@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { allStationsDict } from "@/config/stations";
+import { allStationDict } from "@/config/stations";
 import { Button } from "@/components/ui/button";
 import { buyToSellGoodsDict } from '@/config/goods';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -131,7 +131,7 @@ export function ManualPriceUpdater() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.values(allStationsDict).map((station) => (
+                        {Object.values(allStationDict).map((station) => (
                           <SelectItem key={station.station_id} value={station.station_id}>
                             {station.name.cn}
                           </SelectItem>
@@ -154,7 +154,7 @@ export function ManualPriceUpdater() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.keys(allStationsDict[watchStationId]?.goods_list || {}).map((good_id) => (
+                        {Object.keys(allStationDict[watchStationId]?.goods_list || {}).map((good_id) => (
                           <SelectItem key={good_id} value={good_id}>
                             {buyToSellGoodsDict[good_id]?.name}
                           </SelectItem>

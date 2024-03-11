@@ -46,7 +46,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { allStationsDict, getStationName } from "@/config/stations"
+import { allStationDict, getStationName } from "@/config/stations"
 
 const data: Payment[] = [
   {
@@ -240,7 +240,7 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
             <SelectValue placeholder="选择站点" />
           </SelectTrigger>
           <SelectContent>
-            {Object.values(allStationsDict).map((station) => (
+            {Object.values(allStationDict).map((station) => (
               <SelectItem key={station.station_id} value={station.station_id}>
                 {station.name.cn}
               </SelectItem>
