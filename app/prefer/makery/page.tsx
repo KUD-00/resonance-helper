@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { getBuyAndSellDataArray } from "@/app/actions";
-import MakeryProfitTable from "@/components/makery-profit-table";
+import MakeryProfitTable from "@/components/MakeryProfitTable";
 
 export default async function Index() {
   const [buyDatas, sellDatas] = await getBuyAndSellDataArray()

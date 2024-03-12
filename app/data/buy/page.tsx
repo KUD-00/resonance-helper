@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import {
   Table,
   TableBody,
@@ -13,9 +11,10 @@ import {
 import { getStationName } from "@/config/stations";
 import { getBuyGoodName } from "@/config/goods";
 import { dateTimeStringToHoursAgo } from "@/utils/utils";
+import { getBuyDataArray } from "@/app/actions";
 
 export default async function Index() {
-  const buyDataArray: BuyDataResponse[] = await (await fetch(`${process.env.BASE_URL}/api/buy`, { cache: "no-store" })).json();
+  const buyDataArray: BuyDataResponse[] = await getBuyDataArray()
 
   return (
     <div className="flex-1 w-5/6 md:w-1/2 flex flex-col gap-10 items-center">

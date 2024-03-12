@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
-import { getBuyAndSellDataArray, getBuyDataArray, getSellDataArray } from "@/app/actions";
-import ProfitTable from "@/components/profit-table";
+import { getBuyAndSellDataArray } from "@/app/actions";
+import ProfitTable from "@/components/ProfitTable";
 
 export default async function Index() {
   const [buyDatas, sellDatas]: BuyDataResponse[][] = await getBuyAndSellDataArray()

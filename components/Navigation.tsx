@@ -109,7 +109,14 @@ export function Navi() {
         <NavigationMenuItem>
           <Link href="/contribute" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                贡献数据
+              贡献数据
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/user" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              用户
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

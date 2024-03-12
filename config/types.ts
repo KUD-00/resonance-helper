@@ -86,3 +86,16 @@ interface PriceDetail {
   interval_num: number;
   is_rare: number;
 }
+
+interface UserInfo {
+  user_id: number;
+  max_energy: number;
+  energy: number;
+  role_name: string;
+  gold: number;
+  level: number;
+  move_energy: number;
+  reputations: {
+    [key: string]: number;
+  }
+}

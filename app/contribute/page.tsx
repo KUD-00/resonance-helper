@@ -1,7 +1,5 @@
-import { ManualPriceUpdater } from "@/components/maunal-price-updater";
-import { PacketPriceUpdater } from "@/components/packet-price-updater";
+import { PacketPriceUpdater } from "@/components/PacketPriceUpdater";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Label } from "@/components/ui/label";
 
 export default function Index() {
   return (

@@ -2,7 +2,7 @@ import { Inter as FontSans } from "next/font/google"
 import { GeistSans } from "geist/font/sans";
 import { cn } from "@/utils/utils"
 import "./globals.css";
-import { Navi } from "@/components/navigation";
+import { Navi } from "@/components/Navigation";
 import { Suspense } from "react";
 
 const defaultUrl = process.env.VERCEL_URL

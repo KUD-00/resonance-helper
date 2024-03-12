@@ -1,13 +1,8 @@
+import { getBuyDataArray } from '@/app/actions';
 import { createClient } from '@/utils/supabase/server';
 
 export async function GET(request: Request) {
-  const supabase = createClient();
-
-  const { data } = await supabase
-    .from("buy")
-    .select()
-
-  return Response.json(data)
+  return Response.json(getBuyDataArray())
 }
 
 export async function POST(request: Request) {
