@@ -17,6 +17,7 @@ interface Station {
   goods_list: {[key: string]: number};
   sell_price_list: { [key: string]: number };
   buy_price_list: { [key: string]: number };
+  reputation_base: number;
 }
 
 interface I18string {
@@ -98,4 +99,14 @@ interface UserInfo {
   reputations: {
     [key: string]: number;
   }
+}
+
+interface MakeryGoodsRecipeItem {
+  recipe: [string, number][];
+  output: number;
+  cost: number;
+}
+
+interface MakeryGoodsDict {
+  [key: string]: MakeryGoodsRecipeItem;
 }

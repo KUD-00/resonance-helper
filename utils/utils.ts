@@ -44,7 +44,7 @@ export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): T
   }, {});
 }
 
-export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sellDataDict: TransformedSellDataDict): StationProfitTable => {
+export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sellDataDict: TransformedSellDataDict, UserInfo: UserInfo): StationProfitTable => {
   const stationProfitTable: StationProfitTable = {};
 
   filterdStationIds.map((station_id) => {

@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import { getBuyAndSellDataArray } from "@/app/actions";
 import MakeryProfitTable from "@/components/MakeryProfitTable";
 

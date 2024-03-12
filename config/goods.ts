@@ -3778,16 +3778,45 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
     ]
+  },
+  20000004: {
+    name: "纯金线材",
+    is_special: false,
+    sell_correspond: [
+      {
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "",
+        station_id: "83000001"
+      },
+      {
+        good_id: "",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
   }
-}
-interface MakeryGoodsRecipeItem {
-  recipe: [string, number][];
-  output: number;
-  cost: number;
-}
-
-interface MakeryGoodsDict {
-  [key: string]: MakeryGoodsRecipeItem;
 }
 
 export const makeryGoodsDict: MakeryGoodsDict = {
@@ -3800,6 +3829,13 @@ export const makeryGoodsDict: MakeryGoodsDict = {
     output: 3,
     cost: 4
   },
+  20000002: {
+    recipe: [
+      ["84700019", 1]
+    ],
+    output: 2,
+    cost: 3
+  },
   20000003: {
     recipe: [
       ["84700154", 1],
@@ -3810,9 +3846,9 @@ export const makeryGoodsDict: MakeryGoodsDict = {
     output: 3,
     cost: 3
   },
-  20000002: {
+  20000004: {
     recipe: [
-      ["84700019", 1]
+      ["20000002", 3],
     ],
     output: 2,
     cost: 3

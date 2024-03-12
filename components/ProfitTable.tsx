@@ -21,11 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const ProfitTable = ({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[] }) => {
+const ProfitTable = ({ buyArrayDatas, sellArrayDatas, userInfo }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[], userInfo: UserInfo}) => {
+
   const sellDataDict = transformSellDataArrayToDict(sellArrayDatas);
   const buyDataDict = transformBuyDataArrayToDict(buyArrayDatas)
 
-  const stationProfitTable: StationProfitTable = calculateStationProfitTable(buyDataDict, sellDataDict)
+  const stationProfitTable: StationProfitTable = calculateStationProfitTable(buyDataDict, sellDataDict, userInfo)
 
   const handleStationChange = (station_id: string) => {
     setSelectedStationId(station_id);
