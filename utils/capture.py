@@ -33,7 +33,7 @@ class Capture:
     #         print("Failed to post user info to resonance-helper.")
 
     def post_goods_info(self, goods_info):
-        url = "http://resonance-helper.rughzenhaide.com/api/user"
+        url = "http://resonance-helper.rughzenhaide.com/api/all"
         headers = {"Content-Type": "application/json"}
         response = requests.post(url, json=goods_info, headers=headers)
         if response.ok:

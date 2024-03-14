@@ -1,5 +1,43 @@
 export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'> } = {
   // 荒原站
+  84701644: {
+    name: "棉花",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "84701640",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84700104",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701646",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701649",
+        station_id: "83000026"
+      },
+      {
+        good_id: "",
+        station_id: "83000001"
+      },
+      {
+        good_id: "",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701647",
+        station_id: "83000020"
+      },
+    ]
+  },
   84700624: {
     name: "琥珀",
     is_special: true,
@@ -3098,7 +3136,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700548",
         station_id: "83000014"
       },
       {
@@ -3288,15 +3326,15 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700452",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700146",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700608",
         station_id: "83000053"
       },
       {
@@ -3326,23 +3364,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84701423",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84701407",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84701347",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84701371",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84701439",
         station_id: "83000026"
       },
       {
@@ -3354,7 +3392,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84701181",
         station_id: "83000020"
       },
     ]
@@ -3364,23 +3402,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700546",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700333",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700506",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84700152",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84700887",
         station_id: "83000026"
       },
       {
@@ -3392,7 +3430,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84700212",
         station_id: "83000020"
       },
     ]
@@ -3402,23 +3440,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700142",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700313",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700589",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84700673",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84700888",
         station_id: "83000026"
       },
       {
@@ -3430,7 +3468,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84700228",
         station_id: "83000020"
       },
     ]
@@ -3440,23 +3478,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84701426",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84701391",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84701301",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84701394",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84701442",
         station_id: "83000026"
       },
       {
@@ -3468,7 +3506,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84701257",
         station_id: "83000020"
       },
     ]
@@ -3482,11 +3520,11 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700204",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700191",
         station_id: "83000053"
       },
       {
@@ -3520,7 +3558,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84701411",
         station_id: "83000004"
       },
       {
@@ -3554,11 +3592,11 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700704",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700757",
         station_id: "83000004"
       },
       {
@@ -3566,7 +3604,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84700742",
         station_id: "83000003"
       },
       {
@@ -3582,7 +3620,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84701191",
         station_id: "83000020"
       },
     ]
@@ -3592,23 +3630,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700366",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700555",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700305",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84700210",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84700903",
         station_id: "83000026"
       },
       {
@@ -3620,7 +3658,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84700513",
         station_id: "83000020"
       },
     ]
@@ -3630,15 +3668,53 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
+        good_id: "84700377",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84700349",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84700257",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84700181",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84700905",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84700249",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701339",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84700563",
+        station_id: "83000020"
+      },
+    ]
+  },
+  10000035: {
+    name: "火腿",
+    is_special: false,
+    sell_correspond: [
+      { 
         good_id: "",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700411",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700648",
         station_id: "83000053"
       },
       {
@@ -3650,11 +3726,11 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "84700249",
+        good_id: "",
         station_id: "83000001"
       },
       {
-        good_id: "84701339",
+        good_id: "",
         station_id: "83000029"
       },
       {
@@ -3784,23 +3860,23 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       {
-        good_id: "",
+        good_id: "84700941",
         station_id: "83000014"
       },
       {
-        good_id: "",
+        good_id: "84700948",
         station_id: "83000004"
       },
       {
-        good_id: "",
+        good_id: "84700946",
         station_id: "83000053"
       },
       {
-        good_id: "",
+        good_id: "84700944",
         station_id: "83000003"
       },
       {
-        good_id: "",
+        good_id: "84700949",
         station_id: "83000026"
       },
       {
@@ -3812,7 +3888,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000029"
       },
       {
-        good_id: "",
+        good_id: "84700947",
         station_id: "83000020"
       },
     ]

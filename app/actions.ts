@@ -35,3 +35,15 @@ export const getBuyAndSellDataArray = async () => {
   const sellData = await getSellDataArray();
   return [buyData, sellData];
 }
+
+export const getProfile = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("profiles").select()
+
+  if (error) {
+    return []
+  } else {
+    return data
+  }
+}
