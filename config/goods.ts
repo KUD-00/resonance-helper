@@ -2409,8 +2409,47 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     ]
   },
 
-  // 未知站点
-  10000001: {
+  // 阿妮塔战备工厂
+  84701167: {
+    name: "火澄石",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "84701423",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701407",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701347",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701371",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701439",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701298",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701340",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701181",
+        station_id: "83000020"
+      },
+    ]
+  },
+
+  84701169: {
     name: "负片炮弹",
     is_special: true,
     sell_correspond: [
@@ -2448,7 +2487,8 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
-  10000002: {
+
+  84701168: {
     name: "阿妮塔202军用无人机",
     is_special: false,
     sell_correspond: [
@@ -2486,6 +2526,238 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
+
+  84701170: {
+    name: "抗污染防护服",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "84701426",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701391",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701301",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701394",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701442",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701293",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701344",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701257",
+        station_id: "83000020"
+      },
+    ]
+  },
+
+  84701536: {
+    name: "钛合金",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701385",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701434",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701285",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701334",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701179",
+        station_id: "83000020"
+      },
+    ]
+  },
+
+  84701171: {
+    name: "碳纤维",
+    is_special: true,
+    sell_correspond: [
+      { 
+        good_id: "",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701411",
+        station_id: "83000004"
+      },
+      {
+        good_id: "",
+        station_id: "83000053"
+      },
+      {
+        good_id: "",
+        station_id: "83000003"
+      },
+      {
+        good_id: "",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701306",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701345",
+        station_id: "83000029"
+      },
+      {
+        good_id: "",
+        station_id: "83000020"
+      },
+    ]
+  },
+  84701163: {
+    name: "形态共振瞄准器",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "84701409",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701393",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701341",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701396",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701444",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701319",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701346",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701268",
+        station_id: "83000020"
+      },
+    ]
+  },
+  84701173: {
+    name: "高导磁硅钢片",
+    is_special: false, 
+    sell_correspond: [
+      { 
+        good_id: "84701410",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701410",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701325",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701397",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701445",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701294",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701308",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701272",
+        station_id: "83000020"
+      },
+    ]
+  },
+  84701174: {
+    name: "黄铜线圈",
+    is_special: false,
+    sell_correspond: [
+      { 
+        good_id: "84701430",
+        station_id: "83000014"
+      },
+      {
+        good_id: "84701414",
+        station_id: "83000004"
+      },
+      {
+        good_id: "84701326",
+        station_id: "83000053"
+      },
+      {
+        good_id: "84701398",
+        station_id: "83000003"
+      },
+      {
+        good_id: "84701446",
+        station_id: "83000026"
+      },
+      {
+        good_id: "84701318",
+        station_id: "83000001"
+      },
+      {
+        good_id: "84701329",
+        station_id: "83000029"
+      },
+      {
+        good_id: "84701276",
+        station_id: "83000020"
+      },
+    ]
+  },
+  // 未知站点
   10000003: {
     name: "珍珠",
     is_special: true,
@@ -2638,44 +2910,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
-  10000007: {
-    name: "形态共振瞄准器",
-    is_special: false,
-    sell_correspond: [
-      { 
-        good_id: "84701409",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701393",
-        station_id: "83000004"
-      },
-      {
-        good_id: "84701341",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701396",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701444",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701319",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701346",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701268",
-        station_id: "83000020"
-      },
-    ]
-  },
   10000008: {
     name: "大龙虾",
     is_special: false,
@@ -2710,43 +2944,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
       {
         good_id: "84700187",
-        station_id: "83000020"
-      },
-    ]
-  },
-  10000009: {
-    name: "高导磁硅钢片",
-    is_special: false, sell_correspond: [
-      { 
-        good_id: "84701410",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701410",
-        station_id: "83000004"
-      },
-      {
-        good_id: "84701325",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701397",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701445",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701294",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701308",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701272",
         station_id: "83000020"
       },
     ]
@@ -2823,44 +3020,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
       {
         good_id: "84700089",
-        station_id: "83000020"
-      },
-    ]
-  },
-  10000012: {
-    name: "黄铜线圈",
-    is_special: false,
-    sell_correspond: [
-      { 
-        good_id: "84701430",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701414",
-        station_id: "83000004"
-      },
-      {
-        good_id: "84701326",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701398",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701446",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701318",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701329",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701276",
         station_id: "83000020"
       },
     ]
@@ -3283,44 +3442,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
-  10000024: {
-    name: "钛合金",
-    is_special: false,
-    sell_correspond: [
-      { 
-        good_id: "",
-        station_id: "83000014"
-      },
-      {
-        good_id: "",
-        station_id: "83000004"
-      },
-      {
-        good_id: "",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701385",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701434",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701285",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701334",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701179",
-        station_id: "83000020"
-      },
-    ]
-  },
   10000025: {
     name: "户外用品",
     is_special: false,
@@ -3355,44 +3476,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
       {
         good_id: "84700416",
-        station_id: "83000020"
-      },
-    ]
-  },
-  10000026: {
-    name: "火澄石",
-    is_special: true,
-    sell_correspond: [
-      { 
-        good_id: "84701423",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701407",
-        station_id: "83000004"
-      },
-      {
-        good_id: "84701347",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701371",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701439",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701298",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701340",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701181",
         station_id: "83000020"
       },
     ]
@@ -3473,44 +3556,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
     ]
   },
-  10000029: {
-    name: "抗污染防护服",
-    is_special: true,
-    sell_correspond: [
-      { 
-        good_id: "84701426",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701391",
-        station_id: "83000004"
-      },
-      {
-        good_id: "84701301",
-        station_id: "83000053"
-      },
-      {
-        good_id: "84701394",
-        station_id: "83000003"
-      },
-      {
-        good_id: "84701442",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701293",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701344",
-        station_id: "83000029"
-      },
-      {
-        good_id: "84701257",
-        station_id: "83000020"
-      },
-    ]
-  },
   10000030: {
     name: "单晶硅",
     is_special: true,
@@ -3541,44 +3586,6 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
       },
       {
         good_id: "84700538",
-        station_id: "83000029"
-      },
-      {
-        good_id: "",
-        station_id: "83000020"
-      },
-    ]
-  },
-  10000031: {
-    name: "碳纤维",
-    is_special: true,
-    sell_correspond: [
-      { 
-        good_id: "",
-        station_id: "83000014"
-      },
-      {
-        good_id: "84701411",
-        station_id: "83000004"
-      },
-      {
-        good_id: "",
-        station_id: "83000053"
-      },
-      {
-        good_id: "",
-        station_id: "83000003"
-      },
-      {
-        good_id: "",
-        station_id: "83000026"
-      },
-      {
-        good_id: "84701306",
-        station_id: "83000001"
-      },
-      {
-        good_id: "84701345",
         station_id: "83000029"
       },
       {
