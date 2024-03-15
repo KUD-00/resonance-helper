@@ -53,8 +53,9 @@ export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sel
     getStationGoods(station_id).map(([good_id, stock]) => {
       const sellCorresponds = getSellCorresponds(good_id);
       sellCorresponds.map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
-        if (sell_good_id != "") { // 存在没有写对应的商品
+        if (sell_good_id != "") { // 存在没有写sell correspond对应的商品
           const sellGood = sellDataDict[sell_good_id]; // 商品在目标站点的售卖信息
+          if (sellGood == undefined) return; // 存在未定义的商品
           const buyGood = buyDataDict[good_id][station_id] // 商品在当前站点的购买信息
           const sellTime = new Date(sellGood.updated_at);
           const buyTime = new Date(buyGood.updated_at);
