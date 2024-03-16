@@ -2699,7 +2699,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701167",
         station_id: "83000012"
       },
     ]
@@ -2742,7 +2742,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701169",
         station_id: "83000012"
       },
     ]
@@ -2785,7 +2785,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701168",
         station_id: "83000012"
       },
     ]
@@ -2828,7 +2828,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701170",
         station_id: "83000012"
       },
     ]
@@ -2871,7 +2871,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701536",
         station_id: "83000012"
       },
     ]
@@ -2914,7 +2914,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701171",
         station_id: "83000012"
       },
     ]
@@ -2956,7 +2956,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701163",
         station_id: "83000012"
       },
     ]
@@ -2998,7 +2998,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701173",
         station_id: "83000012"
       },
     ]
@@ -3040,11 +3040,12 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000020"
       },
       {
-        good_id: "",
+        good_id: "84701174",
         station_id: "83000012"
       },
     ]
   },
+
   // 未知站点
   10000003: {
     name: "珍珠",
