@@ -78,7 +78,7 @@ export function Navi() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/prefer/profit" title="各城市利润图">
+              <ListItem href="/prefer/profit" title="各城市利润表">
                 倒什么详情
               </ListItem>
               <ListItem href="/prefer/makery" title="商品制作利润">

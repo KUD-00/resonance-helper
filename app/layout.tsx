@@ -4,6 +4,7 @@ import { cn } from "@/utils/utils"
 import "./globals.css";
 import { Navi } from "@/components/Navigation";
 import { Suspense } from "react";
+import Image from "next/image";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,7 +33,14 @@ export default function RootLayout({
           <Navi />
         </header>
         <main className="min-h-screen flex flex-col items-center mt-16">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={
+            <Image
+              src="/Loading.gif"
+              width={300}
+              height={300}
+              alt=""
+            />
+          }>
             {children}
           </Suspense>
         </main>

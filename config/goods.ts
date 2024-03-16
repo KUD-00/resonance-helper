@@ -3959,6 +3959,10 @@ export const getBuyGoodName = (good_id: string) => {
   return buyToSellGoodsDict[good_id]?.name ?? undefined
 }
 
+export const getBuyGoodId = (good_name: string) => {
+  return allGoodsArray.find(good => good.name === good_name)?.good_id ?? undefined
+}
+
 export const getSellCorresponds = (good_id: string) => {
   return buyToSellGoodsDict[good_id]?.sell_correspond ?? undefined
 }

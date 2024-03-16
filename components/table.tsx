@@ -46,49 +46,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { allStationDict, getStationName } from "@/config/stations"
+import { allStationDict, filteredStationDict, getStationName } from "@/config/stations"
+import { getBuyGoodId, getBuyGoodName } from "@/config/goods"
+import { linuxTimeToHoursAgo } from "@/utils/utils"
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-]
-
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ProfitTableCell, any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -112,91 +74,64 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "good_name",
+    accessorKey: "good_id",
     header: "商品名称",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{getBuyGoodName(row.getValue("good_id"))}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "target_station_id",
+    header: "贩卖站点",
+    cell: ({ row }) => (
+      <div className="capitalize">{getStationName(row.getValue("target_station_id"))}</div>
+    ),
+  },
+  {
+    accessorKey: "buy_price",
+    header: "买价",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("buy_price")}</div>
+    ),
+  },
+  {
+    accessorKey: "sell_price",
+    header: "卖价",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("sell_price")}</div>
+    ),
+  },
+  {
+    accessorKey: "per_profit",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex justify-center"> {/* 添加flex容器，并使其水平居中 */}
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            单体利润
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
-
-export const profitColumns: ColumnDef<ProfitTableCell>[] = [
-  {
-    accessorKey: "good_name",
-    header: "商品名称",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("good_id")}</div>
+      <div className="capitalize text-center">{row.getValue("per_profit")}</div>
+    ),
+  },
+  {
+    accessorKey: "updated_at",
+    header: "更新时间",
+    cell: ({ row }) => (
+      <div className="capitalize">{linuxTimeToHoursAgo(row.getValue("updated_at"))}</div>
     ),
   },
 ]
+
 export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable }) {
-  const [station_id, setStationId] = React.useState("83000001")
+  const [selectedStationId, setSelectedStationId] = React.useState("83000014")
+  const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("83000001")
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -204,9 +139,10 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [dataTable, setDataTable] = React.useState(profitTable[selectedStationId])
 
   const table = useReactTable({
-    data,
+    data: dataTable,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -221,28 +157,57 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
       columnFilters,
       columnVisibility,
       rowSelection,
+      // pagination: { // TODO: Fix this
+      //   pageIndex: 0, // Add the missing pageIndex property
+      //   pageSize: 20,
+      // }
     },
   })
 
+  React.useEffect(() => {
+    if (selectedTargetStationId == "all") {
+      setDataTable(profitTable[selectedStationId] || []);
+    } else {
+      const filteredData = profitTable[selectedStationId].filter(item => item.target_station_id == selectedTargetStationId);
+      setDataTable(filteredData || []);
+    }
+  }, [selectedStationId, selectedTargetStationId]);
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+      <div className="flex items-center py-4 md:gap-20">
+        {/*<Input
+          placeholder="过滤商品"
+          value={(table.getColumn("good_id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("good_id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <Select onValueChange={() => {}} defaultValue={getStationName(station_id)}>
+        */}
+        <Select onValueChange={(station_id) => {setSelectedStationId(station_id)}} defaultValue={selectedStationId}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="起点" />
+          </SelectTrigger>
+          <SelectContent>
+            {filteredStationDict.map(([station_id, info]) => (
+              <SelectItem key={station_id} value={station_id}>
+                {info.name.cn}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select onValueChange={(station_id) => {setSelectedTargetStationId(station_id)}} defaultValue={selectedTargetStationId}>
           <SelectTrigger className="">
             <SelectValue placeholder="选择站点" />
           </SelectTrigger>
           <SelectContent>
-            {Object.values(allStationDict).map((station) => (
-              <SelectItem key={station.station_id} value={station.station_id}>
-                {station.name.cn}
+            <SelectItem key={"all"} value={"all"}>
+              所有城市
+            </SelectItem>
+            {filteredStationDict.map(([station_id, info]) => (
+              <SelectItem key={station_id} value={station_id}>
+                {info.name.cn}
               </SelectItem>
             ))}
           </SelectContent>
