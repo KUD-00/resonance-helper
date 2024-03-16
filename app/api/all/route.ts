@@ -21,8 +21,8 @@ export async function POST(request: Request) {
       price: (details as PriceDetail).price,
       updated_at,
       station_id,
-      min_price: Math.min(buyDataDict[good_id][station_id].price, (details as PriceDetail).price),
-      max_price: Math.max(buyDataDict[good_id][station_id].price, (details as PriceDetail).price)
+      min_price: buyDataDict[good_id][station_id] ? Math.min(buyDataDict[good_id][station_id].price, (details as PriceDetail).price) : (details as PriceDetail).price,
+      max_price: buyDataDict[good_id][station_id] ? Math.max(buyDataDict[good_id][station_id].price, (details as PriceDetail).price) : (details as PriceDetail).price
     }
   ));
 
@@ -33,8 +33,8 @@ export async function POST(request: Request) {
       price: (details as PriceDetail).price,
       updated_at,
       station_id,
-      min_price: Math.min(sellDataDict[good_id].price, (details as PriceDetail).price),
-      max_price: Math.max(sellDataDict[good_id].price, (details as PriceDetail).price)
+      min_price: sellDataDict[good_id] ? Math.min(sellDataDict[good_id].price, (details as PriceDetail).price) : (details as PriceDetail).price,
+      max_price: sellDataDict[good_id] ? Math.max(sellDataDict[good_id].price, (details as PriceDetail).price) : (details as PriceDetail).price
     }
   ));
 

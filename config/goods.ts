@@ -29,7 +29,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000001"
       },
       {
-        good_id: "",
+        good_id: "84701639",
         station_id: "83000029"
       },
       {
@@ -3891,7 +3891,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000001"
       },
       {
-        good_id: "",
+        good_id: "84700872",
         station_id: "83000029"
       },
       {

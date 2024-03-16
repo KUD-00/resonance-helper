@@ -3,6 +3,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { calculateProfit } from "./calculate"
 import { filterdStationIds, getStationGoods, getStock } from "@/config/stations"
+import { getBuyDataArray, getSellDataArray } from "@/app/actions"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -33,6 +34,10 @@ export function transformSellDataArrayToDict(sellDataArray: SellDataResponse[]):
   }, {});
 }
 
+export const getTransformedSellDataDict = async (): Promise<TransformedSellDataDict> => {
+  return transformSellDataArrayToDict(await getSellDataArray());
+}
+
 export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): TransformedBuyData {
   return buyDataArray.reduce((acc: TransformedBuyData, current) => {
     const { good_id, station_id } = current;
@@ -42,6 +47,10 @@ export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): T
     acc[good_id][station_id] = current;
     return acc;
   }, {});
+}
+
+export const getTransformedBuyDataDict = async (): Promise<TransformedBuyData> => {
+  return transformBuyDataArrayToDict(await getBuyDataArray());
 }
 
 export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sellDataDict: TransformedSellDataDict, UserInfo: UserInfo): StationProfitTable => {
