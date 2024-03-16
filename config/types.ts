@@ -31,6 +31,8 @@ interface BuyDataResponse {
   updated_at: string;
   trend: number;
   price: number;
+  max_price: number;
+  min_price: number;
 }
 
 interface SellDataResponse {
@@ -39,6 +41,8 @@ interface SellDataResponse {
   updated_at: string;
   trend: number;
   price: number;
+  max_price: number;
+  min_price: number;
 }
 
 type TransformedSellDataDict = {

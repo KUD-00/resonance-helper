@@ -1,25 +1,13 @@
 import { DataTableDemo } from "@/components/table";
 import { getBuyDataArray, getSellDataArray } from "@/app/actions";
-import { calculateStationProfitTable, transformBuyDataArrayToDict } from "@/utils/utils";
+import { calculateStationProfitTable, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 import { defaultUser } from "@/config/others";
 
 export default async function Index() {
   const buy_datas: BuyDataResponse[] = await getBuyDataArray();
   const sell_datas: SellDataResponse[] = await getSellDataArray();
 
-  type TransformedSellData = {
-    [goodId: string]: SellDataResponse;
-  };
-
-  function transformSellData(sellDataArray: SellDataResponse[]): TransformedSellData {
-    return sellDataArray.reduce((acc: TransformedSellData, current) => {
-      const { good_id } = current;
-      acc[good_id] = current;
-      return acc;
-    }, {});
-  }
-
-  const sell_good = transformSellData(sell_datas);
+  const sell_good = transformSellDataArrayToDict(sell_datas);
 
   const station_profit_table: StationProfitTable = calculateStationProfitTable(transformBuyDataArrayToDict(buy_datas), sell_good, defaultUser);
 

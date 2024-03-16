@@ -34,6 +34,7 @@ class Capture:
 
     def post_goods_info(self, goods_info):
         url = "http://resonance-helper.rughzenhaide.com/api/all"
+        # url = "http://localhost:3000/api/all"
         headers = {"Content-Type": "application/json"}
         response = requests.post(url, json=goods_info, headers=headers)
         if response.ok:

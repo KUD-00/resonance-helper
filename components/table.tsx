@@ -131,7 +131,7 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
 
 export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable }) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
-  const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("83000001")
+  const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("all")
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -185,7 +185,7 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
           className="max-w-sm"
         />
         */}
-        <Select onValueChange={(station_id) => {setSelectedStationId(station_id)}} defaultValue={selectedStationId}>
+        <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
           <SelectTrigger className="">
             <SelectValue placeholder="起点" />
           </SelectTrigger>
@@ -197,7 +197,7 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
             ))}
           </SelectContent>
         </Select>
-        <Select onValueChange={(station_id) => {setSelectedTargetStationId(station_id)}} defaultValue={selectedTargetStationId}>
+        <Select onValueChange={(station_id) => { setSelectedTargetStationId(station_id) }} defaultValue={selectedTargetStationId}>
           <SelectTrigger className="">
             <SelectValue placeholder="选择站点" />
           </SelectTrigger>
@@ -211,7 +211,7 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
               </SelectItem>
             ))}
           </SelectContent>
-          </Select>
+        </Select>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -250,9 +250,9 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   )
                 })}

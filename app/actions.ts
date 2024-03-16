@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/utils/supabase/server";
+import { data } from "autoprefixer";
 
 export const getBuyDataArray = async () => {
   const supabase = createClient();
@@ -23,11 +24,11 @@ export const getSellDataArray = async () => {
     .from('sell')
     .select()
 
-  if (error) {
-    return []
-  } else {
-    return sellResponse
-  }
+    if (error) {
+      return []
+    } else {
+      return sellResponse
+    }
 }
 
 export const getBuyAndSellDataArray = async () => {
