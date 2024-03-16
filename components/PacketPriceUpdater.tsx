@@ -41,7 +41,7 @@ export function PacketPriceUpdater() {
       body: JSON.stringify(data.packetData),
     });
 
-    if (await response.json() == "OK") {
+    if (await response.json() == "OK") { //TODO: fix this bug here
       setMsg(`成功更新`)
     } else {
       setMsg(`网络错误或数据库错误`)

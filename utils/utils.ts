@@ -19,7 +19,7 @@ export function linuxTimeToHoursAgo(time: number) {
   const hoursAgo = Math.floor(difference / (1000 * 60 * 60));
 
   if (hoursAgo < 1) {
-    return '不到1小时前';
+    return '<1小时';
   } else {
     return `${hoursAgo}小时前`;
   }

@@ -3910,7 +3910,7 @@ export const makeryGoodsDict: MakeryGoodsDict = {
       ["84700311", 1]
     ],
     output: 3,
-    cost: 4
+    cost: 4+1
   },
   20000002: {
     recipe: [
@@ -3934,7 +3934,7 @@ export const makeryGoodsDict: MakeryGoodsDict = {
       ["20000002", 3],
     ],
     output: 2,
-    cost: 3
+    cost: 3+4.5
   }
 }
 
