@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { cn } from "@/utils/utils"
-import { getStationName } from "@/config/old-stations"
+import { getStationName } from "@/config/stations"
 import { Button } from "@/components/ui/button"
 import {
   Card,
