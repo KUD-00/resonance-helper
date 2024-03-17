@@ -66,7 +66,9 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
 
               const cell = {
                 goodId: goodUniqueId,
+                goodName: getGoodName(goodUniqueId),
                 targetStationId: sellStationId,
+                targetStationName: getStationName(sellStationId),
                 buyPrice: buyGood.price,
                 buyPercent: Math.floor(buyGood.price / goodsDict[goodUniqueId].stations[buyStationId].buy!.basePrice * 100),
                 buyPriceTrend: buyGood.trend,
