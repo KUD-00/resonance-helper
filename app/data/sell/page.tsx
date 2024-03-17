@@ -8,8 +8,8 @@ import {
   TableRow,
   TableFooter
 } from "@/components/ui/table"
-import { getStationName } from "@/config/stations";
-import { buyToSellGoodsDict, sellToBuyGoodsDict } from "@/config/goods";
+import { getStationName } from "@/config/old-stations";
+import { buyToSellGoodsDict, sellToBuyGoodsDict } from "@/config/old-goods";
 import { dateTimeStringToHoursAgo } from "@/utils/utils";
 import { getSellDataArray } from "@/app/actions";
 

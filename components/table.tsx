@@ -46,8 +46,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { allStationDict, filteredStationDict, getStationName } from "@/config/stations"
-import { getBuyGoodId, getBuyGoodName } from "@/config/goods"
+import { allStationDict, filteredStationDict, getStationName } from "@/config/old-stations"
+import { getBuyGoodId, getBuyGoodName } from "@/config/old-goods"
 import { linuxTimeToHoursAgo } from "@/utils/utils"
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [

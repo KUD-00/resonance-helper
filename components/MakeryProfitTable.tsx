@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/goods";
-import { getStationName } from "@/config/stations";
+import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/old-goods";
+import { getStationName } from "@/config/old-stations";
 import { linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 import { Separator } from "./ui/separator";
 

@@ -11,10 +11,10 @@ interface Good {
 }
 
 interface Station {
-  station_id: string;
+  stationId: string;
   type: string;
   name: I18string;
-  goods_list: {[key: string]: number};
+  goodsList: {[key: string]: number};
   sell_price_list: { [key: string]: number };
   buy_price_list: { [key: string]: number };
   reputation_base: number;

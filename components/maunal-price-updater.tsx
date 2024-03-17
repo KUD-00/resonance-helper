@@ -1,14 +1,13 @@
 'use client'
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { allStationDict } from "@/config/stations";
+import { allStationDict } from "@/config/old-stations";
 import { Button } from "@/components/ui/button";
-import { buyToSellGoodsDict } from '@/config/goods';
+import { buyToSellGoodsDict } from '@/config/old-goods';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -20,7 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { toast } from "@/components/ui/use-toast"
 
 interface ContributeForm {
   transactionType: 'sell' | 'buy';
@@ -132,7 +130,7 @@ export function ManualPriceUpdater() {
                       </FormControl>
                       <SelectContent>
                         {Object.values(allStationDict).map((station) => (
-                          <SelectItem key={station.station_id} value={station.station_id}>
+                          <SelectItem key={station.stationId} value={station.stationId}>
                             {station.name.cn}
                           </SelectItem>
                         ))}
@@ -154,7 +152,7 @@ export function ManualPriceUpdater() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.keys(allStationDict[watchStationId]?.goods_list || {}).map((good_id) => (
+                        {Object.keys(allStationDict[watchStationId]?.goodsList || {}).map((good_id) => (
                           <SelectItem key={good_id} value={good_id}>
                             {buyToSellGoodsDict[good_id]?.name}
                           </SelectItem>

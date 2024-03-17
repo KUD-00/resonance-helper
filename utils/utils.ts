@@ -1,8 +1,8 @@
-import { getSellCorresponds } from "@/config/goods"
+import { getSellCorresponds } from "@/config/old-goods"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { calculateProfit } from "./calculate"
-import { filterdStationIds, getStationGoods, getStock } from "@/config/stations"
+import { filterdStationIds, getStationGoods, getStock } from "@/config/old-stations"
 import { getBuyDataArray, getSellDataArray } from "@/app/actions"
 
 export function cn(...inputs: ClassValue[]) {

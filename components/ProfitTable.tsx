@@ -8,8 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getStationName, filteredStationDict } from "@/config/stations";
-import { getBuyGoodName} from "@/config/goods";
+import { getStationName, filteredStationDict } from "@/config/old-stations";
+import { getBuyGoodName} from "@/config/old-goods";
 import { calculateStationProfitTable, linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
 import React from "react";
 
