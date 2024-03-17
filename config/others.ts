@@ -1,7 +1,7 @@
-import { filteredStationDict } from "./old-stations";
+import { filteredStationsDict } from "./stations";
 
 export const defaultReputation = Object.fromEntries(
-  filteredStationDict.map(([station_id]) => [station_id, 10])
+  Object.entries(filteredStationsDict).map(([stationId]) => [stationId, 10])
 );
 
 export const defaultUser = {
