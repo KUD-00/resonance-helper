@@ -4311,41 +4311,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
   }
 }
 
-export const makeryGoodsDict: MakeryGoodsDict = {
-  20000001: {
-    recipe: [
-      ["20000003", 1],
-      ["84700215", 1],
-      ["84700311", 1]
-    ],
-    output: 3,
-    cost: 4+1
-  },
-  20000002: {
-    recipe: [
-      ["84700019", 1]
-    ],
-    output: 2,
-    cost: 3
-  },
-  20000003: {
-    recipe: [
-      ["84700154", 1],
-      ["84700501", 1],
-      ["84700597", 1],
-      ["84700493", 1]
-    ],
-    output: 3,
-    cost: 3
-  },
-  20000004: {
-    recipe: [
-      ["20000002", 3],
-    ],
-    output: 2,
-    cost: 3+4.5
-  }
-}
+
 
 export const allGoodsArray: Omit<Good, 'price'>[]  = Object.entries(buyToSellGoodsDict).map(([key, value]) => ({
   good_id: key,

@@ -7,18 +7,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/old-goods";
-import { getStationName } from "@/config/old-stations";
-import { linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
+import { linuxTimeToHoursAgo, transformResponseDataArrayToDict } from "@/utils/utils";
 import { Separator } from "./ui/separator";
+import { goodsDict, makeryGoodsDict } from "@/config/goods";
 
-export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[] }) {
-  const sellDataDict = transformSellDataArrayToDict(sellArrayDatas);
-  const buyDataDict = transformBuyDataArrayToDict(buyArrayDatas)
+export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: DataResponse[], sellArrayDatas: DataResponse[] }) {
+  const sellDataDict = transformResponseDataArrayToDict(sellArrayDatas);
+  const buyDataDict = transformResponseDataArrayToDict(buyArrayDatas)
 
   const makeryProfitTable: MakeryProfitTable = {}
 
-  const calculateMakeryCost = (recipe: [string, number][], sellDataDict: TransformedSellDataDict, buyDataDict: TransformedBuyData): number => {
+  const calculateMakeryCost = (recipe: [string, number][], sellDataDict: TransformedResponseData, buyDataDict: TransformedResponseData): number => {
     let totalCost = 0;
 
     for (const [good_id, amount] of recipe) {
@@ -38,30 +37,36 @@ export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { b
     return totalCost;
   }
 
-  Object.entries(makeryGoodsDict).map(([good_id, { recipe, cost, output }]) => {
-    getSellCorresponds(good_id).map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
-      const sellGood = sellDataDict[sell_good_id]
-      const sellTime = new Date(sellGood?.updated_at ?? 1000000000000000).getTime()
-      if (!makeryProfitTable[good_id]) {
-        makeryProfitTable[good_id] = []
+  Object.entries(makeryGoodsDict).map(([produceGoodId, { recipe, cost, output }]) => {
+    Object.entries(goodsDict[produceGoodId].stations).map(([sellStationId, { buy, sell }]) => {
+      if (sell) {
+        const sellGood = sellDataDict[produceGoodId][sellStationId]
+        const sellTime = new Date(sellGood?.updated_at ?? 1000000000000000).getTime()
+
+        if (!makeryProfitTable[produceGoodId]) {
+          makeryProfitTable[produceGoodId] = []
+        }
+
+        makeryProfitTable[produceGoodId].push({
+          stationId: sellStationId,
+          price: sellDataDict[produceGoodId][sellStationId].price ?? 0,
+          //        profit: (sellDataDict[sell_good_id]?.price ?? 0) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output),
+          profit: 0,
+          //        profit_ratio: Math.floor(((sellDataDict[sell_good_id]?.price ?? 0) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output)) / cost),
+          profitRatio: 0,
+          updatedAt: sellTime
+        })
       }
-      makeryProfitTable[good_id].push({
-        station_id: sell_station_id,
-        price: sellDataDict[sell_good_id]?.price ?? 0,
-        profit: (sellDataDict[sell_good_id]?.price ?? 0) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output),
-        profit_ratio: Math.floor(((sellDataDict[sell_good_id]?.price ?? 0) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output)) / cost),
-        updated_at: sellTime
-      })
     })
-    makeryProfitTable[good_id].sort((a, b) => b.profit - a.profit)
+    makeryProfitTable[produceGoodId].sort((a, b) => b.profit - a.profit)
   })
 
   return (
     <>
-      {Object.entries(makeryProfitTable).map(([good_id, cells]) => {
+      {Object.entries(makeryProfitTable).map(([produceGoodId, cells]) => {
         return (
           <>
-            <p>{getBuyGoodName(good_id)}</p>
+            <p>{(produceGoodId)}</p>
             <Table>
               <TableHeader>
                 <TableHead>贩卖地</TableHead>
@@ -71,13 +76,13 @@ export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { b
                 <TableHead className="text-right">更新时间</TableHead>
               </TableHeader>
               <TableBody>
-                {cells.map(({ station_id, price, profit, profit_ratio, updated_at }, index) => (
+                {cells.map(({ stationId, price, profit, profitRatio, updatedAt }, index) => (
                   <TableRow key={`${index}`}>
-                    <TableCell>{getStationName(station_id)}</TableCell>
+                    <TableCell>{goodsDict[stationId].name}</TableCell>
                     <TableCell>{price}</TableCell>
                     <TableCell>{profit}</TableCell>
-                    <TableCell>{profit_ratio}</TableCell>
-                    <TableCell className="text-right">{linuxTimeToHoursAgo(updated_at)}</TableCell>
+                    <TableCell>{profitRatio}</TableCell>
+                    <TableCell className="text-right">{linuxTimeToHoursAgo(updatedAt)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -46,9 +46,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { allStationDict, filteredStationDict, getStationName } from "@/config/old-stations"
-import { getBuyGoodId, getBuyGoodName } from "@/config/old-goods"
 import { linuxTimeToHoursAgo } from "@/utils/utils"
+import { filteredStationsDict, getStationName } from "@/config/stations"
+import { getGoodName } from "@/config/goods"
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
   {
@@ -74,35 +74,35 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "good_id",
+    accessorKey: "goodId",
     header: "商品名称",
     cell: ({ row }) => (
-      <div className="capitalize">{getBuyGoodName(row.getValue("good_id"))}</div>
+      <div className="capitalize">{getGoodName(row.getValue("goodId"))}</div>
     ),
   },
   {
-    accessorKey: "target_station_id",
+    accessorKey: "targetStationId",
     header: "贩卖站点",
     cell: ({ row }) => (
-      <div className="capitalize">{getStationName(row.getValue("target_station_id"))}</div>
+      <div className="capitalize">{getStationName(row.getValue("targetStationId"))}</div>
     ),
   },
   {
-    accessorKey: "buy_price",
+    accessorKey: "buyPrice",
     header: "买价",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("buy_price")}</div>
+      <div className="capitalize">{row.getValue("buyPrice")}</div>
     ),
   },
   {
-    accessorKey: "sell_price",
+    accessorKey: "sellPrice",
     header: "卖价",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("sell_price")}</div>
+      <div className="capitalize">{row.getValue("sellPrice")}</div>
     ),
   },
   {
-    accessorKey: "per_profit",
+    accessorKey: "perProfit",
     header: ({ column }) => {
       return (
         <div className="flex justify-center"> {/* 添加flex容器，并使其水平居中 */}
@@ -117,14 +117,14 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className="capitalize text-center">{row.getValue("per_profit")}</div>
+      <div className="capitalize text-center">{row.getValue("perProfit")}</div>
     ),
   },
   {
-    accessorKey: "updated_at",
+    accessorKey: "updatedAt",
     header: "更新时间",
     cell: ({ row }) => (
-      <div className="capitalize">{linuxTimeToHoursAgo(row.getValue("updated_at"))}</div>
+      <div className="capitalize">{linuxTimeToHoursAgo(row.getValue("updatedAt"))}</div>
     ),
   },
 ]
@@ -168,7 +168,7 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
     if (selectedTargetStationId == "all") {
       setDataTable(profitTable[selectedStationId] || []);
     } else {
-      const filteredData = profitTable[selectedStationId].filter(item => item.target_station_id == selectedTargetStationId);
+      const filteredData = profitTable[selectedStationId].filter(item => item.targetStationId == selectedTargetStationId);
       setDataTable(filteredData || []);
     }
   }, [selectedStationId, selectedTargetStationId]);
@@ -190,9 +190,9 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
             <SelectValue placeholder="起点" />
           </SelectTrigger>
           <SelectContent>
-            {filteredStationDict.map(([station_id, info]) => (
-              <SelectItem key={station_id} value={station_id}>
-                {info.name.cn}
+            {Object.entries(filteredStationsDict).map(([stationId, {name}]) => (
+              <SelectItem key={stationId} value={stationId}>
+                {name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -205,9 +205,9 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
             <SelectItem key={"all"} value={"all"}>
               所有城市
             </SelectItem>
-            {filteredStationDict.map(([station_id, info]) => (
-              <SelectItem key={station_id} value={station_id}>
-                {info.name.cn}
+            {Object.entries(filteredStationsDict).map(([stationId, {name}]) => (
+              <SelectItem key={stationId} value={stationId}>
+                {name}
               </SelectItem>
             ))}
           </SelectContent>

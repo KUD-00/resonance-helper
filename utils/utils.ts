@@ -1,9 +1,9 @@
-import { getSellCorresponds } from "@/config/old-goods"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { calculateProfit } from "./calculate"
-import { filterdStationIds, getStationGoods, getStock } from "@/config/old-stations"
-import { getBuyDataArray, getSellDataArray } from "@/app/actions"
+import { getBuyDataArray } from "@/app/actions"
+import { filteredStationIds, getStationName } from "@/config/stations"
+import { getGoodName, goodsDict, stationGoodsListDict } from "@/config/goods"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -26,20 +26,8 @@ export function linuxTimeToHoursAgo(time: number) {
   }
 }
 
-export function transformSellDataArrayToDict(sellDataArray: SellDataResponse[]): TransformedSellDataDict {
-  return sellDataArray.reduce((acc: TransformedSellDataDict, current) => {
-    const { good_id } = current;
-    acc[good_id] = current;
-    return acc;
-  }, {});
-}
-
-export const getTransformedSellDataDict = async (): Promise<TransformedSellDataDict> => {
-  return transformSellDataArrayToDict(await getSellDataArray());
-}
-
-export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): TransformedBuyData {
-  return buyDataArray.reduce((acc: TransformedBuyData, current) => {
+export function transformResponseDataArrayToDict(responseDataArray: DataResponse[]): TransformedResponseData {
+  return responseDataArray.reduce((acc: TransformedResponseData, current) => {
     const { good_id, station_id } = current;
     if (!acc[good_id]) {
       acc[good_id] = {};
@@ -49,41 +37,49 @@ export function transformBuyDataArrayToDict(buyDataArray: SellDataResponse[]): T
   }, {});
 }
 
-export const getTransformedBuyDataDict = async (): Promise<TransformedBuyData> => {
-  return transformBuyDataArrayToDict(await getBuyDataArray());
+export const getTransformedBuyDataDict = async (): Promise<TransformedResponseData> => {
+  return transformResponseDataArrayToDict(await getBuyDataArray());
 }
 
-export const calculateStationProfitTable = (buyDataDict: TransformedBuyData, sellDataDict: TransformedSellDataDict, UserInfo: UserInfo): StationProfitTable => {
+export const calculateStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo): StationProfitTable => {
   const stationProfitTable: StationProfitTable = {};
 
-  filterdStationIds.map((station_id) => {
-    stationProfitTable[station_id] = [];
+  filteredStationIds.map((buyStationId): void => {
+    stationProfitTable[buyStationId] = [];
 
-    getStationGoods(station_id).map(([good_id, stock]) => {
-      const sellCorresponds = getSellCorresponds(good_id);
-      sellCorresponds.map(({ good_id: sell_good_id, station_id: sell_station_id }) => {
-        if (sell_good_id != "") { // 存在没有写sell correspond对应的商品
-          const sellGood = sellDataDict[sell_good_id]; // 商品在目标站点的售卖信息
-          if (sellGood == undefined) return; // 存在未定义的商品
-          const buyGood = buyDataDict[good_id][station_id] // 商品在当前站点的购买信息
-          const sellTime = new Date(sellGood.updated_at);
-          const buyTime = new Date(buyGood.updated_at);
-          const per_profit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
+    stationGoodsListDict[buyStationId].map((goodUniqueId) => {
+      if (buyDataDict[goodUniqueId]) {
+        const buyGood = buyDataDict[goodUniqueId][buyStationId]
+        Object.entries(goodsDict[goodUniqueId].stations).map(([sellStationId, { buy, sell }]) => {
+          if (sell) {
+            const sellGood = sellDataDict[goodUniqueId][sellStationId]
+            if (sellGood) {
+              const sellTime = new Date(sellGood.updated_at);
+              const buyTime = new Date(buyGood.updated_at);
+              const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
 
-          stationProfitTable[station_id].push({
-            good_id,
-            target_station_id: sell_station_id,
-            buy_price: buyGood.price,
-            sell_price: sellGood.price,
-            per_profit,
-            all_profit: per_profit * stock,
-            updated_at: Math.min(sellTime.getTime(), buyTime.getTime())
-          });
-        }
-      });
+              if (stationProfitTable[buyStationId] === undefined) {
+                stationProfitTable[buyStationId] = [];
+              }
+
+              const cell = {
+                goodId: goodUniqueId,
+                targetStationId: sellStationId,
+                buyPrice: buyGood.price,
+                sellPrice: sellGood.price,
+                perProfit,
+                allProfit: perProfit * goodsDict[goodUniqueId].stations[buyStationId].buy!.baseStock,
+                updatedAt: Math.min(sellTime.getTime(), buyTime.getTime())
+              }
+
+              stationProfitTable[buyStationId].push(cell);
+            }
+          }
+        });
+      }
     });
 
-    stationProfitTable[station_id].sort((a, b) => b.per_profit - a.per_profit);
+    stationProfitTable[buyStationId].sort((a, b) => b.perProfit - a.perProfit);
   });
 
   return stationProfitTable;

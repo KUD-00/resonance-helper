@@ -1,4 +1,4 @@
-import { getStationId, stationIds } from "./station";
+import { filteredStationsDict, getStationId, stationIds } from "./stations";
 
 const originalGoods: OriginalGood[] = [
   {
@@ -28107,35 +28107,45 @@ interface OriginalGood {
 
 interface Good {
   id: string;
-  name: string
-  price: number;
+  basePrice: number;
   minQuotation: number;
   maxQuotation: number;
-  num: number;
+  baseStock: number;
 }
 
-interface ConvertedElement {
-  [key: string]: {
-    [key: string]: {
-      buy: Good[];
-      sell: Good[];
+interface StationGoodsInfo {
+  buy?: Good;
+  sell?: Good;
+}
+
+interface GoodsDict {
+  [goodsId: string]: {
+    name: string;
+    stations: {
+      [stationId: string]: StationGoodsInfo;
     };
   };
 }
 
-export const goodsUniqueIds = originalGoods.map(good => good.goodsId);
+export const goodUniqueIds = originalGoods.map(good => good.goodsId);
 
-function originalGoodsToDict(originalGoods: OriginalGood[]): ConvertedElement {
-  const converted: ConvertedElement = {};
+function originalGoodsToDict(originalGoods: OriginalGood[]): GoodsDict {
+  const converted: GoodsDict = {};
 
   // Initialize
-  goodsUniqueIds.map(id => {
-    converted[id] = {};
+  goodUniqueIds.map(id => {
+    converted[id] = {
+      name: "",
+      stations: {}
+    };
+
     stationIds.map(stationId => {
-      converted[id][stationId] = {
-        buy: [],
-        sell: []
-      };
+      if (filteredStationsDict[stationId]) {
+        converted[id].stations[stationId] = {
+          buy: undefined,
+          sell: undefined 
+        };
+      }
     });
   });
 
@@ -28143,33 +28153,105 @@ function originalGoodsToDict(originalGoods: OriginalGood[]): ConvertedElement {
     const goodsId = element.goodsId;
     const [stationName, action, goodName] = element.idCN.split('/');
     const stationId = getStationId(stationName);
+    converted[goodsId].name = goodName;
 
-    if (action == '收购') {
-      converted[goodsId][stationId].sell.push(
-        {
-          id: element.id.toString(),
-          name: goodName,
-          price: element.price,
-          minQuotation: element.minQuotation,
-          maxQuotation: element.maxQuotation,
-          num: element.num
-        }
-      );
-    } else if (action == '出售') {
-      converted[goodsId][stationId].buy.push(
-        {
-          id: element.id.toString(),
-          name: goodName,
-          price: element.price,
-          minQuotation: element.minQuotation,
-          maxQuotation: element.maxQuotation,
-          num: element.num
-        }
-      );
+    if (filteredStationsDict[stationId]) {
+      if (action == '收购') {
+        converted[goodsId].stations[stationId].sell = 
+          {
+            id: element.id.toString(),
+            basePrice: element.price,
+            minQuotation: element.minQuotation,
+            maxQuotation: element.maxQuotation,
+            baseStock: element.num
+          }
+      } else if (action == '出售') {
+        converted[goodsId].stations[stationId].buy = 
+          {
+            id: element.id.toString(),
+            basePrice: element.price,
+            minQuotation: element.minQuotation,
+            maxQuotation: element.maxQuotation,
+            baseStock: element.num
+          }
+      }
     }
-  });
+  }
+  );
 
-    return converted;
+  return converted;
 }
 
 export const goodsDict = originalGoodsToDict(originalGoods);
+
+export const sellIdToGoodUniqueIdDict: { [key: string]: string} = originalGoods.reduce((acc: { [key: string]: string}, { id, goodsId }) => {
+  acc[id] = goodsId.toString();
+  return acc;
+}, {});
+
+interface StationGoodsListDict {
+  [stationId: string]: string[];
+}
+
+function generateStationGoodsListDict(goodsDict: GoodsDict): StationGoodsListDict {
+  const stationGoodsListDict: StationGoodsListDict = {};
+
+  Object.entries(goodsDict).forEach(([goodsId, info]) => {
+    Object.entries(info.stations).forEach(([stationId, { buy, sell }]) => {
+      if (buy !== undefined) {
+        if (!stationGoodsListDict[stationId]) {
+          stationGoodsListDict[stationId] = [];
+        }
+        stationGoodsListDict[stationId].push(goodsId);
+      }
+    });
+  });
+
+  return stationGoodsListDict;
+}
+
+export const stationGoodsListDict = generateStationGoodsListDict(goodsDict);
+
+export const makeryGoodsDict: MakeryGoodsDict = {
+  82900109: {
+    recipe: [
+      ["82900188", 1],
+      ["82900004", 1],
+      ["82900081", 1]
+    ],
+    output: 3,
+    cost: 4+1
+  },
+  82900102: {
+    recipe: [
+      ["82900015", 1]
+    ],
+    output: 2,
+    cost: 3
+  },
+  82900188: {
+    recipe: [
+      ["82900046", 1],
+      ["82900048", 1],
+      ["82900049", 1],
+      ["82900050", 1]
+    ],
+    output: 3,
+    cost: 3
+  },
+  82900170: {
+    recipe: [
+      ["82900102", 3],
+    ],
+    output: 2,
+    cost: 3+4.5
+  }
+}
+
+export const getGoodName = (goodId: string) => {
+  if (goodsDict[goodId]) {
+    return goodsDict[goodId].name;
+  } else {
+    return "错误id";
+  }
+}

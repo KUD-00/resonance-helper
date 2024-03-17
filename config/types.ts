@@ -25,7 +25,7 @@ interface I18string {
   en: string
 }
 
-interface BuyDataResponse {
+interface DataResponse {
   station_id: string;
   good_id: string;
   updated_at: string;
@@ -35,39 +35,25 @@ interface BuyDataResponse {
   min_price: number;
 }
 
-interface SellDataResponse {
-  station_id: string;
-  good_id: string;
-  updated_at: string;
-  trend: number;
-  price: number;
-  max_price: number;
-  min_price: number;
-}
-
-type TransformedSellDataDict = {
-  [goodId: string]: SellDataResponse;
-};
-
-interface TransformedBuyData {
+interface TransformedResponseData {
   [key: string]: {
-    [key: string]: BuyDataResponse
+    [key: string]: DataResponse
   }
 }
 
 
 interface StationProfitTable {
-  [station_id: string]: ProfitTableCell[]
+  [stationId: string]: ProfitTableCell[]
 }
 
 interface ProfitTableCell {
-  good_id: string;
-  target_station_id: string;
-  buy_price: number;
-  sell_price: number;
-  per_profit: number;
-  all_profit: number;
-  updated_at: number;
+  goodId: string;
+  targetStationId: string;
+  buyPrice: number;
+  sellPrice: number;
+  perProfit: number;
+  allProfit: number;
+  updatedAt: number;
 }
 
 interface MakeryProfitTable {
@@ -75,11 +61,11 @@ interface MakeryProfitTable {
 }
 
 interface MakeryProfitCell {
-  station_id: string,
+  stationId: string,
   price: number,
   profit: number,
-  profit_ratio: number,
-  updated_at: number
+  profitRatio: number,
+  updatedAt: number
 }
 
 interface PriceDetail {
