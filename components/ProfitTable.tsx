@@ -46,9 +46,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { linuxTimeToHoursAgo } from "@/utils/utils"
+import { linuxTimeToMinutesAgo } from "@/utils/utils"
 import { filteredStationsDict, getStationName } from "@/config/stations"
 import { getGoodName } from "@/config/goods"
+
+const trendArrow = (trend: number) => {
+  if (trend > 0) {
+    return "↑"
+  } else if (trend < 0) {
+    return "↓"
+  } else {
+    return "-"
+  }
+}
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
   {
@@ -74,6 +84,7 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     enableHiding: false,
   },
   {
+    id: "goodId",
     accessorKey: "goodId",
     header: "商品名称",
     cell: ({ row }) => (
@@ -81,6 +92,7 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     ),
   },
   {
+    id: "targetStationId",
     accessorKey: "targetStationId",
     header: "贩卖站点",
     cell: ({ row }) => (
@@ -88,20 +100,29 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     ),
   },
   {
+    id: "buyPrice",
     accessorKey: "buyPrice",
     header: "买价",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("buyPrice")}</div>
-    ),
+    cell: ({ row }) => {
+      const arrow = trendArrow(row.getValue("buyPriceTrend"));
+      return (
+        <div className="capitalize">{`${row.getValue("buyPrice")}${arrow}`}</div>
+      )
+    },
   },
   {
+    id: "sellPrice",
     accessorKey: "sellPrice",
     header: "卖价",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("sellPrice")}</div>
-    ),
+    cell: ({ row }) => {
+      const arrow = trendArrow(row.getValue("sellPriceTrend"));
+      return (
+        <div className="capitalize">{`${row.getValue("sellPrice")}${arrow}`}</div>
+      )
+    },
   },
   {
+    id: "perProfit",
     accessorKey: "perProfit",
     header: ({ column }) => {
       return (
@@ -121,15 +142,34 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     ),
   },
   {
+    id: "updatedAt",
     accessorKey: "updatedAt",
     header: "更新时间",
     cell: ({ row }) => (
-      <div className="capitalize">{linuxTimeToHoursAgo(row.getValue("updatedAt"))}</div>
+      <div className="capitalize">{linuxTimeToMinutesAgo(row.getValue("updatedAt"))}</div>
+    ),
+  },
+  {
+    id: "buyPriceTrend",
+    accessorKey: "buyPriceTrend",
+    header: "成本趋势",
+
+    cell: ({ row }) => (
+      <div className="capitalize">{(row.getValue("buyPriceTrend"))}</div>
+    ),
+  },
+  {
+    id: "sellPriceTrend",
+    accessorKey: "sellPriceTrend",
+    header: "贩卖趋势",
+
+    cell: ({ row }) => (
+      <div className="capitalize">{(row.getValue("sellPriceTrend"))}</div>
     ),
   },
 ]
 
-export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable }) {
+export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("all")
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -137,7 +177,17 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
     []
   )
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({
+        select: true,
+        goodId: true, //hide this column by default
+        buyPrice: true,
+        sellPrice: true,
+        perProfit: true,
+        updatedAt: true,
+        buyPriceTrend: false,
+        sellPriceTrend: false,
+      },
+)
   const [rowSelection, setRowSelection] = React.useState({})
   const [dataTable, setDataTable] = React.useState(profitTable[selectedStationId])
 
@@ -155,8 +205,8 @@ export function DataTableDemo({ profitTable }: { profitTable: StationProfitTable
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
       rowSelection,
+      columnVisibility
       // pagination: { // TODO: Fix this
       //   pageIndex: 0, // Add the missing pageIndex property
       //   pageSize: 20,

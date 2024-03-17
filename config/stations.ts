@@ -13517,7 +13517,7 @@ export const stationsDict = originalStations.reduce((acc: { [key: string]: any }
     return acc;
 }, {} as { [key: string]: any }); 
 
-export const getStationName = (id: number) => {
+export const getStationName = (id: string) => {
   if (stationsDict[id]) {
     return stationsDict[id].name;
   } else {

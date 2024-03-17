@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { cn } from "@/utils/utils"
-import { getStationName } from "@/config/old-stations"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -36,6 +35,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { getStationName } from "@/config/stations"
 
 
 export function UserInfo({ info }: { info: UserInfo }) {

@@ -10,17 +10,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const dateTimeStringToHoursAgo = (dateTime: string) => {
-  return linuxTimeToHoursAgo(new Date(dateTime).getTime())
+  return linuxTimeToMinutesAgo(new Date(dateTime).getTime())
 }
 
-export function linuxTimeToHoursAgo(time: number) {
+export function linuxTimeToMinutesAgo(time: number) {
+  // TODO: 不准
   const now = new Date();
   const difference = now.getTime() - time;
 
   const hoursAgo = Math.floor(difference / (1000 * 60 * 60));
+  const minutesAgo = Math.floor(difference / (1000 * 60));
 
   if (hoursAgo < 1) {
-    return '<1小时';
+    return `${minutesAgo}分钟前`;
   } else {
     return `${hoursAgo}小时前`;
   }
@@ -57,6 +59,7 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
               const sellTime = new Date(sellGood.updated_at);
               const buyTime = new Date(buyGood.updated_at);
               const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
+              console.log(perProfit/(sellGood.price - buyGood.price))
 
               if (stationProfitTable[buyStationId] === undefined) {
                 stationProfitTable[buyStationId] = [];
@@ -66,7 +69,9 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
                 goodId: goodUniqueId,
                 targetStationId: sellStationId,
                 buyPrice: buyGood.price,
+                buyPriceTrend: buyGood.trend,
                 sellPrice: sellGood.price,
+                sellPriceTrend: sellGood.trend,
                 perProfit,
                 allProfit: perProfit * goodsDict[goodUniqueId].stations[buyStationId].buy!.baseStock,
                 updatedAt: Math.min(sellTime.getTime(), buyTime.getTime())
