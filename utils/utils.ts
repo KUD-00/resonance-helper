@@ -59,7 +59,6 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
               const sellTime = new Date(sellGood.updated_at);
               const buyTime = new Date(buyGood.updated_at);
               const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
-              console.log(perProfit/(sellGood.price - buyGood.price))
 
               if (stationProfitTable[buyStationId] === undefined) {
                 stationProfitTable[buyStationId] = [];
@@ -69,8 +68,10 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
                 goodId: goodUniqueId,
                 targetStationId: sellStationId,
                 buyPrice: buyGood.price,
+                buyPercent: Math.floor(buyGood.price / goodsDict[goodUniqueId].stations[buyStationId].buy!.basePrice * 100),
                 buyPriceTrend: buyGood.trend,
                 sellPrice: sellGood.price,
+                sellPercent: Math.floor(sellGood.price / goodsDict[goodUniqueId].stations[sellStationId].sell!.basePrice * 100),
                 sellPriceTrend: sellGood.trend,
                 perProfit,
                 allProfit: perProfit * goodsDict[goodUniqueId].stations[buyStationId].buy!.baseStock,

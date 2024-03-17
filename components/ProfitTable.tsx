@@ -105,9 +105,17 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     header: "买价",
     cell: ({ row }) => {
       const arrow = trendArrow(row.getValue("buyPriceTrend"));
+      const buyPercent = row.getValue("buyPercent") as number; // Add type assertion
       return (
-        <div className="capitalize">{`${row.getValue("buyPrice")}${arrow}`}</div>
-      )
+        <div className="flex-col justify-center">
+          <div className="capitalize">{`${row.getValue("buyPrice")}${arrow}`}</div>
+          {buyPercent > 100 ? ( 
+            <div className="capitalize text-sm text-green-600">{`(${buyPercent}%)`}</div>
+          ):
+            <div className="capitalize text-sm text-red-600">{`(${buyPercent}%)`}</div>
+          }
+        </div>
+      );
     },
   },
   {
@@ -116,9 +124,17 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     header: "卖价",
     cell: ({ row }) => {
       const arrow = trendArrow(row.getValue("sellPriceTrend"));
+      const sellPercent = row.getValue("sellPercent") as number; // Add type assertion
       return (
-        <div className="capitalize">{`${row.getValue("sellPrice")}${arrow}`}</div>
-      )
+        <div className="flex-col justify-center">
+          <div className="capitalize">{`${row.getValue("sellPrice")}${arrow}`}</div>
+          {sellPercent > 100 ? ( 
+            <div className="capitalize text-sm text-red-600">{`(${sellPercent}%)`}</div>
+          ):
+            <div className="capitalize text-sm text-green-600">{`(${sellPercent}%)`}</div>
+          }
+        </div>
+      );
     },
   },
   {
@@ -126,7 +142,7 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     accessorKey: "perProfit",
     header: ({ column }) => {
       return (
-        <div className="flex justify-center"> {/* 添加flex容器，并使其水平居中 */}
+        <div className="flex justify-center">
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -139,6 +155,26 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     },
     cell: ({ row }) => (
       <div className="capitalize text-center">{row.getValue("perProfit")}</div>
+    ),
+  },
+  {
+    id: "allProfit",
+    accessorKey: "allProfit",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            总利润
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="capitalize text-center">{row.getValue("allProfit")}</div>
     ),
   },
   {
@@ -167,6 +203,24 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
       <div className="capitalize">{(row.getValue("sellPriceTrend"))}</div>
     ),
   },
+  {
+    id: "buyPercent",
+    accessorKey: "buyPercent",
+    header: "成本百分比",
+
+    cell: ({ row }) => (
+      <div className="capitalize">{(row.getValue("buyPercent"))}</div>
+    ),
+  },
+  {
+    id: "sellPercent",
+    accessorKey: "sellPercent",
+    header: "成本百分比",
+
+    cell: ({ row }) => (
+      <div className="capitalize">{(row.getValue("sellPercent"))}</div>
+    ),
+  },
 ]
 
 export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }) {
@@ -183,9 +237,12 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
         buyPrice: true,
         sellPrice: true,
         perProfit: true,
+        allProfit: true,
         updatedAt: true,
         buyPriceTrend: false,
         sellPriceTrend: false,
+        buyPercent: false,
+        sellPercent: false
       },
 )
   const [rowSelection, setRowSelection] = React.useState({})
@@ -265,7 +322,7 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              可见列 <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
