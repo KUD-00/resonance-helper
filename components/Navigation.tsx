@@ -17,20 +17,14 @@ import {
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "购买价格一览",
-    href: "/data/buy",
+    title: "情报更新状况",
+    href: "/data/status",
     description:
       ""
   },
   {
-    title: "贩卖价格一览",
-    href: "/data/sell",
-    description:
-      ""
-  },
-  {
-    title: "价格走势",
-    href: "/data/trend",
+    title: "关于本项目",
+    href: "/data/about",
     description:
       ""
   },
@@ -46,12 +40,6 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       ""
   },
-  {
-    title: "情报更新状况",
-    href: "/data/status",
-    description:
-      ""
-  },
 ]
 
 export function Navi() {
@@ -59,9 +47,9 @@ export function Navi() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>推荐</NavigationMenuTrigger>
+          <NavigationMenuTrigger>利润表</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[450px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
@@ -91,9 +79,9 @@ export function Navi() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>数据一览</NavigationMenuTrigger>
+          <NavigationMenuTrigger>其他数据</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-1 lg:w-[300px] ">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -105,13 +93,6 @@ export function Navi() {
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/contribute" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              贡献数据
-            </NavigationMenuLink>
-          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/user" legacyBehavior passHref>

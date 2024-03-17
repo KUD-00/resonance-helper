@@ -25,7 +25,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84701651",
         station_id: "83000001"
       },
       {
@@ -1419,7 +1419,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700669",
         station_id: "83000001"
       },
       {
@@ -1545,7 +1545,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700184",
         station_id: "83000001"
       },
       {
@@ -2137,7 +2137,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700010",
         station_id: "83000001"
       },
       {
@@ -2601,7 +2601,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700607",
         station_id: "83000001"
       },
       {
@@ -2839,7 +2839,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84701399",
         station_id: "83000014"
       },
       {
@@ -2882,7 +2882,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84701427",
         station_id: "83000014"
       },
       {
@@ -3682,7 +3682,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700466",
         station_id: "83000014"
       },
       {
@@ -3744,7 +3744,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700101",
         station_id: "83000001"
       },
       {
@@ -3766,7 +3766,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700496",
         station_id: "83000014"
       },
       {
@@ -3934,7 +3934,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: true,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700312",
         station_id: "83000014"
       },
       {
@@ -3996,7 +3996,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84701200",
         station_id: "83000001"
       },
       {
@@ -4102,7 +4102,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
     is_special: false,
     sell_correspond: [
       { 
-        good_id: "",
+        good_id: "84700119",
         station_id: "83000014"
       },
       {
@@ -4122,7 +4122,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700560",
         station_id: "83000001"
       },
       {
@@ -4292,7 +4292,7 @@ export const buyToSellGoodsDict: { [key: string]: Omit<Good, 'good_id' | 'price'
         station_id: "83000026"
       },
       {
-        good_id: "",
+        good_id: "84700951",
         station_id: "83000001"
       },
       {

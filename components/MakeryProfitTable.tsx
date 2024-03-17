@@ -10,6 +10,7 @@ import {
 import { getBuyGoodName, getSellCorresponds, makeryGoodsDict } from "@/config/goods";
 import { getStationName } from "@/config/stations";
 import { linuxTimeToHoursAgo, transformBuyDataArrayToDict, transformSellDataArrayToDict } from "@/utils/utils";
+import { Separator } from "./ui/separator";
 
 export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: BuyDataResponse[], sellArrayDatas: SellDataResponse[] }) {
   const sellDataDict = transformSellDataArrayToDict(sellArrayDatas);
@@ -62,7 +63,6 @@ export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { b
           <>
             <p>{getBuyGoodName(good_id)}</p>
             <Table>
-              <TableCaption>无税率，无砍价抬价</TableCaption>
               <TableHeader>
                 <TableHead>贩卖地</TableHead>
                 <TableHead>贩卖价格</TableHead>
@@ -82,6 +82,7 @@ export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { b
                 ))}
               </TableBody>
             </Table >
+            <Separator />
           </>
         )
       })}
