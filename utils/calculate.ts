@@ -30,6 +30,7 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
             stationProfitTable[buyStationId].push({
               goodId: goodUniqueId,
               targetStationId: sellStationId,
+              buyStationId,
 
               buyPrice: buyGood.price,
               sellPrice: sellGood.price,

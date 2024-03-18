@@ -46,10 +46,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { linuxTimeToMinutesAgo, trendArrow } from "@/utils/utils"
+import { cn, linuxTimeToMinutesAgo, trendArrow } from "@/utils/utils"
 import { filteredStationsDict, getStationName } from "@/config/stations"
 import { getGoodName } from "@/config/goods"
 import { Switch } from "@/components/ui/switch"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
   // TODO: fix english column description to cn 
@@ -304,6 +312,49 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
 
   const allProfitTableDatas = Object.values(profitTable).reduce((acc, value) => [...acc, ...value], []);
 
+  const filteredProfitTable: StationProfitTable = Object.entries(profitTable).reduce((acc, [stationID, goods]) => {
+    const filteredGoods = goods.filter(good => good.perProfit >= 500);
+    if (filteredGoods.length > 0) {
+      acc[stationID] = filteredGoods;
+    }
+    return acc;
+  }, {} as StationProfitTable);
+
+  const bestProfitTable: { [stationID: string]: { targetStationId: string, goods: ProfitTableCell[], totalProfit: number } } = {};
+
+  for (const [stationID, goods] of Object.entries(filteredProfitTable)) {
+    // 根据 targetStationId 分组商品，并计算每组的 allProfit 总和
+    const profitByTargetStation: { [targetStationId: string]: { goods: ProfitTableCell[], totalProfit: number } } = {};
+    goods.forEach(good => {
+      if (!profitByTargetStation[good.targetStationId]) {
+        profitByTargetStation[good.targetStationId] = { goods: [], totalProfit: 0 };
+      }
+      profitByTargetStation[good.targetStationId].goods.push(good);
+      profitByTargetStation[good.targetStationId].totalProfit += good.allProfit;
+    });
+
+    // 找到 allProfit 总和最大的 targetStationId
+    let bestTargetStationId = '';
+    let maxTotalProfit = 0;
+    for (const [targetStationId, data] of Object.entries(profitByTargetStation)) {
+      if (data.totalProfit > maxTotalProfit) {
+        bestTargetStationId = targetStationId;
+        maxTotalProfit = data.totalProfit;
+      }
+    }
+
+    // 将最佳 targetStationId 和相应的商品数据添加到 bestProfitTable
+    if (bestTargetStationId) {
+      bestProfitTable[stationID] = {
+        targetStationId: bestTargetStationId,
+        goods: profitByTargetStation[bestTargetStationId].goods,
+        totalProfit: maxTotalProfit
+      };
+    }
+  }
+
+  console.log(bestProfitTable)
+
   React.useEffect(() => {
     if (selectedStationId == "all" && selectedTargetStationId == "all") { //两个都是所有城市
       setDataTable(allProfitTableDatas);
@@ -331,7 +382,7 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
 
   return (
     <div className="w-full">
-      <div className="flex-col">
+      <div className="flex-col items-center">
         <div className="flex items-center py-4 md:gap-20">
           {/*<Input
           placeholder="过滤商品"
@@ -347,9 +398,6 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
               <SelectValue placeholder="起点" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem key={"all"} value={"all"}>
-                所有城市
-              </SelectItem>
               {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
                 <SelectItem key={stationId} value={stationId}>
                   {name}
@@ -373,8 +421,38 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
             </SelectContent>
           </Select>
         </div>
+        {bestProfitTable[selectedStationId] &&
+        <div className="flex items-center justify-center">
+          <Card className={cn("w-[380px]")}>
+            <CardHeader>
+              <CardTitle>{getStationName(selectedStationId)}倒{getStationName(bestProfitTable[selectedStationId].targetStationId)}最好</CardTitle>
+              <CardDescription>只考虑单体利润500以上的商品</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div>
+                {bestProfitTable[selectedStationId].goods.map((good, index) => (
+                  <div
+                    key={index}
+                    className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+                  >
+                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {good.goodName}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        总利润：{good.allProfit}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          </div>
+        }
       </div>
-      <div className="flex justify-end mb-4 gap-8 items-center">
+      <div className="flex justify-end mb-4 gap-8 items-center mt-10">
         <div className="flex justify-end gap-2 items-center">
           <div className="whitespace-nowrap">砍抬价</div>
           <Switch

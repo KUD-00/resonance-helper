@@ -40,6 +40,7 @@ interface ProfitTableCell {
   updatedAt: number;
   rawProfit: number;
   rawAllProfit: number;
+  buyStationId: string;
 }
 
 interface MakeryProfitTable {
