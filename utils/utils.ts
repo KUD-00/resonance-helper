@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { getBuyDataArray, getSellDataArray } from "@/app/actions"
+import { getStationName } from "@/config/stations"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -89,7 +90,7 @@ export const calculateBestProfitTable = (filteredProfitTable: StationProfitTable
       bestProfitTable[stationID] = {
         targetStationId: bestTargetStationId,
         goods: profitByTargetStation[bestTargetStationId].goods,
-        totalProfit: maxTotalProfit
+        totalProfit: maxTotalProfit,
       };
     }
   }

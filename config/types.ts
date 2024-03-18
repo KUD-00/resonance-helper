@@ -9,8 +9,6 @@ interface DataResponse {
   updated_at: string;
   trend: number;
   price: number;
-  max_price: number;
-  min_price: number;
 }
 
 interface TransformedResponseData {
