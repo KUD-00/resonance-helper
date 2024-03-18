@@ -60,7 +60,7 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
           <div className="flex flex-col lg:flex-row justify-center gap-4">
             <ProfitGuideCard
               selectedStationId={selectedStationId}
-              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - 300))}
+              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - 500))}
               baseProfit={baseProfit - 500} 
             />
             <ProfitGuideCard
