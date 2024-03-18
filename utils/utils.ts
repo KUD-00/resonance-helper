@@ -1,9 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { calculateProfit } from "./calculate"
 import { getBuyDataArray, getSellDataArray } from "@/app/actions"
-import { filteredStationIds, getStationName } from "@/config/stations"
-import { getGoodName, goodsDict, stationGoodsListDict } from "@/config/goods"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

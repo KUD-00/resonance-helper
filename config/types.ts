@@ -38,6 +38,8 @@ interface ProfitTableCell {
   perProfit: number;
   allProfit: number;
   updatedAt: number;
+  rawProfit: number;
+  rawAllProfit: number;
 }
 
 interface MakeryProfitTable {

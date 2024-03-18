@@ -36,6 +36,10 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
 
               perProfit,
               allProfit: perProfit * getGoodBuyStock(goodUniqueId, buyStationId),
+
+              rawProfit: sellGood.price - buyGood.price,
+              rawAllProfit: (sellGood.price - buyGood.price) * getGoodBuyStock(goodUniqueId, buyStationId),
+
               updatedAt: Math.min(sellTime.getTime(), buyTime.getTime()),
 
               buyPercent: Math.floor(buyGood.price / getGoodBuyPrice(goodUniqueId, buyStationId) * 100),

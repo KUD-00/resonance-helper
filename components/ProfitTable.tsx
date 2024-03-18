@@ -49,6 +49,7 @@ import {
 import { linuxTimeToMinutesAgo, trendArrow } from "@/utils/utils"
 import { filteredStationsDict, getStationName } from "@/config/stations"
 import { getGoodName } from "@/config/goods"
+import { Switch } from "@/components/ui/switch"
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
   // TODO: fix english column description to cn 
@@ -169,6 +170,46 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
     ),
   },
   {
+    id: "rawProfit",
+    accessorKey: "rawProfit",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            单体利润
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="capitalize text-center">{row.getValue("rawProfit")}</div>
+    ),
+  },
+  {
+    id: "rawAllProfit",
+    accessorKey: "rawAllProfit",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            总利润
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="capitalize text-center">{row.getValue("rawAllProfit")}</div>
+    ),
+  },
+  {
     id: "updatedAt",
     accessorKey: "updatedAt",
     header: "更新时间",
@@ -231,12 +272,15 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
       buyPriceTrend: false,
       sellPriceTrend: false,
       buyPercent: false,
-      sellPercent: false
+      sellPercent: false,
+      rawProfit: false,
+      rawAllProfit: false,
     },
     )
   const [rowSelection, setRowSelection] = React.useState({})
   const [dataTable, setDataTable] = React.useState(profitTable[selectedStationId])
   const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 20 } as any)
+  const [isRawProfit, setIsRawProfit] = React.useState(true)
 
   const table = useReactTable({
     data: dataTable,
@@ -254,34 +298,42 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
       columnFilters,
       rowSelection,
       columnVisibility,
-      pagination    
+      pagination
     },
   })
 
   const allProfitTableDatas = Object.values(profitTable).reduce((acc, value) => [...acc, ...value], []);
-  console.log(allProfitTableDatas)
 
   React.useEffect(() => {
     if (selectedStationId == "all" && selectedTargetStationId == "all") { //两个都是所有城市
       setDataTable(allProfitTableDatas);
-    }  
+    }
     else if (selectedTargetStationId == "all") { // 终点是所有城市
       setDataTable(profitTable[selectedStationId] || []);
-    } 
+    }
     else if (selectedStationId == "all") { // 起点是所有城市
       const filteredData = allProfitTableDatas.filter(item => item.targetStationId == selectedTargetStationId);
       setDataTable(filteredData || []);
-    } 
+    }
     else {
       const filteredData = profitTable[selectedStationId].filter(item => item.targetStationId == selectedTargetStationId);
       setDataTable(filteredData || []);
     }
   }, [selectedStationId, selectedTargetStationId]);
 
+  React.useEffect(() => {
+    if (isRawProfit) {
+      setColumnVisibility({ ...columnVisibility, perProfit: true, allProfit: true, rawProfit: false, rawAllProfit: false })
+    } else {
+      setColumnVisibility({ ...columnVisibility, perProfit: false, allProfit: false, rawProfit: true, rawAllProfit: true })
+    }
+  }, [isRawProfit])
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 md:gap-20">
-        {/*<Input
+      <div className="flex-col">
+        <div className="flex items-center py-4 md:gap-20">
+          {/*<Input
           placeholder="过滤商品"
           value={(table.getColumn("good_id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
@@ -290,39 +342,53 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
           className="max-w-sm"
         />
         */}
-        <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
-          <SelectTrigger className="">
-            <SelectValue placeholder="起点" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem key={"all"} value={"all"}>
-              所有城市
-            </SelectItem>
-            {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
-              <SelectItem key={stationId} value={stationId}>
-                {name}
+          <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
+            <SelectTrigger className="">
+              <SelectValue placeholder="起点" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem key={"all"} value={"all"}>
+                所有城市
               </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select onValueChange={(station_id) => { setSelectedTargetStationId(station_id) }} defaultValue={selectedTargetStationId}>
-          <SelectTrigger className="">
-            <SelectValue placeholder="选择站点" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem key={"all"} value={"all"}>
-              所有城市
-            </SelectItem>
-            {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
-              <SelectItem key={stationId} value={stationId}>
-                {name}
+              {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
+                <SelectItem key={stationId} value={stationId}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(station_id) => { setSelectedTargetStationId(station_id) }} defaultValue={selectedTargetStationId}>
+            <SelectTrigger className="">
+              <SelectValue placeholder="选择站点" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem key={"all"} value={"all"}>
+                所有城市
               </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+              {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
+                <SelectItem key={stationId} value={stationId}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="flex justify-end mb-4 gap-8 items-center">
+        <div className="flex justify-end gap-2 items-center">
+          <div className="whitespace-nowrap">砍抬价</div>
+          <Switch
+            checked={isRawProfit}
+            onCheckedChange={(value: boolean) => {
+              setIsRawProfit(value);
+              console.log(value)
+            }}
+            aria-readonly
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="">
               可见列 <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
