@@ -1,5 +1,5 @@
 import { getSellDataArray } from '@/app/actions';
-import { getGoodName } from '@/config/goods';
+import { getGoodName, getGoodSellPrice, goodsDict } from '@/config/goods';
 import { getStationName } from '@/config/stations';
 
 export async function GET(request: Request) {
@@ -13,7 +13,8 @@ export async function GET(request: Request) {
     {
       ...data,
       good_name: getGoodName(data.good_id),
-      station_name: getStationName(data.station_id)
+      station_name: getStationName(data.station_id),
+      base_price: getGoodSellPrice(data.good_id, data.station_id),
     }
   ))
 

@@ -28,6 +28,7 @@ import { Separator } from "./ui/separator"
 export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationProfitTable}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [baseProfit, setBaseProfit] = React.useState(500)
+  const [stock, setStock] = React.useState(600)
   const gap = 100
 
   const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
@@ -50,31 +51,50 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
       </div>
       {bestProfitTable[selectedStationId] &&
         <div className="flex flex-col items-center justify-center gap-4">
-          <p className="text-sm text-gray-500">基准利润(越高需要更多进货书)</p>
-          <div className="flex items-center justify-center gap-4">
-            <Button onClick={() => { setBaseProfit(baseProfit - 100) }} variant="outline" size="icon">
-              <MinusIcon className="h-4 w-4" />
-            </Button>
-            {baseProfit}
-            <Button onClick={() => { setBaseProfit(baseProfit + 100) }} variant="outline" size="icon">
-              <PlusIcon className="h-4 w-4" />
-            </Button>
+          <div className="flex flex-row gap-16">
+            <div className="flex flex-col items-center justify-center gap-4">
+              <p className="text-sm text-gray-500">基准利润(越高需要更多进货书)</p>
+              <div className="flex items-center justify-center gap-4">
+                <Button onClick={() => { setBaseProfit(baseProfit - 100) }} variant="outline" size="icon">
+                  <MinusIcon className="h-4 w-4" />
+                </Button>
+                {baseProfit}
+                <Button onClick={() => { setBaseProfit(baseProfit + 100) }} variant="outline" size="icon">
+                  <PlusIcon className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <p className="text-sm text-gray-500">仓储</p>
+              <div className="flex items-center justify-center gap-4">
+                <Button onClick={() => { setStock(stock - 50) }} variant="outline" size="icon">
+                  <MinusIcon className="h-4 w-4" />
+                </Button>
+                {stock}
+                <Button onClick={() => { setStock(stock + 50) }} variant="outline" size="icon">
+                  <PlusIcon className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col lg:flex-row justify-center gap-4">
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
-              baseProfit={baseProfit - gap} 
+              baseProfit={baseProfit - gap}
+              stock={stock}
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={bestProfitTable}
               baseProfit={baseProfit}
+              stock={stock}
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
               baseProfit={baseProfit + gap}
+              stock={stock}
             />
           </div>
         </div>
@@ -83,7 +103,7 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
   )
 }
 
-function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit }: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number}) {
+function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock }: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number, stock: number}) {
   const sumProfit = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.allProfit, 0)
   const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + getGoodBuyStock(value.goodId, value.buyStationId), 0)
   return (
@@ -115,9 +135,13 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit }: { s
           ))}
         </div>
         <Separator />
-        <p className="text-sm text-muted-foreground">总利润：{sumProfit}</p>
-        <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
+        <p className="text-sm text-muted-foreground">总利润：{sumProfit * 2}</p>
+        <p className="text-sm text-muted-foreground">仓储需求：{sumStock * 2}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
+        <Separator />
+        <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) / 2 - 1}</p>
+        <p className="text-sm text-muted-foreground">利润估算：{sumProfit * Math.floor(stock / sumStock)}</p>
+        <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock) / 2 - 1))}</p>
       </CardContent>
     </Card>
   )
