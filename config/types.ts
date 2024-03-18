@@ -131,3 +131,11 @@ interface GoodsDict {
     };
   };
 }
+
+interface BestProfitTable { 
+  [stationID: string]: { 
+    targetStationId: string, 
+    goods: ProfitTableCell[], 
+    totalProfit: number 
+  }
+} 

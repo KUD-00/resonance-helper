@@ -52,10 +52,10 @@ export function Navi() {
                   >
                     <Icons.logo className="h-6 w-6" />
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      关于本项目
+                      倒货指南
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      主页
+                      简单易懂
                     </p>
                   </a>
                 </NavigationMenuLink>

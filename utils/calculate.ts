@@ -1,8 +1,8 @@
 import { getGoodBuyPrice, getGoodBuyStock, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
 import { filteredStationIds, getStationName } from "@/config/stations";
 
-export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number): number => {
-  return sell * amount * 1.2 * (1 - sell_tax) - buy * amount * (1 + buy_tax) * 0.8
+export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number, bargainUp: number, bargainDown: number): number => {
+  return sell * amount * bargainUp * (1 - sell_tax) - buy * amount * (1 + buy_tax) * bargainDown
 };
 
 export const calculateStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo): StationProfitTable => {
@@ -21,7 +21,8 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
           if (sellGood) {
             const sellTime = new Date(sellGood.updated_at);
             const buyTime = new Date(buyGood.updated_at);
-            const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1));
+            const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1, 1.2, 0.8));
+            const rawProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1, 1, 1))
 
             if (stationProfitTable[buyStationId] === undefined) {
               stationProfitTable[buyStationId] = [];
@@ -38,8 +39,8 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
               perProfit,
               allProfit: perProfit * getGoodBuyStock(goodUniqueId, buyStationId),
 
-              rawProfit: sellGood.price - buyGood.price,
-              rawAllProfit: (sellGood.price - buyGood.price) * getGoodBuyStock(goodUniqueId, buyStationId),
+              rawProfit,
+              rawAllProfit: rawProfit * getGoodBuyStock(goodUniqueId, buyStationId),
 
               updatedAt: Math.min(sellTime.getTime(), buyTime.getTime()),
 
