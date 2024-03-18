@@ -1,6 +1,0 @@
-goodsId: {
-    stationIds: {
-        buy:
-        sell:
-    }
-}

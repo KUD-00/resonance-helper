@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 
 import { cn } from "@/utils/utils"
-import { Icons } from "@/components/Icons"
+import { Icons } from "@/components/icons"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,12 +16,6 @@ import {
 } from "@/components/ui/navigation-menu"
 
 const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "情报更新状况",
-    href: "/data/status",
-    description:
-      ""
-  },
   {
     title: "关于本项目",
     href: "/data/about",

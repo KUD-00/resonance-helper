@@ -28087,45 +28087,6 @@ const originalGoods: OriginalGood[] = [
   }
 ]
 
-interface OriginalGood {
-  id: number;
-  idCN: string;
-  mod: string;
-  isInformalData: boolean;
-  goodsId: number;
-  price: number;
-  minQuotation: number;
-  maxQuotation: number;
-  num: number;
-  stockMultipleMin: number;
-  stockMultipleMax: number;
-  isSudden: boolean;
-  needDevelopNum: number;
-  needItem: number;
-  needItemNum: number;
-}
-
-interface Good {
-  id: string;
-  basePrice: number;
-  minQuotation: number;
-  maxQuotation: number;
-  baseStock: number;
-}
-
-interface StationGoodsInfo {
-  buy?: Good;
-  sell?: Good;
-}
-
-interface GoodsDict {
-  [goodsId: string]: {
-    name: string;
-    stations: {
-      [stationId: string]: StationGoodsInfo;
-    };
-  };
-}
 
 export const goodUniqueIds = originalGoods.map(good => good.goodsId);
 
@@ -28189,10 +28150,6 @@ export const sellIdToGoodUniqueIdDict: { [key: string]: string} = originalGoods.
   return acc;
 }, {});
 
-interface StationGoodsListDict {
-  [stationId: string]: string[];
-}
-
 function generateStationGoodsListDict(goodsDict: GoodsDict): StationGoodsListDict {
   const stationGoodsListDict: StationGoodsListDict = {};
 
@@ -28245,6 +28202,37 @@ export const makeryGoodsDict: MakeryGoodsDict = {
     ],
     output: 2,
     cost: 3+4.5
+  }
+}
+
+export const getGoodSellInfos = (goodId: string) => {
+  return Object.entries(goodsDict[goodId].stations).filter(([stationId, {buy, sell}]) => sell !== undefined);
+}
+
+export const getGoodBuyPrice = (goodId: string, stationId: string) => {
+  const buyInfo = goodsDict[goodId].stations[stationId].buy;
+  if (buyInfo) {
+    return buyInfo.basePrice;
+  } else {
+    return 0;
+  }
+}
+
+export const getGoodSellPrice = (goodId: string, stationId: string) => {
+  const sellInfo = goodsDict[goodId].stations[stationId].sell;
+  if (sellInfo) {
+    return sellInfo.basePrice;
+  } else {
+    return 0;
+  }
+}
+
+export const getGoodBuyStock = (goodId: string, stationId: string) => {
+  const buyInfo = goodsDict[goodId].stations[stationId].buy;
+  if (buyInfo) {
+    return buyInfo.baseStock;
+  } else {
+    return 0;
   }
 }
 

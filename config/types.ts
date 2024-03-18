@@ -1,25 +1,3 @@
-interface SellCorrespond {
-  good_id: string;
-  station_id: string;
-}
-
-interface Good {
-  good_id: string;
-  name: string;
-  is_special: boolean;
-  sell_correspond: SellCorrespond[]
-}
-
-interface Station {
-  stationId: string;
-  type: string;
-  name: I18string;
-  goodsList: {[key: string]: number};
-  sell_price_list: { [key: string]: number };
-  buy_price_list: { [key: string]: number };
-  reputation_base: number;
-}
-
 interface I18string {
   cn: string,
   en: string
@@ -41,16 +19,22 @@ interface TransformedResponseData {
   }
 }
 
-
 interface StationProfitTable {
   [stationId: string]: ProfitTableCell[]
 }
 
 interface ProfitTableCell {
   goodId: string;
+  goodName: string;
   targetStationId: string;
+  targetStationName: string;
   buyPrice: number;
   sellPrice: number;
+  buyPercent: number;
+  sellPercent: number;
+  buyPriceTrend: number;
+  sellPriceTrend: number;
+  buyStationName: string;
   perProfit: number;
   allProfit: number;
   updatedAt: number;
@@ -99,4 +83,48 @@ interface MakeryGoodsRecipeItem {
 
 interface MakeryGoodsDict {
   [key: string]: MakeryGoodsRecipeItem;
+}
+
+interface StationGoodsListDict {
+  [stationId: string]: string[];
+}
+
+interface OriginalGood {
+  id: number;
+  idCN: string;
+  mod: string;
+  isInformalData: boolean;
+  goodsId: number;
+  price: number;
+  minQuotation: number;
+  maxQuotation: number;
+  num: number;
+  stockMultipleMin: number;
+  stockMultipleMax: number;
+  isSudden: boolean;
+  needDevelopNum: number;
+  needItem: number;
+  needItemNum: number;
+}
+
+interface Good {
+  id: string;
+  basePrice: number;
+  minQuotation: number;
+  maxQuotation: number;
+  baseStock: number;
+}
+
+interface StationGoodsInfo {
+  buy?: Good;
+  sell?: Good;
+}
+
+interface GoodsDict {
+  [goodsId: string]: {
+    name: string;
+    stations: {
+      [stationId: string]: StationGoodsInfo;
+    };
+  };
 }

@@ -1,6 +1,7 @@
 import { getBuyAndSellDataArray } from "@/app/actions";
 import { defaultUser } from "@/config/others";
-import { calculateStationProfitTable, transformResponseDataArrayToDict } from "@/utils/utils";
+import { calculateStationProfitTable } from "@/utils/calculate";
+import { transformResponseDataArrayToDict } from "@/utils/utils";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

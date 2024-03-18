@@ -1,6 +1,7 @@
 import { ProfitTable } from "@/components/ProfitTable";
-import { calculateStationProfitTable, getTransformedDataDict, transformResponseDataArrayToDict} from "@/utils/utils";
+import { getTransformedDataDict } from "@/utils/utils";
 import { defaultUser } from "@/config/others";
+import { calculateStationProfitTable } from "@/utils/calculate";
 
 export default async function Index() {
   const [sellDataDict, buyDataDict] = await getTransformedDataDict();
