@@ -52,6 +52,7 @@ export default function Login({
 
   return (
     <div className="flex-1 flex flex-col w-full sm:max-w-md gap-2">
+      <p className="text-sm text-gray-500 mb-4">虽然可以注册，但功能还没怎么做，不建议注册</p>
       <form className="animate-in flex-1 flex flex-col w-full gap-2 text-foreground">
         <label className="text-md" htmlFor="email">
           邮箱

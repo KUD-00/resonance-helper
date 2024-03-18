@@ -6,6 +6,7 @@ import { calculateBestProfitTable, filterStationProfitTableByPerProfit, transfor
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const stationId = url.searchParams.get("stationId");
+  const baseProfit = url.searchParams.get("baseProfit");
 
   const [buyDataArray, sellDataArray] = await getBuyAndSellDataArray();
 
@@ -13,13 +14,17 @@ export async function GET(request: Request) {
 
   const stationProfitTable: StationProfitTable = calculateStationProfitTable(transformResponseDataArrayToDict(buyDataArray), sellDataDict, defaultUser);
 
-  const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, 500));
+  if (baseProfit === null) {
+    return Response.json("baseProfit is required")
+  } else {
+    const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, Number(baseProfit))); // Convert baseProfit to a number
 
-  if (stationId && bestProfitTable[stationId]) {
-    return new Response(JSON.stringify(bestProfitTable[stationId]), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    if (stationId && bestProfitTable[stationId]) {
+      return new Response(JSON.stringify(bestProfitTable[stationId]), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    
+    return Response.json(bestProfitTable);
   }
-
-  return Response.json(bestProfitTable)
 }
