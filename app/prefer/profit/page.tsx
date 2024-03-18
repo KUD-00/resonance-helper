@@ -1,14 +1,11 @@
 import { ProfitTable } from "@/components/ProfitTable";
-import { getBuyAndSellDataArray } from "@/app/actions";
-import { calculateStationProfitTable, transformResponseDataArrayToDict} from "@/utils/utils";
+import { calculateStationProfitTable, getTransformedDataDict, transformResponseDataArrayToDict} from "@/utils/utils";
 import { defaultUser } from "@/config/others";
 
 export default async function Index() {
-  const [buyDataArray, sellDataArray] = await getBuyAndSellDataArray();
+  const [sellDataDict, buyDataDict] = await getTransformedDataDict();
 
-  const sellDataDict = transformResponseDataArrayToDict(sellDataArray);
-
-  const stationProfitTable: StationProfitTable = calculateStationProfitTable(transformResponseDataArrayToDict(buyDataArray), sellDataDict, defaultUser);
+  const stationProfitTable: StationProfitTable = calculateStationProfitTable(buyDataDict, sellDataDict, defaultUser);
 
   return (
     <div className="flex-1 w-full md:w-1/2 flex flex-col gap-10 items-center">

@@ -1,6 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
-import Header from "@/components/Header";
 import { redirect } from "next/navigation";
 import { UserInfo } from "@/components/UserInfo";
 import { Button } from "@/components/ui/button";

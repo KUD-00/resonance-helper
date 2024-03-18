@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { calculateProfit } from "./calculate"
-import { getBuyDataArray } from "@/app/actions"
+import { getBuyDataArray, getSellDataArray } from "@/app/actions"
 import { filteredStationIds, getStationName } from "@/config/stations"
 import { getGoodName, goodsDict, stationGoodsListDict } from "@/config/goods"
 
@@ -14,7 +14,7 @@ export const dateTimeStringToHoursAgo = (dateTime: string) => {
 }
 
 export function linuxTimeToMinutesAgo(time: number) {
-  // TODO: 不准
+  // TODO: 有时不准
   const now = new Date();
   const difference = now.getTime() - time;
 
@@ -39,8 +39,18 @@ export function transformResponseDataArrayToDict(responseDataArray: DataResponse
   }, {});
 }
 
-export const getTransformedBuyDataDict = async (): Promise<TransformedResponseData> => {
-  return transformResponseDataArrayToDict(await getBuyDataArray());
+export const trendArrow = (trend: number) => {
+  if (trend > 0) {
+    return "↑"
+  } else if (trend < 0) {
+    return "↓"
+  } else {
+    return "-"
+  }
+}
+
+export const getTransformedDataDict = async () => {
+  return [transformResponseDataArrayToDict(await getSellDataArray()), transformResponseDataArrayToDict(await getBuyDataArray())]
 }
 
 export const calculateStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo): StationProfitTable => {

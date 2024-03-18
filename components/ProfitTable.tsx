@@ -46,21 +46,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { linuxTimeToMinutesAgo } from "@/utils/utils"
+import { linuxTimeToMinutesAgo, trendArrow } from "@/utils/utils"
 import { filteredStationsDict, getStationName } from "@/config/stations"
 import { getGoodName } from "@/config/goods"
 
-const trendArrow = (trend: number) => {
-  if (trend > 0) {
-    return "↑"
-  } else if (trend < 0) {
-    return "↓"
-  } else {
-    return "-"
-  }
-}
-
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
+  // TODO: fix english column description to cn 
   {
     id: "select",
     header: ({ table }) => (
@@ -109,9 +100,9 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
       return (
         <div className="flex-col justify-center">
           <div className="capitalize">{`${row.getValue("buyPrice")}${arrow}`}</div>
-          {buyPercent > 100 ? ( 
+          {buyPercent > 100 ? (
             <div className="capitalize text-sm text-green-600">{`(${buyPercent}%)`}</div>
-          ):
+          ) :
             <div className="capitalize text-sm text-red-600">{`(${buyPercent}%)`}</div>
           }
         </div>
@@ -128,9 +119,9 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
       return (
         <div className="flex-col justify-center">
           <div className="capitalize">{`${row.getValue("sellPrice")}${arrow}`}</div>
-          {sellPercent > 100 ? ( 
+          {sellPercent > 100 ? (
             <div className="capitalize text-sm text-red-600">{`(${sellPercent}%)`}</div>
-          ):
+          ) :
             <div className="capitalize text-sm text-green-600">{`(${sellPercent}%)`}</div>
           }
         </div>
@@ -227,26 +218,25 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("all")
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
-        select: true,
-        goodId: true, //hide this column by default
-        buyPrice: true,
-        sellPrice: true,
-        perProfit: true,
-        allProfit: true,
-        updatedAt: true,
-        buyPriceTrend: false,
-        sellPriceTrend: false,
-        buyPercent: false,
-        sellPercent: false
-      },
-)
+      select: true,
+      goodId: true, //hide this column by default
+      buyPrice: true,
+      sellPrice: true,
+      perProfit: true,
+      allProfit: true,
+      updatedAt: true,
+      buyPriceTrend: false,
+      sellPriceTrend: false,
+      buyPercent: false,
+      sellPercent: false
+    },
+    )
   const [rowSelection, setRowSelection] = React.useState({})
   const [dataTable, setDataTable] = React.useState(profitTable[selectedStationId])
+  const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 20 } as any)
 
   const table = useReactTable({
     data: dataTable,
@@ -263,18 +253,26 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
       sorting,
       columnFilters,
       rowSelection,
-      columnVisibility
-      // pagination: { // TODO: Fix this
-      //   pageIndex: 0, // Add the missing pageIndex property
-      //   pageSize: 20,
-      // }
+      columnVisibility,
+      pagination    
     },
   })
 
+  const allProfitTableDatas = Object.values(profitTable).reduce((acc, value) => [...acc, ...value], []);
+  console.log(allProfitTableDatas)
+
   React.useEffect(() => {
-    if (selectedTargetStationId == "all") {
+    if (selectedStationId == "all" && selectedTargetStationId == "all") { //两个都是所有城市
+      setDataTable(allProfitTableDatas);
+    }  
+    else if (selectedTargetStationId == "all") { // 终点是所有城市
       setDataTable(profitTable[selectedStationId] || []);
-    } else {
+    } 
+    else if (selectedStationId == "all") { // 起点是所有城市
+      const filteredData = allProfitTableDatas.filter(item => item.targetStationId == selectedTargetStationId);
+      setDataTable(filteredData || []);
+    } 
+    else {
       const filteredData = profitTable[selectedStationId].filter(item => item.targetStationId == selectedTargetStationId);
       setDataTable(filteredData || []);
     }
@@ -297,7 +295,10 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
             <SelectValue placeholder="起点" />
           </SelectTrigger>
           <SelectContent>
-            {Object.entries(filteredStationsDict).map(([stationId, {name}]) => (
+            <SelectItem key={"all"} value={"all"}>
+              所有城市
+            </SelectItem>
+            {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
               <SelectItem key={stationId} value={stationId}>
                 {name}
               </SelectItem>
@@ -312,7 +313,7 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
             <SelectItem key={"all"} value={"all"}>
               所有城市
             </SelectItem>
-            {Object.entries(filteredStationsDict).map(([stationId, {name}]) => (
+            {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
               <SelectItem key={stationId} value={stationId}>
                 {name}
               </SelectItem>
@@ -405,7 +406,7 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={() => setPagination({ ...pagination, pageIndex: pagination.pageIndex - 1 })}
             disabled={!table.getCanPreviousPage()}
           >
             Previous
@@ -413,7 +414,7 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={() => setPagination({ ...pagination, pageIndex: pagination.pageIndex + 1 })}
             disabled={!table.getCanNextPage()}
           >
             Next
