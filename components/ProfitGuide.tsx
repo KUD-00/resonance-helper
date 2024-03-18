@@ -22,10 +22,13 @@ import { filteredStationsDict, getStationName } from "@/config/stations"
 import { calculateBestProfitTable, cn, filterStationProfitTableByPerProfit } from "@/utils/utils"
 import { ChevronRightIcon, PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
+import { getGoodBuyStock } from "@/config/goods"
+import { Separator } from "./ui/separator"
  
 export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationProfitTable}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
-  const [baseProfit, setBaseProfit] = React.useState(1000)
+  const [baseProfit, setBaseProfit] = React.useState(500)
+  const gap = 100
 
   const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
 
@@ -60,8 +63,8 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
           <div className="flex flex-col lg:flex-row justify-center gap-4">
             <ProfitGuideCard
               selectedStationId={selectedStationId}
-              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - 500))}
-              baseProfit={baseProfit - 500} 
+              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
+              baseProfit={baseProfit - gap} 
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
@@ -70,8 +73,8 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
-              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + 500))}
-              baseProfit={baseProfit + 500}
+              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
+              baseProfit={baseProfit + gap}
             />
           </div>
         </div>
@@ -81,6 +84,8 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
 }
 
 function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit }: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number}) {
+  const sumProfit = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.allProfit, 0)
+  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + getGoodBuyStock(value.goodId, value.buyStationId), 0)
   return (
     <Card className={cn("w-[380px]")}>
       <CardHeader>
@@ -109,6 +114,10 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit }: { s
             </div>
           ))}
         </div>
+        <Separator />
+        <p className="text-sm text-muted-foreground">总利润：{sumProfit}</p>
+        <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
+        <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
       </CardContent>
     </Card>
   )
