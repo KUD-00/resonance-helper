@@ -48,7 +48,7 @@ export default function Login({
       return redirect("/auth?message=发生错误");
     }
 
-    return redirect("/auth?message=检查您的邮箱");
+    return redirect("/user");
   };
 
   return (

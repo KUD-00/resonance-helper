@@ -16,7 +16,7 @@ export default async function Index() {
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-3xl">倒货指南</h1>
       <ProfitGuide
         stationProfitTable={stationProfitTable}
-        userInfo={profile[0]}
+        userInfo={isUserLoggedIn ? profile[0] : defaultUser as UserInfo}
         isUserLoggedIn={isUserLoggedIn}
       />
       <p className="text-sm text-gray-500">请多多调整基准利润，找到合适的贩卖路径</p>

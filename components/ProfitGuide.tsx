@@ -149,7 +149,7 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock
         <Separator />
         <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) - 1}</p>
         <p className="text-sm text-muted-foreground">利润估算：{sumProfit * Math.floor(stock / sumStock)}</p>
-        <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock) - 1))}</p>
+        <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock)))}</p>
       </CardContent>
     </Card>
   )
