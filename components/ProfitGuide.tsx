@@ -18,14 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { filteredStationsDict, getStationName } from "@/config/stations"
+import { filteredStationsDict, getAttatchedToCity, getStationName } from "@/config/stations"
 import { calculateBestProfitTable, cn, filterStationProfitTableByPerProfit } from "@/utils/utils"
-import { ChevronRightIcon, PlusIcon, MinusIcon } from "@radix-ui/react-icons"
+import { PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
-import { getGoodBuyStock } from "@/config/goods"
 import { Separator } from "./ui/separator"
+import { calculateStock, calculateTax } from "@/utils/calculate"
+import { userInfo } from "os"
  
-export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationProfitTable}) {
+export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: StationProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [baseProfit, setBaseProfit] = React.useState(500)
   const [stock, setStock] = React.useState(600)
@@ -83,29 +84,37 @@ export function ProfitGuide({stationProfitTable}: {stationProfitTable: StationPr
               bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
               baseProfit={baseProfit - gap}
               stock={stock}
+              userInfo={userInfo}
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={bestProfitTable}
               baseProfit={baseProfit}
               stock={stock}
+              userInfo={userInfo}
             />
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
               baseProfit={baseProfit + gap}
               stock={stock}
+              userInfo={userInfo}
             />
           </div>
         </div>
+      }
+      {isUserLoggedIn ?
+          <p className="text-sm text-gray-500">{getStationName(selectedStationId)}税率{calculateTax(selectedStationId, userInfo.reputations[getAttatchedToCity(selectedStationId)])}，砍抬价20%，声望等级10即可购买数量+100%</p> :
+          <p className="text-sm text-gray-500">默认税率10%，砍抬价20%，声望等级10即可购买数量+100%</p>
       }
     </div>
   )
 }
 
-function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock }: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number, stock: number}) {
+function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock, userInfo}: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number, stock: number, userInfo: UserInfo}) {
   const sumProfit = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.allProfit, 0)
-  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + getGoodBuyStock(value.goodId, value.buyStationId), 0)
+  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + calculateStock(value.goodId, value.buyStationId, userInfo.reputations[getAttatchedToCity(value.buyStationId)]), 0)
+
   return (
     <Card className={cn("w-[380px]")}>
       <CardHeader>
@@ -135,8 +144,8 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock
           ))}
         </div>
         <Separator />
-        <p className="text-sm text-muted-foreground">总利润：{sumProfit * 2}</p>
-        <p className="text-sm text-muted-foreground">仓储需求：{sumStock * 2}</p>
+        <p className="text-sm text-muted-foreground">总利润：{sumProfit}</p>
+        <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
         <Separator />
         <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) / 2 - 1}</p>

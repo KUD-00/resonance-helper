@@ -28227,15 +28227,6 @@ export const getGoodSellPrice = (goodId: string, stationId: string) => {
   }
 }
 
-export const getGoodBuyStock = (goodId: string, stationId: string) => {
-  const buyInfo = goodsDict[goodId].stations[stationId].buy;
-  if (buyInfo) {
-    return buyInfo.baseStock;
-  } else {
-    return 0;
-  }
-}
-
 export const getGoodName = (goodId: string) => {
   if (goodsDict[goodId]) {
     return goodsDict[goodId].name;

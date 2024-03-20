@@ -1,5 +1,6 @@
 "use server"
 
+import { defaultUser } from "@/config/others";
 import { createClient } from "@/utils/supabase/server";
 
 export const getBuyDataArray = async () => {
@@ -55,5 +56,19 @@ export const updateProfile = async (profile: any) => {
 
   if (error) {
     return error.details
+  }
+}
+
+export const isLogin = async () => {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    return true
+  } else {
+    return false
   }
 }

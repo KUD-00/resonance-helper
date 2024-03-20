@@ -13512,8 +13512,8 @@ export const originalStations = [
 ]
 
 export const stationsDict = originalStations.reduce((acc: { [key: string]: any }, obj) => {
-    const { id, name, nameEN, des, sellList } = obj;
-    acc[id] = { name, nameEN, des, sellList };
+    const { id, name, nameEN, des, sellList, attachedToCity } = obj;
+    acc[id] = { name, nameEN, des, sellList, attachedToCity };
     return acc;
 }, {} as { [key: string]: any }); 
 
@@ -13560,3 +13560,11 @@ export const filteredStationsDict = Object.fromEntries(
 export const stationIds = Object.keys(stationsDict);
 
 export const filteredStationIds = Object.keys(filteredStationsDict);
+
+export const getAttatchedToCity = (stationId: string): string => {
+  if (stationsDict[stationId].attachedToCity == -1) {
+    return stationId;
+  } else {
+    return stationsDict[stationId].attachedToCity;
+  }
+}

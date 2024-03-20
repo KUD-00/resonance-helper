@@ -1,5 +1,6 @@
-import { getGoodBuyPrice, getGoodBuyStock, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
-import { filteredStationIds, getStationName } from "@/config/stations";
+import { getGoodBuyPrice, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
+import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
+import { User } from "lucide-react";
 
 export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number, bargainUp: number, bargainDown: number): number => {
   return sell * amount * bargainUp * (1 - sell_tax) - buy * amount * (1 + buy_tax) * bargainDown
@@ -21,8 +22,12 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
           if (sellGood) {
             const sellTime = new Date(sellGood.updated_at);
             const buyTime = new Date(buyGood.updated_at);
-            const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1, 1.2, 0.8));
-            const rawProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, 0.1, 0.1, 1, 1, 1))
+
+            const sellStationTax = calculateTax(sellStationId, UserInfo.reputations[getAttatchedToCity(sellStationId)]);
+            const buyStationTax = calculateTax(buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]);
+
+            const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1.2, 0.8));
+            const rawProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1, 1))
 
             if (stationProfitTable[buyStationId] === undefined) {
               stationProfitTable[buyStationId] = [];
@@ -37,10 +42,10 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
               sellPrice: sellGood.price,
 
               perProfit,
-              allProfit: perProfit * getGoodBuyStock(goodUniqueId, buyStationId),
+              allProfit: perProfit * calculateStock(goodUniqueId, buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]),
 
               rawProfit,
-              rawAllProfit: rawProfit * getGoodBuyStock(goodUniqueId, buyStationId),
+              rawAllProfit: rawProfit * calculateStock(goodUniqueId, buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]),
 
               updatedAt: Math.min(sellTime.getTime(), buyTime.getTime()),
 
@@ -64,3 +69,22 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
 
   return stationProfitTable;
 };
+
+export const calculateTax = (stationId: string, reputation: number): number => {
+  const attachedCity = getAttatchedToCity(stationId);
+
+  if (attachedCity == "83000020") {
+    return (7.5 - Math.ceil(reputation * 0.5) * 0.5) * 0.01;
+  } else {
+    return (10 - Math.ceil(reputation * 0.5) * 0.5) * 0.01;
+  }
+}
+
+export const calculateStock = (goodId: string, stationId: string, reputation: number): number => {
+  const buyInfo = goodsDict[goodId].stations[stationId].buy;
+  if (buyInfo) {
+    return Math.floor(buyInfo.baseStock * (1+ reputation / 10));
+  } else {
+    return 0;
+  }
+}
