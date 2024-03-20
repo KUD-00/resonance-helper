@@ -46,9 +46,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { linuxTimeToMinutesAgo, trendArrow } from "@/utils/utils"
-import { filteredStationsDict, getStationName } from "@/config/stations"
+import { filteredStationsDict, getAttatchedToCity, getStationName } from "@/config/stations"
 import { getGoodName } from "@/config/goods"
 import { Switch } from "@/components/ui/switch"
+import { calculateTax } from "@/utils/calculate"
 
 export const columns: ColumnDef<ProfitTableCell, any>[] = [
   // TODO: fix english column description to cn 
@@ -254,7 +255,7 @@ export const columns: ColumnDef<ProfitTableCell, any>[] = [
   },
 ]
 
-export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }) {
+export function ProfitTable({ profitTable, isUserLoggedIn, userInfo }: { profitTable: StationProfitTable, isUserLoggedIn: boolean, userInfo: UserInfo}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [selectedTargetStationId, setSelectedTargetStationId] = React.useState("all")
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -302,6 +303,8 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
   })
 
   const allProfitTableDatas = Object.values(profitTable).reduce((acc, value) => [...acc, ...value], []);
+  const buyStationReputation = selectedStationId == "all" ? 0 : userInfo.reputations[getAttatchedToCity(selectedStationId)]
+  const sellStationReputation = selectedTargetStationId == "all" ? 0 : userInfo.reputations[getAttatchedToCity(selectedTargetStationId)]
 
   React.useEffect(() => {
     if (selectedStationId == "all" && selectedTargetStationId == "all") { //两个都是所有城市
@@ -330,7 +333,11 @@ export function ProfitTable({ profitTable }: { profitTable: StationProfitTable }
 
   return (
     <div className="w-full">
-      <div className="flex-col items-center">
+      <div className="flex flex-col items-center justify-center gap-8">
+        {isUserLoggedIn ?
+          <p className="text-sm text-gray-500 mx-4">进货地税率{(calculateTax(selectedStationId, buyStationReputation) * 100).toFixed(1)}%, 贩卖地税率{sellStationReputation ? (calculateTax(selectedTargetStationId, sellStationReputation) * 100).toFixed(1): "请选择终点"}%，砍抬价20%，红色好绿色差，手机用户请横屏</p> :
+          <p className="text-sm text-gray-500 mx-4">默认税率10%，砍抬价20%，红色好绿色差，手机用户请横屏</p>
+        }
         <div className="flex items-center py-4 md:gap-20">
           <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
             <SelectTrigger className="">

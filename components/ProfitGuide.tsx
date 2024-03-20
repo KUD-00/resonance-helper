@@ -32,9 +32,10 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
   const gap = 100
 
   const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
+  const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 m-4">
       <div className="flex items-center py-4 md:gap-20">
         <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
           <SelectTrigger className="">
@@ -53,7 +54,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-row gap-16">
             <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-sm text-gray-500">基准利润(越高需要更多进货书)</p>
+              <p className="text-sm text-gray-500">基准利润(越高需更多进货书)</p>
               <div className="flex items-center justify-center gap-4">
                 <Button onClick={() => { setBaseProfit(baseProfit - 100) }} variant="outline" size="icon">
                   <MinusIcon className="h-4 w-4" />
@@ -77,14 +78,16 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
               </div>
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row justify-center gap-4">
-            <ProfitGuideCard
-              selectedStationId={selectedStationId}
-              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
-              baseProfit={baseProfit - gap}
-              stock={stock}
-              userInfo={userInfo}
-            />
+          <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
+            <div className="hidden md:block">
+              <ProfitGuideCard
+                selectedStationId={selectedStationId}
+                bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
+                baseProfit={baseProfit - gap}
+                stock={stock}
+                userInfo={userInfo}
+              />
+            </div>
             <ProfitGuideCard
               selectedStationId={selectedStationId}
               bestProfitTable={bestProfitTable}
@@ -92,18 +95,20 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
               stock={stock}
               userInfo={userInfo}
             />
-            <ProfitGuideCard
-              selectedStationId={selectedStationId}
-              bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
-              baseProfit={baseProfit + gap}
-              stock={stock}
-              userInfo={userInfo}
-            />
+            <div className="hidden md:block">
+              <ProfitGuideCard
+                selectedStationId={selectedStationId}
+                bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
+                baseProfit={baseProfit + gap}
+                stock={stock}
+                userInfo={userInfo}
+              />
+            </div>
           </div>
         </div>
       }
       {isUserLoggedIn ?
-          <p className="text-sm text-gray-500">{getStationName(selectedStationId)}税率{calculateTax(selectedStationId, userInfo.reputations[getAttatchedToCity(selectedStationId)])}，砍抬价20%，声望等级10即可购买数量+100%</p> :
+          <p className="text-sm text-gray-500">{getStationName(selectedStationId)}税率{100 * calculateTax(selectedStationId, selectedStationReputation)}%，砍抬价20%，声望等级{selectedStationReputation}可购买数量+{selectedStationReputation * 10}%</p> :
           <p className="text-sm text-gray-500">默认税率10%，砍抬价20%，声望等级10即可购买数量+100%</p>
       }
     </div>
@@ -115,7 +120,7 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock
   const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + calculateStock(value.goodId, value.buyStationId, userInfo.reputations[getAttatchedToCity(value.buyStationId)]), 0)
 
   return (
-    <Card className={cn("w-[380px]")}>
+    <Card className={cn("w-[300px]")}>
       <CardHeader>
         <CardTitle>倒{getStationName(bestProfitTable[selectedStationId].targetStationId)}最好</CardTitle>
         <CardDescription>只考虑单体利润{baseProfit}以上的商品</CardDescription>

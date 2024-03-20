@@ -1,6 +1,5 @@
 import { getGoodBuyPrice, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
 import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
-import { User } from "lucide-react";
 
 export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number, bargainUp: number, bargainDown: number): number => {
   return sell * amount * bargainUp * (1 - sell_tax) - buy * amount * (1 + buy_tax) * bargainDown
@@ -19,12 +18,15 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
         getGoodSellInfos(goodUniqueId).map(([sellStationId]) => {
           const sellGood = sellDataDict[goodUniqueId][sellStationId]
 
+          const buyStationReputation = UserInfo.reputations[getAttatchedToCity(buyStationId)]
+          const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)]
+
           if (sellGood) {
             const sellTime = new Date(sellGood.updated_at);
             const buyTime = new Date(buyGood.updated_at);
 
-            const sellStationTax = calculateTax(sellStationId, UserInfo.reputations[getAttatchedToCity(sellStationId)]);
-            const buyStationTax = calculateTax(buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]);
+            const sellStationTax = calculateTax(sellStationId, sellStationReputation);
+            const buyStationTax = calculateTax(buyStationId, buyStationReputation);
 
             const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1.2, 0.8));
             const rawProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1, 1))
@@ -42,10 +44,10 @@ export const calculateStationProfitTable = (buyDataDict: TransformedResponseData
               sellPrice: sellGood.price,
 
               perProfit,
-              allProfit: perProfit * calculateStock(goodUniqueId, buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]),
+              allProfit: perProfit * calculateStock(goodUniqueId, buyStationId, buyStationReputation),
 
               rawProfit,
-              rawAllProfit: rawProfit * calculateStock(goodUniqueId, buyStationId, UserInfo.reputations[getAttatchedToCity(buyStationId)]),
+              rawAllProfit: rawProfit * calculateStock(goodUniqueId, buyStationId, buyStationReputation),
 
               updatedAt: Math.min(sellTime.getTime(), buyTime.getTime()),
 
