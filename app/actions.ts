@@ -47,3 +47,13 @@ export const getProfile = async () => {
     return data
   }
 }
+
+export const updateProfile = async (profile: any) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("profiles").upsert(profile)
+
+  if (error) {
+    return error.details
+  }
+}

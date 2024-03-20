@@ -36,6 +36,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { getStationName } from "@/config/stations"
+import { updateProfile } from "@/app/actions"
 
 
 export function UserInfo({ info }: { info: UserInfo }) {
@@ -55,11 +56,10 @@ export function UserInfo({ info }: { info: UserInfo }) {
   ]
 
   const schema = z.object({
-    user_id: z.number(),
     role_name: z.string(),
-    level: z.number(),
-    trade_level: z.number(),
-    reputations: z.record(z.number())
+    level: z.coerce.number(),
+    trade_level: z.coerce.number(),
+    reputations: z.record(z.coerce.number())
   });
 
   const form = useForm<UserInfo>({
@@ -67,16 +67,24 @@ export function UserInfo({ info }: { info: UserInfo }) {
       role_name: info.role_name,
       level: info.level,
       trade_level: info.trade_level,
-      freeport_vii_reputation: info.reputations["83000020"],
-      shoggolith_city_reputation: info.reputations["83000001"],
-      mander_mine_reputation: info.reputations["83000053"],
-      clarity_data_center_reputation: info.reputations["83000029"],
+      reputations: info.reputations
     },
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (values: z.infer<typeof schema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof schema>) => {
+    const profile = {
+      user_id: info.user_id,
+      role_name: values.role_name,
+      level: values.level,
+      trade_level: values.trade_level,
+      reputations: values.reputations
+    }
+
+    const error = await updateProfile(profile)
+    if (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -162,7 +170,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
                       <FormItem className="space-y-3">
                         <p className="text-sm text-gray-500">等级</p>
                         <FormControl>
-                          <Input placeholder="等级" {...field} />
+                          <Input placeholder="等级" type="number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -175,60 +183,27 @@ export function UserInfo({ info }: { info: UserInfo }) {
                       <FormItem className="space-y-3">
                         <p className="text-sm text-gray-500">贸易等级</p>
                         <FormControl>
-                          <Input placeholder="贸易等级" {...field} />
+                          <Input placeholder="贸易等级" type="number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="shoggolith_city_reputation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <p className="text-sm text-gray-500">修格里城声望等级</p>
-                        <FormControl>
-                          <Input placeholder="" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="freeport_vii_reputation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <p className="text-sm text-gray-500">7号自由港声望等级</p>
-                        <FormControl>
-                          <Input placeholder="" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="clarity_data_center_reputation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <p className="text-sm text-gray-500">澄明数据中心声望等级</p>
-                        <FormControl>
-                          <Input placeholder="" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="mander_mine_reputation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <p className="text-sm text-gray-500">曼德矿场声望等级</p>
-                        <FormControl>
-                          <Input placeholder="" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                  {Object.keys(info.reputations).map(station_id => (
+                    <FormField
+                      key={station_id}
+                      control={form.control}
+                      name={`reputations.${station_id}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label>{getStationName(station_id)} 声望等级</Label>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
                   <Button type="submit" className="w-full">
                     提交修改
                   </Button>

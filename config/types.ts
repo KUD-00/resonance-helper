@@ -65,12 +65,9 @@ interface PriceDetail {
 
 interface UserInfo {
   user_id: number;
-  max_energy: number;
-  energy: number;
   role_name: string;
-  gold: number;
   level: number;
-  move_energy: number;
+  trade_level: number;
   reputations: {
     [key: string]: number;
   }
