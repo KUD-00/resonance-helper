@@ -21,7 +21,7 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/auth?message=Could not authenticate user");
+      return redirect("/auth?message=无法识别用户");
     }
 
     return redirect("/user");
@@ -35,7 +35,7 @@ export default function Login({
     const password = formData.get("password") as string;
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -44,15 +44,16 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/auth?message=Could not authenticate user");
+      console.log(error)
+      return redirect("/auth?message=发生错误");
     }
 
-    return redirect("/auth?message=Check email to continue sign in process");
+    return redirect("/auth?message=检查您的邮箱");
   };
 
   return (
     <div className="flex-1 flex flex-col w-full sm:max-w-md gap-2">
-      <p className="text-sm text-gray-500 mb-4">虽然可以注册，但功能还没怎么做，不建议注册</p>
+      <p className="text-sm text-gray-500 mb-4">qq邮箱收不到验证短信</p>
       <form className="animate-in flex-1 flex flex-col w-full gap-2 text-foreground">
         <label className="text-md" htmlFor="email">
           邮箱

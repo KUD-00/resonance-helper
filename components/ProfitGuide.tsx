@@ -24,7 +24,6 @@ import { PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Separator } from "./ui/separator"
 import { calculateStock, calculateTax } from "@/utils/calculate"
-import { userInfo } from "os"
  
 export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: StationProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
@@ -148,9 +147,9 @@ function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock
         <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
         <Separator />
-        <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) / 2 - 1}</p>
+        <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) - 1}</p>
         <p className="text-sm text-muted-foreground">利润估算：{sumProfit * Math.floor(stock / sumStock)}</p>
-        <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock) / 2 - 1))}</p>
+        <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock) - 1))}</p>
       </CardContent>
     </Card>
   )

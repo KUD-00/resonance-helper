@@ -6,8 +6,8 @@ import { Navi } from "@/components/Navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+const defaultUrl = process.env.BASE_URL
+  ? `https://${process.env.BASE_URL}`
   : "http://localhost:3000";
 
 export const metadata = {
