@@ -39,6 +39,9 @@ export function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit
                 <p className="text-sm text-muted-foreground">
                   单体利润：{good.perProfit}
                 </p>
+                <p className="text-sm text-muted-foreground">
+                  仓储：{good.stock}
+                </p>
               </div>
             </div>
           ))}

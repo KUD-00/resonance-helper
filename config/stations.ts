@@ -13551,9 +13551,11 @@ export const getStationId = (name: string) => {
     return stationId;
 }
 
+const excludeKeys = ['83000052', '83000002', '83000006'];
+
 export const filteredStationsDict = Object.fromEntries(
   Object.entries(stationsDict).filter(
-    ([key, station]: [string, any]) => station.sellList.length > 0
+    ([key, station]: [string, any]) => !excludeKeys.includes(key) && station.sellList.length > 0
   )
 );
 

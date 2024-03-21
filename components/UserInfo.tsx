@@ -37,9 +37,11 @@ import {
 } from "@/components/ui/form"
 import { getStationName } from "@/config/stations"
 import { updateProfile } from "@/app/actions"
-
+import { useRouter } from 'next/navigation';
 
 export function UserInfo({ info }: { info: UserInfo }) {
+  const router = useRouter();
+
   const infos = [
     {
       title: "id(和游戏uid不同，仅用于本网站）",
@@ -82,8 +84,11 @@ export function UserInfo({ info }: { info: UserInfo }) {
     }
 
     const error = await updateProfile(profile)
+
     if (error) {
       console.log(error)
+    } else {
+      router.refresh();
     }
   }
 

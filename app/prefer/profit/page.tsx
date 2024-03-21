@@ -1,7 +1,7 @@
 import { ProfitTable } from "@/components/ProfitTable";
 import { getTransformedDataDict } from "@/utils/utils";
 import { defaultUser } from "@/config/others";
-import { calculateStationProfitTable } from "@/utils/calculate";
+import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calculateStationSellBasicInfoDict } from "@/utils/calculate";
 import { getProfile, isLogin } from "@/app/actions";
 
 export default async function Index() {
@@ -9,7 +9,9 @@ export default async function Index() {
 
   const profile: UserInfo[] = await getProfile();
   const isUserLoggedIn = await isLogin();
-  const stationProfitTable = calculateStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo);
+  const stationSellBasicInfo = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
+  const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfo);
+  const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
 
   // TODO: make profittable and profit card separated
   return (

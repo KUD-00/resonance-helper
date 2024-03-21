@@ -1,18 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { UserInfo } from "@/components/UserInfo";
-import { Button } from "@/components/ui/button";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
-
-  const signOut = async () => {
-    "use server";
-
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    return redirect("/auth");
-  };
 
   const {
     data: { user },
@@ -33,7 +24,6 @@ export default async function ProtectedPage() {
       </div>
       <div className="flex-col flex items-center gap-10">
         {data && <UserInfo info={data[0]} />}
-        <Button onClick={signOut}>登出</Button>
       </div>
     </div>
   );

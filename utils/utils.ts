@@ -34,6 +34,10 @@ export const transformResponseArrayToDict = (responseDataArray: DataResponse[]):
   }, {});
 }
 
+export const getBuyAndSellDict = async () => {
+  return [transformResponseArrayToDict(await getBuyDataArray()), transformResponseArrayToDict(await getSellDataArray())]
+}
+
 export const trendArrow = (trend: number) => {
   if (trend > 0) {
     return "↑"

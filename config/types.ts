@@ -39,6 +39,35 @@ interface ProfitTableCell {
   rawProfit: number;
   rawAllProfit: number;
   buyStationId: string;
+  stock: number;
+}
+
+interface SellInfo {
+  goodId: string;
+  targetStationId: string;
+  buyStationId: string;
+
+  buyPrice: number;
+  sellPrice: number;
+
+  buyPriceTrend: number;
+  sellPriceTrend: number;
+
+  stock: number;
+
+  buyTax: number;
+  sellTax: number;
+
+  updatedAt: number;
+
+  goodName: string;
+  buyStationName: string;
+  targetStationName: string;
+}
+
+
+interface StationSellInfoDict {
+  [stationId: string]: SellInfo[]
 }
 
 interface MakeryProfitTable {
