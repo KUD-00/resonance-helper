@@ -73,7 +73,7 @@ export function Navi() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>其他数据</NavigationMenuTrigger>
+          <NavigationMenuTrigger>其他</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-1 lg:w-[300px] ">
               {components.map((component) => (
