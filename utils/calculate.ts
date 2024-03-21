@@ -5,72 +5,70 @@ export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell
   return sell * amount * bargainUp * (1 - sell_tax) - buy * amount * (1 + buy_tax) * bargainDown
 };
 
-export const calculateStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo): StationProfitTable => {
+export const calculateStationProfitTable = (
+  buyDataDict: TransformedResponseData, 
+  sellDataDict: TransformedResponseData, 
+  UserInfo: UserInfo
+): StationProfitTable => {
   const stationProfitTable: StationProfitTable = {};
 
-  filteredStationIds.map((buyStationId): void => {
-    stationProfitTable[buyStationId] = [];
+  filteredStationIds.forEach(buyStationId => {
+    const buyStationReputation = UserInfo.reputations[getAttatchedToCity(buyStationId)];
+    const buyStationTax = calculateTax(buyStationId, buyStationReputation);
 
-    stationGoodsListDict[buyStationId].map((goodUniqueId) => {
-      if (buyDataDict[goodUniqueId]) {
-        const buyGood = buyDataDict[goodUniqueId][buyStationId]
+    stationGoodsListDict[buyStationId].forEach(goodUniqueId => {
+      const buyGood = buyDataDict[goodUniqueId]?.[buyStationId];
+      if (buyGood) {
+        const buyPriceTrend = buyGood.trend;
+        const buyPrice = buyGood.price;
+        const buyTime = new Date(buyGood.updated_at).getTime();
 
-        getGoodSellInfos(goodUniqueId).map(([sellStationId]) => {
-          const sellGood = sellDataDict[goodUniqueId][sellStationId]
-
-          const buyStationReputation = UserInfo.reputations[getAttatchedToCity(buyStationId)]
-          const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)]
-
+        getGoodSellInfos(goodUniqueId).forEach(([sellStationId]) => {
+          const sellGood = sellDataDict[goodUniqueId]?.[sellStationId];
           if (sellGood) {
-            const sellTime = new Date(sellGood.updated_at);
-            const buyTime = new Date(buyGood.updated_at);
-
+            const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)];
             const sellStationTax = calculateTax(sellStationId, sellStationReputation);
-            const buyStationTax = calculateTax(buyStationId, buyStationReputation);
+            const sellTime = new Date(sellGood.updated_at).getTime();
 
-            const perProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1.2, 0.8));
-            const rawProfit = Math.floor(calculateProfit(buyGood.price, sellGood.price, buyStationTax, sellStationTax, 1, 1, 1))
+            const perProfit = Math.floor(calculateProfit(buyPrice, sellGood.price, buyStationTax, sellStationTax, 1, 1.2, 0.8));
+            const rawProfit = Math.floor(calculateProfit(buyPrice, sellGood.price, buyStationTax, sellStationTax, 1, 1, 1));
 
-            if (stationProfitTable[buyStationId] === undefined) {
-              stationProfitTable[buyStationId] = [];
-            }
-
-            stationProfitTable[buyStationId].push({
+            const profitEntry = {
               goodId: goodUniqueId,
               targetStationId: sellStationId,
               buyStationId,
-
-              buyPrice: buyGood.price,
+              buyPrice,
               sellPrice: sellGood.price,
-
               perProfit,
               allProfit: perProfit * calculateStock(goodUniqueId, buyStationId, buyStationReputation),
-
               rawProfit,
               rawAllProfit: rawProfit * calculateStock(goodUniqueId, buyStationId, buyStationReputation),
-
-              updatedAt: Math.min(sellTime.getTime(), buyTime.getTime()),
-
-              buyPercent: Math.floor(buyGood.price / getGoodBuyPrice(goodUniqueId, buyStationId) * 100),
+              updatedAt: Math.min(sellTime, buyTime),
+              buyPercent: Math.floor(buyPrice / getGoodBuyPrice(goodUniqueId, buyStationId) * 100),
               sellPercent: Math.floor(sellGood.price / getGoodSellPrice(goodUniqueId, sellStationId) * 100),
-
-              buyPriceTrend: buyGood.trend,
+              buyPriceTrend,
               sellPriceTrend: sellGood.trend,
-
               buyStationName: getStationName(buyStationId),
               goodName: getGoodName(goodUniqueId),
               targetStationName: getStationName(sellStationId),
-            })
+            };
+
+            if (!stationProfitTable[buyStationId]) {
+              stationProfitTable[buyStationId] = [];
+            }
+            stationProfitTable[buyStationId].push(profitEntry);
           }
         });
       }
     });
 
-    stationProfitTable[buyStationId].sort((a, b) => b.perProfit - a.perProfit);
+    if (stationProfitTable[buyStationId]) {
+      stationProfitTable[buyStationId].sort((a, b) => b.perProfit - a.perProfit);
+    }
   });
 
   return stationProfitTable;
-};
+}; 
 
 export const calculateTax = (stationId: string, reputation: number): number => {
   const attachedCity = getAttatchedToCity(stationId);

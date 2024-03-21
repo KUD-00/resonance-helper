@@ -134,3 +134,10 @@ interface BestProfitTable {
     totalProfit: number 
   }
 } 
+
+interface ProfitByTargetStation {
+  [targetStationId: string]: {
+    goods: ProfitTableCell[];
+    totalProfit: number;
+  };
+}

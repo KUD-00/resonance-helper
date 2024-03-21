@@ -1,7 +1,7 @@
 import { getBuyAndSellDataArray } from "@/app/actions";
 import { defaultUser } from "@/config/others";
 import { calculateStationProfitTable } from "@/utils/calculate";
-import { calculateBestProfitTable, filterStationProfitTableByPerProfit, transformResponseDataArrayToDict } from "@/utils/utils";
+import { calculateBestProfitTable, filterStationProfitTableByPerProfit, transformResponseArrayToDict } from "@/utils/utils";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -10,9 +10,9 @@ export async function GET(request: Request) {
 
   const [buyDataArray, sellDataArray] = await getBuyAndSellDataArray();
 
-  const sellDataDict = transformResponseDataArrayToDict(sellDataArray);
+  const sellDataDict = transformResponseArrayToDict(sellDataArray);
 
-  const stationProfitTable: StationProfitTable = calculateStationProfitTable(transformResponseDataArrayToDict(buyDataArray), sellDataDict, defaultUser);
+  const stationProfitTable: StationProfitTable = calculateStationProfitTable(transformResponseArrayToDict(buyDataArray), sellDataDict, defaultUser);
 
   if (baseProfit === null) {
     return Response.json("baseProfit is required")

@@ -7,14 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { linuxTimeToMinutesAgo, transformResponseDataArrayToDict } from "@/utils/utils";
+import { linuxTimeToMinutesAgo, transformResponseArrayToDict } from "@/utils/utils";
 import { Separator } from "./ui/separator";
 import { getGoodName, goodsDict, makeryGoodsDict } from "@/config/goods";
 import { getStationName } from "@/config/stations";
 
 export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { buyArrayDatas: DataResponse[], sellArrayDatas: DataResponse[] }) {
-  const sellDataDict = transformResponseDataArrayToDict(sellArrayDatas);
-  const buyDataDict = transformResponseDataArrayToDict(buyArrayDatas)
+  const sellDataDict = transformResponseArrayToDict(sellArrayDatas);
+  const buyDataDict = transformResponseArrayToDict(buyArrayDatas)
 
   const makeryProfitTable: MakeryProfitTable = {}
 

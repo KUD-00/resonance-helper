@@ -1,32 +1,29 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { getBuyDataArray, getSellDataArray } from "@/app/actions"
-import { getStationName } from "@/config/stations"
+
+const MILLISECONDS_PER_MINUTE = 1000 * 60;
+const MILLISECONDS_PER_HOUR = MILLISECONDS_PER_MINUTE * 60;
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const dateTimeStringToHoursAgo = (dateTime: string) => {
-  return linuxTimeToMinutesAgo(new Date(dateTime).getTime())
-}
+export const linuxTimeToMinutesAgo = (time: number) => {
+  const now = new Date().getTime();
+  const difference = now - time; // 时间差，单位毫秒
 
-export function linuxTimeToMinutesAgo(time: number) {
-  // TODO: 有时不准
-  const now = new Date();
-  const difference = now.getTime() - time;
+  const minutesAgo = Math.floor(difference / MILLISECONDS_PER_MINUTE);
 
-  const hoursAgo = Math.floor(difference / (1000 * 60 * 60));
-  const minutesAgo = Math.floor(difference / (1000 * 60));
-
-  if (hoursAgo < 1) {
+  if (minutesAgo < 60) {
     return `${minutesAgo}分钟前`;
   } else {
+    const hoursAgo = Math.floor(difference / MILLISECONDS_PER_HOUR);
     return `${hoursAgo}小时前`;
   }
-}
+};
 
-export function transformResponseDataArrayToDict(responseDataArray: DataResponse[]): TransformedResponseData {
+export const transformResponseArrayToDict = (responseDataArray: DataResponse[]): TransformedResponseData => {
   return responseDataArray.reduce((acc: TransformedResponseData, current) => {
     const { good_id, station_id } = current;
     if (!acc[good_id]) {
@@ -48,7 +45,7 @@ export const trendArrow = (trend: number) => {
 }
 
 export const getTransformedDataDict = async () => {
-  return [transformResponseDataArrayToDict(await getSellDataArray()), transformResponseDataArrayToDict(await getBuyDataArray())]
+  return [transformResponseArrayToDict(await getSellDataArray()), transformResponseArrayToDict(await getBuyDataArray())]
 }
 
 export const filterStationProfitTableByPerProfit = (profitTable: StationProfitTable, baseProfit: number) => {
@@ -64,28 +61,27 @@ export const filterStationProfitTableByPerProfit = (profitTable: StationProfitTa
 export const calculateBestProfitTable = (filteredProfitTable: StationProfitTable) => {
   const bestProfitTable: { [stationID: string]: { targetStationId: string, goods: ProfitTableCell[], totalProfit: number } } = {};
 
-  for (const [stationID, goods] of Object.entries(filteredProfitTable)) {
-    // 根据 targetStationId 分组商品，并计算每组的 allProfit 总和
-    const profitByTargetStation: { [targetStationId: string]: { goods: ProfitTableCell[], totalProfit: number } } = {};
+  Object.entries(filteredProfitTable).forEach(([stationID, goods]) => {
+    const profitByTargetStation: ProfitByTargetStation = {};
+    let bestTargetStationId: string = '';
+    let maxTotalProfit: number = 0;
+
     goods.forEach(good => {
-      if (!profitByTargetStation[good.targetStationId]) {
-        profitByTargetStation[good.targetStationId] = { goods: [], totalProfit: 0 };
+      const { targetStationId, allProfit } = good;
+      if (!profitByTargetStation[targetStationId]) {
+        profitByTargetStation[targetStationId] = { goods: [], totalProfit: 0 };
       }
-      profitByTargetStation[good.targetStationId].goods.push(good);
-      profitByTargetStation[good.targetStationId].totalProfit += good.allProfit;
+      const targetStation = profitByTargetStation[targetStationId];
+      targetStation.goods.push(good);
+      targetStation.totalProfit += allProfit;
+
+      // 直接更新最大利润和最佳targetStationId
+      if (targetStation.totalProfit > maxTotalProfit) {
+        bestTargetStationId = targetStationId;
+        maxTotalProfit = targetStation.totalProfit;
+      }
     });
 
-    // 找到 allProfit 总和最大的 targetStationId
-    let bestTargetStationId = '';
-    let maxTotalProfit = 0;
-    for (const [targetStationId, data] of Object.entries(profitByTargetStation)) {
-      if (data.totalProfit > maxTotalProfit) {
-        bestTargetStationId = targetStationId;
-        maxTotalProfit = data.totalProfit;
-      }
-    }
-
-    // 将最佳 targetStationId 和相应的商品数据添加到 bestProfitTable
     if (bestTargetStationId) {
       bestProfitTable[stationID] = {
         targetStationId: bestTargetStationId,
@@ -93,7 +89,7 @@ export const calculateBestProfitTable = (filteredProfitTable: StationProfitTable
         totalProfit: maxTotalProfit,
       };
     }
-  }
+  });
 
   return bestProfitTable
 }
