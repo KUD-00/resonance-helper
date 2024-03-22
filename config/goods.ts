@@ -28234,3 +28234,12 @@ export const getGoodName = (goodId: string) => {
     return "错误id";
   }
 }
+
+export const getGoodBaseStock = (goodId: string, stationId: string) => {
+  const buyInfo = goodsDict[goodId].stations[stationId].buy;
+  if (buyInfo) {
+    return buyInfo.baseStock;
+  } else {
+    return 0;
+  }
+}

@@ -25,6 +25,8 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
   const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
   const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
+  console.log(stationProfitTable["83000001"])
+
   return (
     <div className="flex flex-col items-center justify-center gap-4 m-4">
       <div className="flex items-center py-4 md:gap-20">

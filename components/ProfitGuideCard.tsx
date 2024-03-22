@@ -7,13 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "./ui/separator"
-import { calculateStock } from "@/utils/calculate"
 import { cn } from "@/utils/utils"
-import { getAttatchedToCity, getStationName } from "@/config/stations"
+import { getStationName } from "@/config/stations"
 
 export function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock, userInfo}: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number, stock: number, userInfo: UserInfo}) {
   const sumProfit = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.allProfit, 0)
-  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + calculateStock(value.goodId, value.buyStationId, userInfo.reputations[getAttatchedToCity(value.buyStationId)]), 0)
+  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.stock, 0)
 
   return (
     <Card className={cn("w-[300px]")}>

@@ -53,7 +53,8 @@ interface SellInfo {
   buyPriceTrend: number;
   sellPriceTrend: number;
 
-  stock: number;
+  baseStock: number;
+  stockModify: number;
 
   buyTax: number;
   sellTax: number;

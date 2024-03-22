@@ -16,10 +16,12 @@ export const modifiers = [
   {
     modifier: (sellInfo: SellInfo) => {
       if (sellInfo.goodId == "82900046") {
-        sellInfo.stock = Math.floor(sellInfo.stock * 1.3);
+        sellInfo.stockModify = sellInfo.stockModify + 0.3;
+        sellInfo.sellTax = (sellInfo.sellTax - 0.05 > 0) ? sellInfo.sellTax - 0.05 : 0;
+        sellInfo.buyTax = (sellInfo.buyTax - 0.05 > 0) ? sellInfo.buyTax - 0.05 : 0;
       }
     },
     messageTitle: "红茶战争",
-    messageContent: "现阶段红茶库存增加30%，红茶税率-0.4%"
+    messageContent: "现阶段红茶库存增加30%，红茶税率-5%"
   }
 ]

@@ -1,4 +1,4 @@
-import { getGoodBuyPrice, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
+import { getGoodBaseStock, getGoodBuyPrice, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
 import { modifiers } from "@/config/others";
 import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
 
@@ -16,13 +16,8 @@ export const calculateTax = (stationId: string, reputation: number): number => {
   }
 }
 
-export const calculateStock = (goodId: string, stationId: string, reputation: number): number => {
-  const buyInfo = goodsDict[goodId].stations[stationId].buy;
-  if (buyInfo) {
-    return Math.floor(buyInfo.baseStock * (1+ reputation / 10));
-  } else {
-    return 0;
-  }
+export const calculateStockModify = (reputation: number): number => {
+    return  reputation / 10
 }
 
 export const calculateStationSellBasicInfoDict = (
@@ -62,7 +57,8 @@ export const calculateStationSellBasicInfoDict = (
               buyTax: buyStationTax,
               sellTax: sellStationTax,
 
-              stock: calculateStock(goodUniqueId, buyStationId, buyStationReputation),
+              baseStock: getGoodBaseStock(goodUniqueId, buyStationId),
+              stockModify: calculateStockModify(buyStationReputation),
 
               updatedAt: Math.min(sellTime, buyTime),
 
@@ -108,11 +104,13 @@ export const calculateStationProfitTable = (stationModifiedSellInfo: StationSell
 
   filteredStationIds.forEach(stationId => {
     stationProfitTable[stationId] = stationModifiedSellInfo[stationId].map(sellInfo => {
-      const { goodId, buyStationId, targetStationId, buyPrice, sellPrice, buyTax, sellTax, stock } = sellInfo;
+      const { goodId, buyStationId, targetStationId, buyPrice, sellPrice, buyTax, sellTax, baseStock, stockModify } = sellInfo;
       const perProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1.2, 0.8));
       const rawProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1, 1));
+      const stock = Math.floor(baseStock * (1 + stockModify));
       return {
         ...sellInfo,
+        stock,
 
         perProfit,
         allProfit: perProfit * stock,
