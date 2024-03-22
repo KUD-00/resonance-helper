@@ -10,19 +10,19 @@ import { Separator } from "./ui/separator"
 import { cn } from "@/utils/utils"
 import { getStationName } from "@/config/stations"
 
-export function ProfitGuideCard({ selectedStationId, bestProfitTable, baseProfit, stock, userInfo}: { selectedStationId: string, bestProfitTable: BestProfitTable, baseProfit: number, stock: number, userInfo: UserInfo}) {
-  const sumProfit = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.allProfit, 0)
-  const sumStock = bestProfitTable[selectedStationId].goods.reduce((acc, value) => acc + value.stock, 0)
+export function ProfitGuideCard({ selectedStationId, profitTable, baseProfit, stock, userInfo}: { selectedStationId: string, profitTable: ProfitTable, baseProfit: number, stock: number, userInfo: UserInfo}) {
+  const sumProfit = profitTable.goods.reduce((acc, value) => acc + value.allProfit, 0)
+  const sumStock = profitTable.goods.reduce((acc, value) => acc + value.stock, 0)
 
   return (
     <Card className={cn("w-[300px]")}>
       <CardHeader>
-        <CardTitle>倒{getStationName(bestProfitTable[selectedStationId].targetStationId)}最好</CardTitle>
+        <CardTitle>倒{getStationName(profitTable.targetStationId)}</CardTitle>
         <CardDescription>只考虑单体利润{baseProfit}以上的商品</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
-          {bestProfitTable[selectedStationId].goods.map((good, index) => (
+          {profitTable.goods.map((good, index) => (
             <div
               key={index}
               className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"

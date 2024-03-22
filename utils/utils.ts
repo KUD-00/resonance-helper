@@ -97,3 +97,56 @@ export const calculateBestProfitTable = (filteredProfitTable: StationProfitTable
 
   return bestProfitTable
 }
+
+export const calculateBestAndSecondBestProfitTable = (filteredProfitTable: StationProfitTable) => {
+  const bestAndSecondBestProfitTable: { [stationID: string]: { best: { targetStationId: string, goods: ProfitTableCell[], totalProfit: number }, secondBest?: { targetStationId: string, goods: ProfitTableCell[], totalProfit: number } } } = {};
+
+  Object.entries(filteredProfitTable).forEach(([stationID, goods]) => {
+    const profitByTargetStation: ProfitByTargetStation = {};
+    let bestTargetStationId: string = '';
+    let secondBestTargetStationId: string = '';
+    let maxTotalProfit: number = 0;
+    let secondMaxTotalProfit: number = 0;
+
+    goods.forEach(good => {
+      const { targetStationId, allProfit } = good;
+      if (!profitByTargetStation[targetStationId]) {
+        profitByTargetStation[targetStationId] = { goods: [], totalProfit: 0 };
+      }
+      const targetStation = profitByTargetStation[targetStationId];
+      targetStation.goods.push(good);
+      targetStation.totalProfit += allProfit;
+
+      // 更新最大利润和第二大利润以及对应的targetStationId
+      if (targetStation.totalProfit > maxTotalProfit) {
+        secondBestTargetStationId = bestTargetStationId;
+        secondMaxTotalProfit = maxTotalProfit;
+
+        bestTargetStationId = targetStationId;
+        maxTotalProfit = targetStation.totalProfit;
+      } else if (targetStation.totalProfit > secondMaxTotalProfit) {
+        secondBestTargetStationId = targetStationId;
+        secondMaxTotalProfit = targetStation.totalProfit;
+      }
+    });
+
+    bestAndSecondBestProfitTable[stationID] = {
+      best: {
+        targetStationId: bestTargetStationId,
+        goods: profitByTargetStation[bestTargetStationId].goods,
+        totalProfit: maxTotalProfit,
+      }
+    };
+
+    // 如果存在第二好的目标站，则加入到结果中
+    if (secondBestTargetStationId) {
+      bestAndSecondBestProfitTable[stationID].secondBest = {
+        targetStationId: secondBestTargetStationId,
+        goods: profitByTargetStation[secondBestTargetStationId].goods,
+        totalProfit: secondMaxTotalProfit,
+      };
+    }
+  });
+
+  return bestAndSecondBestProfitTable;
+}

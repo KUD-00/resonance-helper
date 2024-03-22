@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { filteredStationsDict, getAttatchedToCity, getStationName } from "@/config/stations"
-import { calculateBestProfitTable, filterStationProfitTableByPerProfit } from "@/utils/utils"
+import { calculateBestAndSecondBestProfitTable, calculateBestProfitTable, filterStationProfitTableByPerProfit } from "@/utils/utils"
 import { PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { ProfitGuideCard } from "./ProfitGuideCard"
@@ -22,10 +22,11 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
   const [stock, setStock] = React.useState(600)
   const gap = 100
 
-  const bestProfitTable = calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
-  const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
+  const bestProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
+  const minusGapProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))
+  const plusGapProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))
 
-  console.log(stationProfitTable["83000001"])
+  const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 m-4">
@@ -43,7 +44,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
           </SelectContent>
         </Select>
       </div>
-      {bestProfitTable[selectedStationId] &&
+      {bestProfitTable[selectedStationId].best &&
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-row gap-16">
             <div className="flex flex-col items-center justify-center gap-4">
@@ -71,31 +72,62 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
-            <div className="hidden md:block">
+          <div className="flex flex-col gap-4">
+            <p className="text-lg text-gray-500">最好(根据单位进货书利润排序)</p>
+            <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
+              <div className="hidden md:block">
+                <ProfitGuideCard
+                  selectedStationId={selectedStationId}
+                  profitTable={minusGapProfitTable[selectedStationId].best}
+                  baseProfit={baseProfit - gap}
+                  stock={stock}
+                  userInfo={userInfo}
+                />
+              </div>
               <ProfitGuideCard
                 selectedStationId={selectedStationId}
-                bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))}
-                baseProfit={baseProfit - gap}
+                profitTable={bestProfitTable[selectedStationId].best}
+                baseProfit={baseProfit}
                 stock={stock}
                 userInfo={userInfo}
               />
+              <div className="hidden md:block">
+                <ProfitGuideCard
+                  selectedStationId={selectedStationId}
+                  profitTable={plusGapProfitTable[selectedStationId].best}
+                  baseProfit={baseProfit + gap}
+                  stock={stock}
+                  userInfo={userInfo}
+                />
+              </div>
             </div>
-            <ProfitGuideCard
-              selectedStationId={selectedStationId}
-              bestProfitTable={bestProfitTable}
-              baseProfit={baseProfit}
-              stock={stock}
-              userInfo={userInfo}
-            />
-            <div className="hidden md:block">
+            <p className="text-lg text-gray-500">次好(根据单位进货书利润排序)</p>
+            <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
+              <div className="hidden md:block">
+                <ProfitGuideCard
+                  selectedStationId={selectedStationId}
+                  profitTable={minusGapProfitTable[selectedStationId].secondBest!}
+                  baseProfit={baseProfit - gap}
+                  stock={stock}
+                  userInfo={userInfo}
+                />
+              </div>
               <ProfitGuideCard
                 selectedStationId={selectedStationId}
-                bestProfitTable={calculateBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))}
-                baseProfit={baseProfit + gap}
+                profitTable={bestProfitTable[selectedStationId].secondBest!}
+                baseProfit={baseProfit}
                 stock={stock}
                 userInfo={userInfo}
               />
+              <div className="hidden md:block">
+                <ProfitGuideCard
+                  selectedStationId={selectedStationId}
+                  profitTable={plusGapProfitTable[selectedStationId].secondBest!}
+                  baseProfit={baseProfit + gap}
+                  stock={stock}
+                  userInfo={userInfo}
+                />
+              </div>
             </div>
           </div>
         </div>

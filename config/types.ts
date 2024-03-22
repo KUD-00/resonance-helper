@@ -158,11 +158,13 @@ interface GoodsDict {
 }
 
 interface BestProfitTable { 
-  [stationID: string]: { 
-    targetStationId: string, 
-    goods: ProfitTableCell[], 
-    totalProfit: number 
-  }
+  [stationID: string]: ProfitTable
+} 
+
+interface ProfitTable { 
+  targetStationId: string,
+  goods: ProfitTableCell[],
+  totalProfit: number
 } 
 
 interface ProfitByTargetStation {
