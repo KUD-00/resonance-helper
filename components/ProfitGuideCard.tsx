@@ -10,15 +10,14 @@ import { Separator } from "./ui/separator"
 import { cn } from "@/utils/utils"
 import { getStationName } from "@/config/stations"
 
-export function ProfitGuideCard({ selectedStationId, profitTable, baseProfit, stock, userInfo}: { selectedStationId: string, profitTable: ProfitTable, baseProfit: number, stock: number, userInfo: UserInfo}) {
+export function ProfitGuideCard({ selectedStationId, profitTable, stock, userInfo}: { selectedStationId: string, profitTable: ProfitTable, stock: number, userInfo: UserInfo}) {
   const sumProfit = profitTable.goods.reduce((acc, value) => acc + value.allProfit, 0)
   const sumStock = profitTable.goods.reduce((acc, value) => acc + value.stock, 0)
 
   return (
-    <Card className={cn("w-[300px]")}>
+    <Card className={cn("w-[250px]")}>
       <CardHeader>
         <CardTitle>倒{getStationName(profitTable.targetStationId)}</CardTitle>
-        <CardDescription>只考虑单体利润{baseProfit}以上的商品</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
@@ -48,7 +47,7 @@ export function ProfitGuideCard({ selectedStationId, profitTable, baseProfit, st
         <Separator />
         <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
-        <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) - 1}</p>
+        <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock)}</p>
         <p className="text-sm text-muted-foreground">利润估算：{sumProfit * Math.floor(stock / sumStock)}</p>
         <p className="text-sm text-muted-foreground">单位进货书利润：{Math.floor(sumProfit * Math.floor(stock / sumStock) / (Math.floor(stock / sumStock)))}</p>
       </CardContent>

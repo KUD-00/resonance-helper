@@ -132,3 +132,82 @@ export const getStationProfitTable = (buyDataDict: TransformedResponseData, sell
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
   return calculateStationProfitTable(modifiedSellBasicInfoDict);
 }
+
+export const getStationTargetProfitTable = (stationProfitTable: StationProfitTable) => {
+  const dict: Record<string, Record<string, ProfitTableCell[]>> = {};
+  Object.entries(stationProfitTable).forEach(([stationId, goods]) => {
+    goods.forEach((good) => {
+      if (!dict[stationId]) dict[stationId] = {};
+      if (!dict[stationId][good.targetStationId]) dict[stationId][good.targetStationId] = []; // 确保这是一个数组
+      dict[stationId][good.targetStationId].push(good);
+    });
+  })
+  return dict;
+}
+
+export const getProfitTables = (stationTargetProfitTable: Record<string, Record<string, ProfitTableCell[]>>): Record<string, ProfitTable[]> => {
+  const result: Record<string, ProfitTable[]> = {};
+
+  Object.entries(stationTargetProfitTable).forEach(([stationId, targetStations]) => {
+    result[stationId] = [];
+    Object.entries(targetStations).forEach(([targetStationId, goods]) => {
+      for (let i = 1; i <= goods.length; i++) {
+        const combination = goods.slice(0, i);
+        const totalProfit = combination.reduce((acc, curr) => acc + curr.allProfit, 0);
+        const sumStock = combination.reduce((acc, curr) => acc + curr.stock, 0);
+        result[stationId].push({
+          targetStationId: targetStationId,
+          goods: combination,
+          totalProfit: totalProfit,
+          sumStock: sumStock
+        });
+      }
+    });
+  });
+
+  return result;
+};
+
+export const sortProfitTables = (profitTables: Record<string, ProfitTable[]>) => {
+  Object.keys(profitTables).forEach(stationId => {
+    profitTables[stationId].sort((a, b) => {
+      // 首先按商品数量排序，商品数量多的排在后面
+      if (a.goods.length !== b.goods.length) {
+        return a.goods.length - b.goods.length;
+      }
+      // 如果商品数量相同，则按总利润降序排序，利润高的排在前面
+      return b.totalProfit - a.totalProfit;
+    });
+  });
+}
+
+export const optimizeProfitTables = (profitTables: OptimizedProfitTable): OptimizedProfitTable => {
+  Object.keys(profitTables).forEach(stationId => {
+    const profitTableArray = profitTables[stationId];
+    const optimizedArray: ProfitTable[] = [];
+
+    // 计算每个商品数量对应的最优ProfitTable
+    const goodsCountMap = new Map<number, ProfitTable>();
+
+    profitTableArray.forEach(profitTable => {
+      const goodsCount = profitTable.goods.length;
+      const sumStock = profitTable.goods.reduce((acc, cur) => acc + cur.stock, 0);
+      const ratio = profitTable.totalProfit / sumStock;
+
+      // 如果当前商品数量还未记录，或者当前条目的比值更大，则更新Map
+      const existingEntry = goodsCountMap.get(goodsCount);
+      if (!existingEntry || (existingEntry && ratio > (existingEntry.totalProfit / existingEntry.goods.reduce((acc, cur) => acc + cur.stock, 0)))) {
+        goodsCountMap.set(goodsCount, profitTable);
+      }
+    });
+
+    // 从Map中提取最优的ProfitTable
+    goodsCountMap.forEach((value) => {
+      optimizedArray.push(value);
+    });
+
+    profitTables[stationId] = optimizedArray;
+  });
+
+  return profitTables;
+};

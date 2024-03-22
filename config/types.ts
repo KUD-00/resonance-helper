@@ -164,8 +164,13 @@ interface BestProfitTable {
 interface ProfitTable { 
   targetStationId: string,
   goods: ProfitTableCell[],
-  totalProfit: number
+  totalProfit: number,
+  sumStock: number
 } 
+
+interface OptimizedProfitTable {
+  [stationId: string]: ProfitTable[]
+}
 
 interface ProfitByTargetStation {
   [targetStationId: string]: {

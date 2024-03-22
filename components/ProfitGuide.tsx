@@ -10,124 +10,60 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { filteredStationsDict, getAttatchedToCity, getStationName } from "@/config/stations"
-import { calculateBestAndSecondBestProfitTable, calculateBestProfitTable, filterStationProfitTableByPerProfit } from "@/utils/utils"
 import { PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { ProfitGuideCard } from "./ProfitGuideCard"
 import { calculateTax } from "@/utils/calculate"
  
-export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: StationProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
+export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: OptimizedProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
-  const [baseProfit, setBaseProfit] = React.useState(500)
   const [stock, setStock] = React.useState(600)
-  const gap = 100
-
-  const bestProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit));
-  const minusGapProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit - gap))
-  const plusGapProfitTable = calculateBestAndSecondBestProfitTable(filterStationProfitTableByPerProfit(stationProfitTable, baseProfit + gap))
 
   const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 m-4">
-      <div className="flex items-center py-4 md:gap-20">
-        <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
-          <SelectTrigger className="">
-            <SelectValue placeholder="起点" />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
-              <SelectItem key={stationId} value={stationId}>
-                {name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {bestProfitTable[selectedStationId].best &&
-        <div className="flex flex-col items-center justify-center gap-4">
-          <div className="flex flex-row gap-16">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-sm text-gray-500">基准利润(越高需更多进货书)</p>
-              <div className="flex items-center justify-center gap-4">
-                <Button onClick={() => { setBaseProfit(baseProfit - 100) }} variant="outline" size="icon">
-                  <MinusIcon className="h-4 w-4" />
-                </Button>
-                {baseProfit}
-                <Button onClick={() => { setBaseProfit(baseProfit + 100) }} variant="outline" size="icon">
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-sm text-gray-500">仓储</p>
-              <div className="flex items-center justify-center gap-4">
-                <Button onClick={() => { setStock(stock - 50) }} variant="outline" size="icon">
-                  <MinusIcon className="h-4 w-4" />
-                </Button>
-                {stock}
-                <Button onClick={() => { setStock(stock + 50) }} variant="outline" size="icon">
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+      <div className="flex flex-col border p-4 rounded-md">
+        <div className="flex items-center py-4 md:gap-20">
+          <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
+            <SelectTrigger className="">
+              <SelectValue placeholder="起点" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(filteredStationsDict).map(([stationId, { name }]) => (
+                <SelectItem key={stationId} value={stationId}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-4 p-4">
+          <p className="text-sm text-gray-500">仓储</p>
+          <div className="flex items-center justify-center gap-4">
+            <Button onClick={() => { setStock(stock - 50) }} variant="outline" size="icon">
+              <MinusIcon className="h-4 w-4" />
+            </Button>
+            {stock}
+            <Button onClick={() => { setStock(stock + 50) }} variant="outline" size="icon">
+              <PlusIcon className="h-4 w-4" />
+            </Button>
           </div>
-          <div className="flex flex-col gap-4">
-            <p className="text-lg text-gray-500">最好(根据单位进货书利润排序)</p>
-            <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
-              <div className="hidden md:block">
+        </div>
+      </div>
+      {stationProfitTable[selectedStationId] &&
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="w-full flex flex-col gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 min-[2000px]:grid-cols-5 min-[2400px]:grid-cols-6 justify-center gap-16 m-4">
+              {stationProfitTable[selectedStationId].map((profitTable, index) => (
                 <ProfitGuideCard
+                  key={index} // 添加 key 是 React 中重要的最佳实践之一
                   selectedStationId={selectedStationId}
-                  profitTable={minusGapProfitTable[selectedStationId].best}
-                  baseProfit={baseProfit - gap}
+                  profitTable={stationProfitTable[selectedStationId][index]}
                   stock={stock}
                   userInfo={userInfo}
                 />
-              </div>
-              <ProfitGuideCard
-                selectedStationId={selectedStationId}
-                profitTable={bestProfitTable[selectedStationId].best}
-                baseProfit={baseProfit}
-                stock={stock}
-                userInfo={userInfo}
-              />
-              <div className="hidden md:block">
-                <ProfitGuideCard
-                  selectedStationId={selectedStationId}
-                  profitTable={plusGapProfitTable[selectedStationId].best}
-                  baseProfit={baseProfit + gap}
-                  stock={stock}
-                  userInfo={userInfo}
-                />
-              </div>
-            </div>
-            <p className="text-lg text-gray-500">次好(根据单位进货书利润排序)</p>
-            <div className="flex flex-col md:flex-row justify-center gap-4 m-4">
-              <div className="hidden md:block">
-                <ProfitGuideCard
-                  selectedStationId={selectedStationId}
-                  profitTable={minusGapProfitTable[selectedStationId].secondBest!}
-                  baseProfit={baseProfit - gap}
-                  stock={stock}
-                  userInfo={userInfo}
-                />
-              </div>
-              <ProfitGuideCard
-                selectedStationId={selectedStationId}
-                profitTable={bestProfitTable[selectedStationId].secondBest!}
-                baseProfit={baseProfit}
-                stock={stock}
-                userInfo={userInfo}
-              />
-              <div className="hidden md:block">
-                <ProfitGuideCard
-                  selectedStationId={selectedStationId}
-                  profitTable={plusGapProfitTable[selectedStationId].secondBest!}
-                  baseProfit={baseProfit + gap}
-                  stock={stock}
-                  userInfo={userInfo}
-                />
-              </div>
+              ))}
             </div>
           </div>
         </div>
