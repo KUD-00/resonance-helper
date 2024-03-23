@@ -3,6 +3,7 @@ import { defaultUser } from "@/config/others";
 import { getStationProfitTable } from "@/utils/calculate";
 import { ProfitGuide } from "@/components/ProfitGuide";
 import { getProfile, isLogin } from "../../actions";
+import Image from "next/image";
 
 export default async function Index() {
   const [sellDataDict, buyDataDict] = await getTransformedDataDict();

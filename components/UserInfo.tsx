@@ -55,21 +55,28 @@ export function UserInfo({ info }: { info: UserInfo }) {
       title: "贸易等级",
       value: info.trade_level,
     },
+    {
+      title: "默认使用进货书数量",
+      value: info.default_book,
+    },
+    {
+      title: "默认最小单体仓储利润",
+      value: info.default_per_stock_profit,
+    }
   ]
 
   const schema = z.object({
     role_name: z.string(),
     level: z.coerce.number(),
     trade_level: z.coerce.number(),
-    reputations: z.record(z.coerce.number())
+    reputations: z.record(z.coerce.number()),
+    default_book: z.coerce.number(),
+    default_per_stock_profit: z.coerce.number(),
   });
 
   const form = useForm<UserInfo>({
     defaultValues: {
-      role_name: info.role_name,
-      level: info.level,
-      trade_level: info.trade_level,
-      reputations: info.reputations
+      ...info
     },
     resolver: zodResolver(schema),
   });
@@ -77,10 +84,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
   const onSubmit = async (values: z.infer<typeof schema>) => {
     const profile = {
       user_id: info.user_id,
-      role_name: values.role_name,
-      level: values.level,
-      trade_level: values.trade_level,
-      reputations: values.reputations
+      ...values
     }
 
     const error = await updateProfile(profile)
@@ -150,7 +154,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
             <CardHeader>
               <CardTitle>手动更改基本情报</CardTitle>
               <CardDescription>
-                通过您的信息，可更好的计算成本和利润。还可通过抓包程序更改
+                通过信息可更好的计算成本和利润
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -163,7 +167,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
                       <FormItem>
                         <p className="text-sm text-gray-500">昵称</p>
                         <FormControl>
-                          <Input placeholder="昵称" {...field} />
+                          <Input {...field} />
                         </FormControl>
                       </FormItem>
                     )}
@@ -175,7 +179,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
                       <FormItem className="space-y-3">
                         <p className="text-sm text-gray-500">等级</p>
                         <FormControl>
-                          <Input placeholder="等级" type="number" {...field} />
+                          <Input type="number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -188,7 +192,33 @@ export function UserInfo({ info }: { info: UserInfo }) {
                       <FormItem className="space-y-3">
                         <p className="text-sm text-gray-500">贸易等级</p>
                         <FormControl>
-                          <Input placeholder="贸易等级" type="number" {...field} />
+                          <Input type="number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="default_book"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <p className="text-sm text-gray-500">默认使用进货书数量</p>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="default_per_stock_profit"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <p className="text-sm text-gray-500">默认最小单体仓储利润</p>
+                        <FormControl>
+                          <Input type="number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

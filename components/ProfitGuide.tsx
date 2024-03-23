@@ -25,8 +25,8 @@ import { calculateTax } from "@/utils/calculate"
 export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: OptimizedProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [stock, setStock] = React.useState(600)
-  const [maxBook, setMaxBook] = React.useState(20)
-  const [minPerStockProfit, setMinPerStockProfit] = React.useState(800)
+  const [maxBook, setMaxBook] = React.useState(userInfo.default_book)
+  const [minPerStockProfit, setMinPerStockProfit] = React.useState(userInfo.default_per_stock_profit)
 
   const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
@@ -103,7 +103,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
                     </div>
                   </div>
                   <div className="flex flex-col items-center justify-center gap-4 p-4">
-                    <p className="text-sm text-gray-500">最小单位仓储利润(越大利润越高)</p>
+                    <p className="text-sm text-gray-500">最小单位仓储利润</p>
                     <div className="flex items-center justify-center gap-4">
                       <Button onClick={decreaseMinPerStockProfit} variant="outline" size="icon">
                         <MinusIcon className="h-4 w-4" />
@@ -130,7 +130,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
               if (sumProfit / sumStock < minPerStockProfit || stock / sumStock - 1 > maxBook) return null;
 
               return (
-                <div className="w-full flex w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
+                <div className="w-full flex md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
                   <ProfitGuideCard
                     key={index}
                     selectedStationId={selectedStationId}

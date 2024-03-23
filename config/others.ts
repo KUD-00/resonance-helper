@@ -9,7 +9,9 @@ export const defaultUser: UserInfo = {
   role_name: "guest",
   level: 35,
   trade_level: 50,
-  reputations: defaultReputation
+  reputations: defaultReputation,
+  default_book: 8,
+  default_per_stock_profit: 600
 }
 
 export const modifiers = [

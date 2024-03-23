@@ -100,7 +100,9 @@ interface UserInfo {
   trade_level: number;
   reputations: {
     [key: string]: number;
-  }
+  };
+  default_book: number;
+  default_per_stock_profit: number;
 }
 
 interface MakeryGoodsRecipeItem {
