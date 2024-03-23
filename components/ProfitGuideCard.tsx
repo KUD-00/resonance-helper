@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "./ui/separator"
 import { getStationName } from "@/config/stations"
+import { stationStaminMap } from "@/config/lines"
 
 export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedStationId, profitTable, stock, userInfo }: { selectedStationId: string, profitTable: ProfitTable, stock: number, userInfo: UserInfo }) {
 
@@ -17,8 +18,11 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
     sumStock: profitTable.goods.reduce((acc, value) => acc + value.stock, 0),
   }), [profitTable.goods]);
 
+  const stamin = stationStaminMap[selectedStationId][profitTable.targetStationId]
+  const allProfit = sumProfit * Math.floor(stock / sumStock)
+
   return (
-    <Card className="max-w-[250px]">
+    <Card className="max-w-[300px]">
       <CardHeader>
         <CardTitle>倒{getStationName(profitTable.targetStationId)}</CardTitle>
       </CardHeader>
@@ -48,9 +52,13 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
         <Separator />
         <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{Math.floor(sumProfit / sumStock)}</p>
+        <Separator />
         <p className="text-sm text-muted-foreground">消耗进货书：{Math.floor(stock / sumStock) - 1}</p>
-        <p className="text-sm text-muted-foreground">利润估算：{sumProfit * Math.floor(stock / sumStock)}</p>
+        <p className="text-sm text-muted-foreground">利润估算：{allProfit}</p>
         <p className="text-sm text-muted-foreground">单位进货书利润：{sumProfit}</p>
+        <Separator />
+        <p className="text-sm text-muted-foreground">疲劳值：{stamin}</p>
+        <p className="text-sm text-muted-foreground">单位疲劳值利润：{Math.floor(allProfit / stamin)}</p>
       </CardContent>
     </Card>
   )

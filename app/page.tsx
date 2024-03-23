@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card"
 import { BellRing } from "lucide-react";
 import { getStationName } from "@/config/stations";
+import { stationMap, stationStaminMap } from "@/config/lines";
 
 interface StationInfo {
   station_id: string
@@ -19,6 +20,9 @@ interface StationInfo {
 
 export default async function Index() {
   const stationInfos: StationInfo[] = await getStationInfo()
+
+  console.log(stationStaminMap)
+
   return (
     <Card className={cn("w-[380px]")}>
       <CardHeader>
