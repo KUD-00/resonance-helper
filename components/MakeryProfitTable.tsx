@@ -42,18 +42,19 @@ export default function MakeryProfitTable({ buyArrayDatas, sellArrayDatas }: { b
     Object.entries(goodsDict[produceGoodId].stations).map(([sellStationId, { buy, sell }]) => {
       if (sell) {
         const sellGood = sellDataDict[produceGoodId][sellStationId]
-        const sellTime = new Date(sellGood?.updated_at ?? 1000000000000000).getTime()
+        const sellTime = new Date(sellGood.updated_at).getTime()
+        const profit = (sellGood.price) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output)
 
         if (!makeryProfitTable[produceGoodId]) {
           makeryProfitTable[produceGoodId] = []
         }
 
-        if (sellDataDict[produceGoodId][sellStationId]) {
+        if (sellGood) {
           makeryProfitTable[produceGoodId].push({
             stationId: sellStationId,
-            price: sellDataDict[produceGoodId][sellStationId].price,
-            profit: (sellDataDict[produceGoodId][sellStationId].price) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output),
-            profitRatio: Math.floor(((sellDataDict[produceGoodId][sellStationId].price) - Math.floor(calculateMakeryCost(recipe, sellDataDict, buyDataDict) / output)) / cost),
+            price: sellGood.price,
+            profit,
+            profitRatio: Math.floor((profit) * output / cost),
             updatedAt: sellTime
           })
         }

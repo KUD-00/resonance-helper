@@ -1,4 +1,5 @@
 import { getGoodBaseStock, getGoodBuyPrice, getGoodName, getGoodSellInfos, getGoodSellPrice, goodsDict, stationGoodsListDict } from "@/config/goods";
+import { stationStaminMap } from "@/config/lines";
 import { modifiers } from "@/config/others";
 import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
 
@@ -37,6 +38,8 @@ function calculateProfitEntry(buyGood: DataResponse, sellGood: DataResponse, goo
     buyPrice,
     sellPrice: sellGood.price,
 
+    stationStamin: stationStaminMap[buyStationId][sellStationId],
+
     buyTax: buyStationTax,
     sellTax: sellStationTax,
 
@@ -68,13 +71,13 @@ export const calculateStationSellBasicInfoDict = (
 
     stationGoodsListDict[buyStationId].forEach(goodUniqueId => {
       const buyGood = buyDataDict[goodUniqueId]?.[buyStationId];
-      if (!buyGood) return; // 提前终止，减少嵌套
+      if (!buyGood) return;
 
       getGoodSellInfos(goodUniqueId).forEach(([sellStationId]) => {
         const sellGood = sellDataDict[goodUniqueId]?.[sellStationId];
         const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)];
         const sellStationTax = calculateTax(sellStationId, sellStationReputation);
-        if (!sellGood) return; // 同上
+        if (!sellGood) return;
 
         const profitEntry = calculateProfitEntry(
           buyGood, sellGood, goodUniqueId, buyStationId, sellStationId,

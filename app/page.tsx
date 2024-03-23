@@ -21,8 +21,6 @@ interface StationInfo {
 export default async function Index() {
   const stationInfos: StationInfo[] = await getStationInfo()
 
-  console.log(stationStaminMap)
-
   return (
     <Card className={cn("w-[380px]")}>
       <CardHeader>

@@ -28172,36 +28172,36 @@ export const stationGoodsListDict = generateStationGoodsListDict(goodsDict);
 export const makeryGoodsDict: MakeryGoodsDict = {
   82900109: {
     recipe: [
-      ["82900188", 1],
-      ["82900004", 1],
-      ["82900081", 1]
+      ["82900188", 3],
+      ["82900004", 3],
+      ["82900081", 3]
     ],
-    output: 3,
-    cost: 4+1
+    output: 12,
+    cost: 12+3
   },
   82900102: {
     recipe: [
-      ["82900015", 1]
+      ["82900015", 4]
     ],
-    output: 2,
-    cost: 3
+    output: 8,
+    cost: 8
   },
   82900188: {
     recipe: [
-      ["82900046", 1],
-      ["82900048", 1],
-      ["82900049", 1],
-      ["82900050", 1]
+      ["82900046", 3],
+      ["82900048", 3],
+      ["82900049", 3],
+      ["82900050", 3]
     ],
-    output: 3,
-    cost: 3
+    output: 12,
+    cost: 9
   },
   82900170: {
     recipe: [
-      ["82900102", 3],
+      ["82900102", 12],
     ],
-    output: 2,
-    cost: 3+4.5
+    output: 8,
+    cost: 8+12
   }
 }
 

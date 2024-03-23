@@ -12,8 +12,6 @@
 - /api/profit
 - /api/profit/best
 
-支持stationId的筛选，/api/profit/best还支持一个baseProfit参数。内容难以用三言两语描述
-
 ## 关于开源
 本项目除了咸鱼买的账号密码不能公开外，其他都根据gplv3许可证协议公开，如果我没记错的话，这是一个传染性的许可证，还请任何想用本仓库任意代码的开发者注意这一点
 

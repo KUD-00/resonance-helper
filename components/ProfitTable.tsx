@@ -375,7 +375,6 @@ export function ProfitTable({ profitTable, isUserLoggedIn, userInfo }: { profitT
             checked={isRawProfit}
             onCheckedChange={(value: boolean) => {
               setIsRawProfit(value);
-              console.log(value)
             }}
             aria-readonly
           />
