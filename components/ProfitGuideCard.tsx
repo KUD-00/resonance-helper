@@ -18,7 +18,7 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
   }), [profitTable.goods]);
 
   return (
-    <Card className="w-[250px]">
+    <Card className="max-w-[250px]">
       <CardHeader>
         <CardTitle>倒{getStationName(profitTable.targetStationId)}</CardTitle>
       </CardHeader>

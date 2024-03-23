@@ -9,6 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 import { filteredStationsDict, getAttatchedToCity, getStationName } from "@/config/stations"
 import { PlusIcon, MinusIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
@@ -18,6 +25,8 @@ import { calculateTax } from "@/utils/calculate"
 export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: OptimizedProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
   const [stock, setStock] = React.useState(600)
+  const [maxBook, setMaxBook] = React.useState(20)
+  const [minPerStockProfit, setMinPerStockProfit] = React.useState(800)
 
   const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
@@ -29,9 +38,25 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
     setStock((prevStock) => prevStock + 50);
   }, []);
 
+  const decreaseMaxBook = React.useCallback(() => {
+    setMaxBook((prevMaxBook) => prevMaxBook - 2);
+  }, []);
+
+  const increaseMaxBook = React.useCallback(() => {
+    setMaxBook((prevMaxBook) => prevMaxBook + 2);
+  }, []);
+
+  const decreaseMinPerStockProfit = React.useCallback(() => {
+    setMinPerStockProfit((prevMinPerStockProfit) => prevMinPerStockProfit - 100);
+  }, []);
+
+  const increaseMinPerStockProfit = React.useCallback(() => {
+    setMinPerStockProfit((prevMinPerStockProfit) => prevMinPerStockProfit + 100);
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4 m-4">
-      <div className="flex flex-row border p-4 rounded-md items-center justify-center gap-4">
+    <div className="w-full flex flex-col items-center justify-center gap-4 m-4">
+      <div className="flex flex-col md:flex-row p-4 items-center justify-center gap-4">
         <div className="flex flex-col items-center gap-4 p-4">
           <p className="text-sm text-gray-500">目的地</p>
           <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
@@ -47,33 +72,75 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col items-center justify-center gap-4 p-4">
-          <p className="text-sm text-gray-500">仓储</p>
-          <div className="flex items-center justify-center gap-4">
-            <Button onClick={decreaseStock} variant="outline" size="icon">
-              <MinusIcon className="h-4 w-4" />
-            </Button>
-            {stock}
-            <Button onClick={increaseStock} variant="outline" size="icon">
-              <PlusIcon className="h-4 w-4" />
-            </Button>
-          </div>
+        <div className="flex flex-row border rounded-md items-center justify-center drop-shadow min-w-[100px]">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>设置</AccordionTrigger>
+              <AccordionContent>
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex flex-col items-center justify-center gap-4 p-4">
+                    <p className="text-sm text-gray-500">仓储</p>
+                    <div className="flex items-center justify-center gap-4">
+                      <Button onClick={decreaseStock} variant="outline" size="icon">
+                        <MinusIcon className="h-4 w-4" />
+                      </Button>
+                      {stock}
+                      <Button onClick={increaseStock} variant="outline" size="icon">
+                        <PlusIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-4 p-4">
+                    <p className="text-sm text-gray-500">使用进货书</p>
+                    <div className="flex items-center justify-center gap-4">
+                      <Button onClick={decreaseMaxBook} variant="outline" size="icon">
+                        <MinusIcon className="h-4 w-4" />
+                      </Button>
+                      {maxBook}
+                      <Button onClick={increaseMaxBook} variant="outline" size="icon">
+                        <PlusIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-4 p-4">
+                    <p className="text-sm text-gray-500">最小单位仓储利润(越大利润越高)</p>
+                    <div className="flex items-center justify-center gap-4">
+                      <Button onClick={decreaseMinPerStockProfit} variant="outline" size="icon">
+                        <MinusIcon className="h-4 w-4" />
+                      </Button>
+                      {minPerStockProfit}
+                      <Button onClick={increaseMinPerStockProfit} variant="outline" size="icon">
+                        <PlusIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
       {stationProfitTable[selectedStationId] &&
-        <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-full flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 min-[2000px]:grid-cols-5 min-[2400px]:grid-cols-6 justify-center gap-16 m-4">
-              {stationProfitTable[selectedStationId].map((profitTable, index) => (
-                <ProfitGuideCard
-                  key={index}
-                  selectedStationId={selectedStationId}
-                  profitTable={stationProfitTable[selectedStationId][index]}
-                  stock={stock}
-                  userInfo={userInfo}
-                />
-              ))}
-            </div>
+        <div className="w-full flex flex-col items-center justify-center gap-4">
+          <div className="w-full flex flex-wrap justify-center gap-8 m-4">
+            {stationProfitTable[selectedStationId].map((profitTable, index) => {
+              const sumProfit = profitTable.goods.reduce((acc, value) => acc + value.allProfit, 0);
+              const sumStock = profitTable.goods.reduce((acc, value) => acc + value.stock, 0);
+
+              if (sumProfit / sumStock < minPerStockProfit || stock / sumStock - 1 > maxBook) return null;
+
+              return (
+                <div className="w-full flex w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
+                  <ProfitGuideCard
+                    key={index}
+                    selectedStationId={selectedStationId}
+                    profitTable={stationProfitTable[selectedStationId][index]}
+                    stock={stock}
+                    userInfo={userInfo}
+                  />
+                </div>
+              )
+            })}
           </div>
         </div>
       }
