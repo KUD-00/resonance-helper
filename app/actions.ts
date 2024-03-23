@@ -72,3 +72,15 @@ export const isLogin = async () => {
     return false
   }
 }
+
+export const getStationInfo = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("stations").select()
+
+  if (error) {
+    return []
+  } else {
+    return data
+  }
+}

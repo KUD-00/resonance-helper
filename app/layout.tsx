@@ -5,6 +5,9 @@ import "./globals.css";
 import { Navi } from "@/components/Navigation";
 import { Suspense } from "react";
 import Image from "next/image";
+import { modifiers } from "@/config/others";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 const defaultUrl = process.env.BASE_URL
   ? `https://${process.env.BASE_URL}`
@@ -41,6 +44,15 @@ export default function RootLayout({
               alt=""
             />
           }>
+            {modifiers.map((modifier, index) => (
+              <Alert key={index} className="w-2/3 md:w-1/3 mb-8">
+                <Terminal className="h-4 w-4" />
+                <>
+                  <AlertTitle>{modifier.messageTitle}</AlertTitle>
+                  <AlertDescription>{modifier.messageContent}</AlertDescription>
+                </>
+              </Alert>
+            ))}
             {children}
           </Suspense>
         </main>

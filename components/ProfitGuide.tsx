@@ -23,8 +23,9 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 m-4">
-      <div className="flex flex-col border p-4 rounded-md">
-        <div className="flex items-center py-4 md:gap-20">
+      <div className="flex flex-row border p-4 rounded-md items-center justify-center gap-4">
+        <div className="flex flex-col items-center py-4 gap-4">
+          <p className="text-sm text-gray-500">目的地</p>
           <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
             <SelectTrigger className="">
               <SelectValue placeholder="起点" />

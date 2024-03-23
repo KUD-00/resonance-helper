@@ -52,22 +52,22 @@ export function Navi() {
                   >
                     <Icons.logo className="h-6 w-6" />
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      倒货指南
+                      主页
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      简单易懂
+                      总览(未完成)
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
+              <ListItem href="/prefer/guide" title="倒货指南">
+                简单易懂
+              </ListItem>
               <ListItem href="/prefer/profit" title="各城市利润表">
                 倒什么详情
               </ListItem>
               <ListItem href="/prefer/makery" title="商品制作利润">
                 疲劳值MAX，别搓太多了
-              </ListItem>
-              <ListItem href="/prefer/chat" title="留言灌水">
-                列车长有话要说
               </ListItem>
             </ul>
           </NavigationMenuContent>

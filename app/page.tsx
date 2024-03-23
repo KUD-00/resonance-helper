@@ -1,36 +1,79 @@
-import { getTransformedDataDict } from "@/utils/utils";
-import { defaultUser, modifiers } from "@/config/others";
-import { getStationProfitTable } from "@/utils/calculate";
-import { ProfitGuide } from "@/components/ProfitGuide";
-import { getProfile, isLogin } from "./actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Terminal } from "lucide-react";
+import { getStationInfo } from "./actions";
+import { cn, linuxTimeToMinutesAgo } from "@/utils/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { BellRing, Check } from "lucide-react";
+import { getStationName } from "@/config/stations";
+
+const notifications = [
+  {
+    title: "Your call has been confirmed.",
+    description: "1 hour ago",
+  },
+  {
+    title: "You have a new message!",
+    description: "1 hour ago",
+  },
+  {
+    title: "Your subscription is expiring soon!",
+    description: "2 hours ago",
+  },
+]
+
+interface StationInfo {
+  station_id: string
+  updated_at: string
+}
 
 export default async function Index() {
-  const [sellDataDict, buyDataDict] = await getTransformedDataDict();
-
-  const profile: UserInfo[] = await getProfile();
-  const isUserLoggedIn = await isLogin();
-  const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
-
+  const stationInfos: StationInfo[] = await getStationInfo()
   return (
-    <div className="flex-1 w-full md:w-2/3 flex flex-col gap-8 items-center mb-8">
-      {modifiers.map((modifier, index) => (
-        <Alert key={index} className="w-2/3 md:w-1/2">
-          <Terminal className="h-4 w-4" />
-          <>
-            <AlertTitle>{modifier.messageTitle}</AlertTitle>
-            <AlertDescription>{modifier.messageContent}</AlertDescription>
-          </>
-        </Alert>
-      ))}
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-3xl">倒货指南</h1>
-      <ProfitGuide
-        stationProfitTable={optimizedProfitTables}
-        userInfo={isUserLoggedIn ? profile[0] : defaultUser as UserInfo}
-        isUserLoggedIn={isUserLoggedIn}
-      />
-      <p className="text-sm text-gray-500">多多调整基准利润，找到合适的贩卖路径</p>
-    </div>
-  );
+    <Card className={cn("w-[380px]")}>
+      <CardHeader>
+        <CardTitle>商品数据更新情况</CardTitle>
+        <CardDescription>20分钟以内视为正常</CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className=" flex items-center space-x-4 rounded-md border p-4">
+          <BellRing />
+          <div className="flex-1 space-y-1">
+            <p className="text-sm font-medium leading-none">
+              提醒我模拟器挂了
+            </p>
+            <p className="text-sm text-muted-foreground">
+              不过可能也没什么用
+            </p>
+          </div>
+          <Button>已经过期啦</Button>
+        </div>
+        <div>
+          {stationInfos.map((stationInfo, index) => (
+            <div
+              key={index}
+              className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+            >
+              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+              <div className="space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {getStationName(stationInfo.station_id)}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {linuxTimeToMinutesAgo(new Date(stationInfo.updated_at).getTime())}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+      <CardFooter>
+      </CardFooter>
+    </Card>
+  )
 }
