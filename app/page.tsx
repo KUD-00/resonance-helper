@@ -9,23 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { BellRing, Check } from "lucide-react";
+import { BellRing } from "lucide-react";
 import { getStationName } from "@/config/stations";
-
-const notifications = [
-  {
-    title: "Your call has been confirmed.",
-    description: "1 hour ago",
-  },
-  {
-    title: "You have a new message!",
-    description: "1 hour ago",
-  },
-  {
-    title: "Your subscription is expiring soon!",
-    description: "2 hours ago",
-  },
-]
 
 interface StationInfo {
   station_id: string

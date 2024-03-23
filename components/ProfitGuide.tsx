@@ -21,10 +21,18 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
 
   const selectedStationReputation = userInfo.reputations[getAttatchedToCity(selectedStationId)]
 
+  const decreaseStock = React.useCallback(() => {
+    setStock((prevStock) => prevStock - 50);
+  }, []);
+
+  const increaseStock = React.useCallback(() => {
+    setStock((prevStock) => prevStock + 50);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center gap-4 m-4">
       <div className="flex flex-row border p-4 rounded-md items-center justify-center gap-4">
-        <div className="flex flex-col items-center py-4 gap-4">
+        <div className="flex flex-col items-center gap-4 p-4">
           <p className="text-sm text-gray-500">目的地</p>
           <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
             <SelectTrigger className="">
@@ -42,11 +50,11 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
         <div className="flex flex-col items-center justify-center gap-4 p-4">
           <p className="text-sm text-gray-500">仓储</p>
           <div className="flex items-center justify-center gap-4">
-            <Button onClick={() => { setStock(stock - 50) }} variant="outline" size="icon">
+            <Button onClick={decreaseStock} variant="outline" size="icon">
               <MinusIcon className="h-4 w-4" />
             </Button>
             {stock}
-            <Button onClick={() => { setStock(stock + 50) }} variant="outline" size="icon">
+            <Button onClick={increaseStock} variant="outline" size="icon">
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
@@ -58,7 +66,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 min-[2000px]:grid-cols-5 min-[2400px]:grid-cols-6 justify-center gap-16 m-4">
               {stationProfitTable[selectedStationId].map((profitTable, index) => (
                 <ProfitGuideCard
-                  key={index} // 添加 key 是 React 中重要的最佳实践之一
+                  key={index}
                   selectedStationId={selectedStationId}
                   profitTable={stationProfitTable[selectedStationId][index]}
                   stock={stock}

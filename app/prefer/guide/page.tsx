@@ -1,10 +1,8 @@
 import { getTransformedDataDict } from "@/utils/utils";
-import { defaultUser, modifiers } from "@/config/others";
+import { defaultUser } from "@/config/others";
 import { getStationProfitTable } from "@/utils/calculate";
 import { ProfitGuide } from "@/components/ProfitGuide";
 import { getProfile, isLogin } from "../../actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Terminal } from "lucide-react";
 
 export default async function Index() {
   const [sellDataDict, buyDataDict] = await getTransformedDataDict();
@@ -12,6 +10,7 @@ export default async function Index() {
   const profile: UserInfo[] = await getProfile();
   const isUserLoggedIn = await isLogin();
   const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
+  console.log(optimizedProfitTables)
 
   return (
     <div className="flex-1 w-full md:w-2/3 flex flex-col gap-8 items-center mb-8">
