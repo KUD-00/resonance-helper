@@ -38,8 +38,12 @@ export async function POST(request: Request) {
     .from('sell')
     .upsert(sellGoodsArray)
 
+  const { data: stationTableResponse, error: stationError } = await supabase
+    .from('stations')
+    .upsert([{ station_id, updated_at }])
+
   if (buyError || sellError) {
-    return Response.json("Error, ${buyError}, ${sellError}")
+    return Response.json("Error, ${buyError}, ${sellError}, ${stationError}")
   } else {
     return Response.json("OK")
   }

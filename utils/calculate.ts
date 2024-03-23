@@ -20,6 +20,41 @@ export const calculateStockModify = (reputation: number): number => {
     return  reputation / 10
 }
 
+function calculateProfitEntry(buyGood: DataResponse, sellGood: DataResponse, goodUniqueId: string, buyStationId: string, sellStationId: string, buyStationTax: number, sellStationTax: number, UserInfo: UserInfo) {
+  const buyPriceTrend = buyGood.trend;
+  const buyPrice = buyGood.price;
+  const buyTime = new Date(buyGood.updated_at).getTime();
+
+  const buyStationReputation = UserInfo.reputations[getAttatchedToCity(buyStationId)];
+  const sellTime = new Date(sellGood.updated_at).getTime();
+
+  return {
+    goodId: goodUniqueId,
+    
+    targetStationId: sellStationId,
+    buyStationId,
+
+    buyPrice,
+    sellPrice: sellGood.price,
+
+    buyTax: buyStationTax,
+    sellTax: sellStationTax,
+
+    baseStock: getGoodBaseStock(goodUniqueId, buyStationId),
+    stockModify: calculateStockModify(buyStationReputation),
+
+    updatedAt: Math.min(sellTime, buyTime),
+
+    buyPriceTrend,
+    sellPriceTrend: sellGood.trend,
+
+    goodName: getGoodName(goodUniqueId),
+    buyStationName: getStationName(buyStationId),
+    targetStationName: getStationName(sellStationId),
+  };
+}
+
+
 export const calculateStationSellBasicInfoDict = (
   buyDataDict: TransformedResponseData, 
   sellDataDict: TransformedResponseData, 
@@ -33,52 +68,23 @@ export const calculateStationSellBasicInfoDict = (
 
     stationGoodsListDict[buyStationId].forEach(goodUniqueId => {
       const buyGood = buyDataDict[goodUniqueId]?.[buyStationId];
-      if (buyGood) {
-        const buyPriceTrend = buyGood.trend;
-        const buyPrice = buyGood.price;
-        const buyTime = new Date(buyGood.updated_at).getTime();
+      if (!buyGood) return; // 提前终止，减少嵌套
 
-        getGoodSellInfos(goodUniqueId).forEach(([sellStationId]) => {
-          const sellGood = sellDataDict[goodUniqueId]?.[sellStationId];
-          if (sellGood) {
-            const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)];
-            const sellStationTax = calculateTax(sellStationId, sellStationReputation);
-            const sellTime = new Date(sellGood.updated_at).getTime();
+      getGoodSellInfos(goodUniqueId).forEach(([sellStationId]) => {
+        const sellGood = sellDataDict[goodUniqueId]?.[sellStationId];
+        const sellStationReputation = UserInfo.reputations[getAttatchedToCity(sellStationId)];
+        const sellStationTax = calculateTax(sellStationId, sellStationReputation);
+        if (!sellGood) return; // 同上
 
-            const profitEntry = {
-              goodId: goodUniqueId,
-              
-              targetStationId: sellStationId,
-              buyStationId,
+        const profitEntry = calculateProfitEntry(
+          buyGood, sellGood, goodUniqueId, buyStationId, sellStationId,
+          buyStationTax, sellStationTax, UserInfo
+        );
 
-              buyPrice,
-              sellPrice: sellGood.price,
-
-              buyTax: buyStationTax,
-              sellTax: sellStationTax,
-
-              baseStock: getGoodBaseStock(goodUniqueId, buyStationId),
-              stockModify: calculateStockModify(buyStationReputation),
-
-              updatedAt: Math.min(sellTime, buyTime),
-
-              buyPriceTrend,
-              sellPriceTrend: sellGood.trend,
-
-              goodName: getGoodName(goodUniqueId),
-              buyStationName: getStationName(buyStationId),
-              targetStationName: getStationName(sellStationId),
-            };
-
-            if (!stationSellBasicInfoDict[buyStationId]) {
-              stationSellBasicInfoDict[buyStationId] = [];
-            }
-            stationSellBasicInfoDict[buyStationId].push(profitEntry);
-          }
-        });
-      }
-    });
-  });
+        stationSellBasicInfoDict[buyStationId] = stationSellBasicInfoDict[buyStationId] || [];
+        stationSellBasicInfoDict[buyStationId].push(profitEntry);
+      });
+    })});
 
   return stationSellBasicInfoDict;
 }; 
@@ -87,59 +93,69 @@ export const calculateStationModifiedSellInfoDict = (stationSellBasicInfoDict: S
   const stationModifiedSellInfoDict: StationSellInfoDict = {};
 
   filteredStationIds.forEach(stationId => {
-    stationModifiedSellInfoDict[stationId] = stationSellBasicInfoDict[stationId].map(sellInfo => {
-      let modifiedSellInfo = {...sellInfo};
-      modifiers.forEach(modifier => {
-        modifier.modifier(modifiedSellInfo);
-      });
-      return modifiedSellInfo;
+    const sellInfos = stationSellBasicInfoDict[stationId];
+    if (!sellInfos) return; 
+    stationModifiedSellInfoDict[stationId] = sellInfos.map(sellInfo => {
+      return modifiers.reduce((modifiedSellInfo, {modifier}) => {
+        const result = modifier(modifiedSellInfo);
+        return result ? result : modifiedSellInfo;
+      }, sellInfo);
     });
   });
 
   return stationModifiedSellInfoDict;
 }
 
+function calculateProfitAndPercentages(sellInfo: SellInfo) {
+  const { goodId, buyStationId, targetStationId, buyPrice, sellPrice, buyTax, sellTax, baseStock, stockModify } = sellInfo;
+  const perProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1.2, 0.8));
+  const rawProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1, 1));
+  const stock = Math.floor(baseStock * (1 + stockModify));
+
+  return {
+    stock,
+    perProfit,
+    allProfit: perProfit * stock,
+    rawProfit,
+    rawAllProfit: rawProfit * stock,
+    buyPercent: Math.floor(buyPrice / getGoodBuyPrice(goodId, buyStationId) * 100),
+    sellPercent: Math.floor(sellPrice / getGoodSellPrice(goodId, targetStationId) * 100),
+  };
+}
+
 export const calculateStationProfitTable = (stationModifiedSellInfo: StationSellInfoDict): StationProfitTable => {
   const stationProfitTable: StationProfitTable = {};
 
-  filteredStationIds.forEach(stationId => {
-    stationProfitTable[stationId] = stationModifiedSellInfo[stationId].map(sellInfo => {
-      const { goodId, buyStationId, targetStationId, buyPrice, sellPrice, buyTax, sellTax, baseStock, stockModify } = sellInfo;
-      const perProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1.2, 0.8));
-      const rawProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1, 1));
-      const stock = Math.floor(baseStock * (1 + stockModify));
-      return {
-        ...sellInfo,
-        stock,
+  for (const stationId of filteredStationIds) {
+    const sellInfos = stationModifiedSellInfo[stationId];
+    if (!sellInfos) continue;
 
-        perProfit,
-        allProfit: perProfit * stock,
-        rawProfit,
-        rawAllProfit: rawProfit * stock,
+    stationProfitTable[stationId] = sellInfos.map(sellInfo => {
+      const profitAndPercentages = calculateProfitAndPercentages(sellInfo);
+      return { ...sellInfo, ...profitAndPercentages };
+    });
 
-        buyPercent: Math.floor(buyPrice / getGoodBuyPrice(goodId, buyStationId) * 100),
-        sellPercent: Math.floor(sellPrice / getGoodSellPrice(goodId, targetStationId) * 100),
-      };
-    })
     stationProfitTable[stationId].sort((a, b) => b.perProfit - a.perProfit);
-  });
+  }
 
   return stationProfitTable;
-}
+};
 
 export const getStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo) => {
   const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, UserInfo);
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
-  return calculateStationProfitTable(modifiedSellBasicInfoDict);
+  const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
+  const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
+  return optimizeProfitTables(getProfitTables(stationTargetProfitTable));
 }
 
 export const getStationTargetProfitTable = (stationProfitTable: StationProfitTable) => {
   const dict: Record<string, Record<string, ProfitTableCell[]>> = {};
   Object.entries(stationProfitTable).forEach(([stationId, goods]) => {
     goods.forEach((good) => {
-      if (!dict[stationId]) dict[stationId] = {};
-      if (!dict[stationId][good.targetStationId]) dict[stationId][good.targetStationId] = []; // 确保这是一个数组
-      dict[stationId][good.targetStationId].push(good);
+      const stationDict = dict[stationId] || (dict[stationId] = {});
+      const targetGoods = stationDict[good.targetStationId] || (stationDict[good.targetStationId] = []);
+      targetGoods.push(good);
     });
   })
   return dict;
@@ -168,25 +184,9 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
   return result;
 };
 
-export const sortProfitTables = (profitTables: Record<string, ProfitTable[]>) => {
-  Object.keys(profitTables).forEach(stationId => {
-    profitTables[stationId].sort((a, b) => {
-      // 首先按商品数量排序，商品数量多的排在后面
-      if (a.goods.length !== b.goods.length) {
-        return a.goods.length - b.goods.length;
-      }
-      // 如果商品数量相同，则按总利润降序排序，利润高的排在前面
-      return b.totalProfit - a.totalProfit;
-    });
-  });
-}
-
 export const optimizeProfitTables = (profitTables: OptimizedProfitTable): OptimizedProfitTable => {
   Object.keys(profitTables).forEach(stationId => {
     const profitTableArray = profitTables[stationId];
-    const optimizedArray: ProfitTable[] = [];
-
-    // 计算每个商品数量对应的最优ProfitTable
     const goodsCountMap = new Map<number, ProfitTable>();
 
     profitTableArray.forEach(profitTable => {
@@ -194,19 +194,13 @@ export const optimizeProfitTables = (profitTables: OptimizedProfitTable): Optimi
       const sumStock = profitTable.goods.reduce((acc, cur) => acc + cur.stock, 0);
       const ratio = profitTable.totalProfit / sumStock;
 
-      // 如果当前商品数量还未记录，或者当前条目的比值更大，则更新Map
       const existingEntry = goodsCountMap.get(goodsCount);
-      if (!existingEntry || (existingEntry && ratio > (existingEntry.totalProfit / existingEntry.goods.reduce((acc, cur) => acc + cur.stock, 0)))) {
+      if (!existingEntry || ratio > (existingEntry.totalProfit / existingEntry.goods.reduce((acc, cur) => acc + cur.stock, 0))) {
         goodsCountMap.set(goodsCount, profitTable);
       }
     });
 
-    // 从Map中提取最优的ProfitTable
-    goodsCountMap.forEach((value) => {
-      optimizedArray.push(value);
-    });
-
-    profitTables[stationId] = optimizedArray;
+    profitTables[stationId] = Array.from(goodsCountMap.values());
   });
 
   return profitTables;
