@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const uuid = url.searchParams.get("uuid");
 
   const [buyDataDict, sellDataDict] = await getBuyAndSellDict();
-  const stationProfitTable: StationProfitTable = getStationProfitTable(buyDataDict, sellDataDict, defaultUser);
+  const stationProfitTable: OptimizedProfitTable = getStationProfitTable(buyDataDict, sellDataDict, defaultUser);
 
   if (stationId && stationProfitTable[stationId]) {
     return Response.json(stationProfitTable[stationId])
