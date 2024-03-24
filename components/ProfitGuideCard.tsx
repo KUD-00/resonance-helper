@@ -17,13 +17,14 @@ import {
 import { Separator } from "./ui/separator"
 import { getStationName } from "@/config/stations"
 import { stationStaminMap } from "@/config/lines"
+import { trendArrow } from "@/utils/utils"
 
 export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedStationId, profitTable }: { selectedStationId: string, profitTable: ProfitTable }) {
 
   const stationStamin = stationStaminMap[selectedStationId][profitTable.targetStationId]
 
   return (
-    <Card className="min-w-[250px] max-w-[300px]">
+    <Card className="min-w-[250px] max-w-[350px]">
       <CardHeader>
         <CardTitle>倒{getStationName(profitTable.targetStationId)}</CardTitle>
       </CardHeader>
@@ -42,6 +43,9 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
                   </p>
                 </AccordionTrigger>
                 <AccordionContent>
+                  <p className="text-sm text-muted-foreground">
+                    购买/贩卖：{good.buyPercent}%{trendArrow(good.buyPriceTrend)}/ {good.sellPercent}%{trendArrow(good.sellPriceTrend)}
+                  </p>
                   <p className="text-sm text-muted-foreground">
                     总利润：{good.allProfit}
                   </p>
