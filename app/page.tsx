@@ -23,11 +23,13 @@ export default async function Index() {
 
   const profile: UserInfo[] = await getProfile();
   const isUserLoggedIn = await isLogin();
-  const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
+
+  const user = isUserLoggedIn ? profile[0] : defaultUser as UserInfo
+  const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, user)
   const filteredTrades: OptimizedProfitTable = {};
 
   Object.keys(optimizedProfitTables).forEach(key => {
-    const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock >= profile[0].default_per_stock_profit && trade.book <= profile[0].default_book);
+    const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock >= user.default_per_stock_profit && trade.book <= user.default_book);
     if (filtered.length > 0) {
       filteredTrades[key] = filtered;
     }
