@@ -27,13 +27,13 @@ export default async function Index() {
   const filteredTrades: OptimizedProfitTable = {};
 
   Object.keys(optimizedProfitTables).forEach(key => {
-    const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock > 800 && trade.book < 7);
+    const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock >= profile[0].default_per_stock_profit && trade.book <= profile[0].default_book);
     if (filtered.length > 0) {
       filteredTrades[key] = filtered;
     }
   });
 
-  function generateMermaidChartDefinition(data: { [key: string]: any[] }): string {
+  function generateMermaidChartDefinition(data: OptimizedProfitTable): string {
     let chartDefinition = 'graph LR;\n';
 
     for (const [stationId, routes] of Object.entries(data)) {
@@ -42,7 +42,7 @@ export default async function Index() {
         const sourceStationName = getStationName(stationId);
         const targetStationName = getStationName(firstRoute.targetStationId);
 
-        chartDefinition += `${sourceStationName} -->| ${firstRoute.totalProfit}| ${targetStationName};\n`;
+        chartDefinition += `${sourceStationName} -->| ${firstRoute.totalProfit * (firstRoute.book + 1)}| ${targetStationName};\n`;
       }
     }
 

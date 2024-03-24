@@ -18,15 +18,9 @@ import { Separator } from "./ui/separator"
 import { getStationName } from "@/config/stations"
 import { stationStaminMap } from "@/config/lines"
 
-export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedStationId, profitTable, stock, userInfo }: { selectedStationId: string, profitTable: ProfitTable, stock: number, userInfo: UserInfo }) {
-
-  const { sumProfit, sumStock } = React.useMemo(() => ({
-    sumProfit: profitTable.goods.reduce((acc, value) => acc + value.allProfit, 0),
-    sumStock: profitTable.goods.reduce((acc, value) => acc + value.stock, 0),
-  }), [profitTable.goods]);
+export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedStationId, profitTable }: { selectedStationId: string, profitTable: ProfitTable }) {
 
   const stationStamin = stationStaminMap[selectedStationId][profitTable.targetStationId]
-  const allProfit = sumProfit * profitTable.book
 
   return (
     <Card className="min-w-[250px] max-w-[300px]">
@@ -62,13 +56,13 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
             </Accordion>
           </div>
         ))}
-        <p className="text-sm text-muted-foreground">利润估算：{allProfit}</p>
+        <p className="text-sm text-muted-foreground">利润估算：{profitTable.totalProfit * (profitTable.book + 1)}</p>
         <Separator />
-        <p className="text-sm text-muted-foreground">仓储需求：{sumStock}</p>
+        <p className="text-sm text-muted-foreground">仓储需求：{profitTable.sumStock}</p>
         <p className="text-sm text-muted-foreground">单位仓储利润：{profitTable.profitPerStock}</p>
         <Separator />
         <p className="text-sm text-muted-foreground">消耗进货书：{profitTable.book}</p>
-        <p className="text-sm text-muted-foreground">单位进货书利润：{sumProfit}</p>
+        <p className="text-sm text-muted-foreground">单位进货书利润：{profitTable.totalProfit}</p>
         <Separator />
         <p className="text-sm text-muted-foreground">行驶疲劳值：{stationStamin}</p>
         <p className="text-sm text-muted-foreground">砍价期望疲劳值：暂时固定60</p>

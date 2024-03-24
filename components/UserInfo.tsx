@@ -24,7 +24,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { z } from "zod"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Form,
@@ -38,9 +38,11 @@ import {
 import { getStationName } from "@/config/stations"
 import { updateProfile } from "@/app/actions"
 import { useRouter } from 'next/navigation';
+import React from "react"
 
 export function UserInfo({ info }: { info: UserInfo }) {
   const router = useRouter();
+  const [submitMessage, setSubmitMessage] = React.useState("提交")
 
   const infos = [
     {
@@ -96,8 +98,9 @@ export function UserInfo({ info }: { info: UserInfo }) {
 
     if (error) {
       console.log(error)
+      setSubmitMessage("提交失败")
     } else {
-      router.refresh();
+      setSubmitMessage("提交成功")
     }
   }
 
@@ -258,7 +261,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
                     />
                   ))}
                   <Button type="submit" className="w-full">
-                    提交修改
+                    {submitMessage}
                   </Button>
                 </form>
               </Form>

@@ -124,10 +124,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
         <div className="w-full flex flex-col items-center justify-center gap-4">
           <div className="w-full flex flex-wrap justify-center gap-8 m-4">
             {stationProfitTable[selectedStationId].map((profitTable, index) => {
-              const sumProfit = profitTable.goods.reduce((acc, value) => acc + value.allProfit, 0);
-              const sumStock = profitTable.goods.reduce((acc, value) => acc + value.stock, 0);
-
-              if (sumProfit / sumStock < minPerStockProfit || stock / sumStock - 1 > maxBook) return null;
+              if (profitTable.profitPerStock < minPerStockProfit || profitTable.book > maxBook) return null;
 
               return (
                 <div key={profitTable.totalProfit} className="w-full flex md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
@@ -135,8 +132,6 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
                     key={index}
                     selectedStationId={selectedStationId}
                     profitTable={stationProfitTable[selectedStationId][index]}
-                    stock={stock}
-                    userInfo={userInfo}
                   />
                 </div>
               )
