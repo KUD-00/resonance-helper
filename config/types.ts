@@ -169,6 +169,9 @@ interface ProfitTable {
   goods: ProfitTableCell[],
   totalProfit: number,
   sumStock: number
+  profitPerStock: number,
+  profitPerStamin: number,
+  book: number
 } 
 
 interface OptimizedProfitTable {

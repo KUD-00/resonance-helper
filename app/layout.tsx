@@ -35,7 +35,7 @@ export default function RootLayout({
         <header className="w-full flex justify-center">
           <Navi />
         </header>
-        <main className="min-h-screen flex flex-col items-center mt-16">
+        <main className="min-h-screen flex flex-col items-center mt-8">
           <Suspense fallback={
             <Image
               src="/Loading.gif"
@@ -57,6 +57,12 @@ export default function RootLayout({
           </Suspense>
         </main>
       </body>
+      <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `mermaid.initialize({startOnLoad: true});`,
+        }}
+      />
     </html>
   );
 }

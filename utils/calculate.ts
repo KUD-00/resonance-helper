@@ -144,12 +144,12 @@ export const calculateStationProfitTable = (stationModifiedSellInfo: StationSell
   return stationProfitTable;
 };
 
-export const getStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, UserInfo: UserInfo) => {
-  const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, UserInfo);
+export const getStationProfitTable = (buyDataDict: TransformedResponseData, sellDataDict: TransformedResponseData, userInfo: UserInfo) => {
+  const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, userInfo);
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
   const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
-  return optimizeProfitTables(getProfitTables(stationTargetProfitTable));
+  return optimizeProfitTables(getProfitTables(stationTargetProfitTable, userInfo));
 }
 
 export const getStationTargetProfitTable = (stationProfitTable: StationProfitTable) => {
@@ -164,7 +164,7 @@ export const getStationTargetProfitTable = (stationProfitTable: StationProfitTab
   return dict;
 }
 
-export const getProfitTables = (stationTargetProfitTable: Record<string, Record<string, ProfitTableCell[]>>): Record<string, ProfitTable[]> => {
+export const getProfitTables = (stationTargetProfitTable: Record<string, Record<string, ProfitTableCell[]>>, userInfo: UserInfo): Record<string, ProfitTable[]> => {
   const result: Record<string, ProfitTable[]> = {};
 
   Object.entries(stationTargetProfitTable).forEach(([stationId, targetStations]) => {
@@ -174,16 +174,19 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
         const combination = goods.slice(0, i);
         const totalProfit = combination.reduce((acc, curr) => acc + curr.allProfit, 0);
         const sumStock = combination.reduce((acc, curr) => acc + curr.stock, 0);
+        const book = Math.floor(userInfo.default_stock / sumStock - 1);
         result[stationId].push({
-          targetStationId: targetStationId,
+          targetStationId,
           goods: combination,
-          totalProfit: totalProfit,
-          sumStock: sumStock
+          totalProfit,
+          sumStock,
+          book,
+          profitPerStock: Math.floor(totalProfit * (book+1) / sumStock),
+          profitPerStamin: Math.floor(totalProfit * (book+1) / (stationStaminMap[stationId][targetStationId] + 60)),
         });
       }
     });
-  });
-
+  })
   return result;
 };
 

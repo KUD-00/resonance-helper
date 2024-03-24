@@ -130,7 +130,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
               if (sumProfit / sumStock < minPerStockProfit || stock / sumStock - 1 > maxBook) return null;
 
               return (
-                <div className="w-full flex md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
+                <div key={profitTable.totalProfit} className="w-full flex md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 min-[2000px]:w-1/6 min-[2400px]:w-1/7 justify-center">
                   <ProfitGuideCard
                     key={index}
                     selectedStationId={selectedStationId}

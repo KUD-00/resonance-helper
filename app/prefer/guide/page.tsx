@@ -13,7 +13,7 @@ export default async function Index() {
   const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
 
   return (
-    <div className="flex-1 w-full md:w-2/3 flex flex-col gap-8 items-center mb-8">
+    <div className="flex-1 w-full md:w-2/3 flex flex-col gap-4 items-center">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-3xl">倒货指南</h1>
       <ProfitGuide
         stationProfitTable={optimizedProfitTables}
