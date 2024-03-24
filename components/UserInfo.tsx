@@ -62,6 +62,10 @@ export function UserInfo({ info }: { info: UserInfo }) {
     {
       title: "默认最小单体仓储利润",
       value: info.default_per_stock_profit,
+    },
+    {
+      title: "默认列车仓储容量",
+      value: info.default_stock,
     }
   ]
 
@@ -72,6 +76,7 @@ export function UserInfo({ info }: { info: UserInfo }) {
     reputations: z.record(z.coerce.number()),
     default_book: z.coerce.number(),
     default_per_stock_profit: z.coerce.number(),
+    default_stock: z.coerce.number(),
   });
 
   const form = useForm<UserInfo>({
@@ -217,6 +222,19 @@ export function UserInfo({ info }: { info: UserInfo }) {
                     render={({ field }) => (
                       <FormItem className="space-y-3">
                         <p className="text-sm text-gray-500">默认最小单体仓储利润</p>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="default_stock"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <p className="text-sm text-gray-500">默认列车仓储容量</p>
                         <FormControl>
                           <Input type="number" {...field} />
                         </FormControl>

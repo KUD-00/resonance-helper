@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const linuxTimeToMinutesAgo = (time: number) => {
   const now = new Date().getTime();
-  const difference = now - time; // 时间差，单位毫秒
+  const difference = now - time;
 
   const minutesAgo = Math.floor(difference / MILLISECONDS_PER_MINUTE);
 
@@ -22,6 +22,18 @@ export const linuxTimeToMinutesAgo = (time: number) => {
     return `${hoursAgo}小时前`;
   }
 };
+
+export const isOutdated = (time: number, limitMinute: number) => {
+  const now = new Date().getTime();
+  const difference = now - time;
+  const minutesAgo = Math.floor(difference / MILLISECONDS_PER_MINUTE);
+
+  if (minutesAgo < limitMinute) {
+    return false;
+  }
+
+  return true;
+}
 
 export const transformResponseArrayToDict = (responseDataArray: DataResponse[]): TransformedResponseData => {
   return responseDataArray.reduce((acc: TransformedResponseData, current) => {

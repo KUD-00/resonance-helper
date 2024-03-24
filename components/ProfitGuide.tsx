@@ -24,7 +24,7 @@ import { calculateTax } from "@/utils/calculate"
  
 export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {stationProfitTable: OptimizedProfitTable, userInfo: UserInfo, isUserLoggedIn: boolean}) {
   const [selectedStationId, setSelectedStationId] = React.useState("83000014")
-  const [stock, setStock] = React.useState(600)
+  const [stock, setStock] = React.useState(userInfo.default_stock)
   const [maxBook, setMaxBook] = React.useState(userInfo.default_book)
   const [minPerStockProfit, setMinPerStockProfit] = React.useState(userInfo.default_per_stock_profit)
 
@@ -58,7 +58,7 @@ export function ProfitGuide({stationProfitTable, userInfo, isUserLoggedIn}: {sta
     <div className="w-full flex flex-col items-center justify-center gap-4 m-4">
       <div className="flex flex-col md:flex-row p-4 items-center justify-center gap-4">
         <div className="flex flex-col items-center gap-4 p-4">
-          <p className="text-sm text-gray-500">目的地</p>
+          <p className="text-sm text-gray-500">起点</p>
           <Select onValueChange={(station_id) => { setSelectedStationId(station_id) }} defaultValue={selectedStationId}>
             <SelectTrigger className="">
               <SelectValue placeholder="起点" />

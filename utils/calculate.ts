@@ -113,7 +113,7 @@ function calculateProfitAndPercentages(sellInfo: SellInfo) {
   const { goodId, buyStationId, targetStationId, buyPrice, sellPrice, buyTax, sellTax, baseStock, stockModify } = sellInfo;
   const perProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1.2, 0.8));
   const rawProfit = Math.floor(calculateProfit(buyPrice, sellPrice, buyTax, sellTax, 1, 1, 1));
-  const stock = Math.floor(baseStock * (1 + stockModify));
+  const stock = Math.round(baseStock * (1 + stockModify));
 
   return {
     stock,

@@ -103,6 +103,7 @@ interface UserInfo {
   };
   default_book: number;
   default_per_stock_profit: number;
+  default_stock: number;
 }
 
 interface MakeryGoodsRecipeItem {
