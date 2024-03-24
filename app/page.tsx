@@ -52,7 +52,7 @@ export default async function Index() {
   const chartDefinition = generateMermaidChartDefinition(filteredTrades);
 
   return (
-    <div className="flex flex-col gap-8 items-center">
+    <div className="flex flex-col gap-8 items-center m-4">
       <Card className={cn("w-[350px] sm:w-[500px] md:w-[700px] lg:w-[800px] xl:w-[900px] 2xl:w-[1000px]")}>
         <CardHeader>
           <CardTitle>推荐路线</CardTitle>
@@ -67,7 +67,7 @@ export default async function Index() {
         <CardFooter>
         </CardFooter>
       </Card>
-      <Card className={cn("w-[380px]")}>
+      <Card className={cn("w-[350px] sm:w-[500px]")}>
         <CardHeader>
           <CardTitle>商品数据更新情况</CardTitle>
           <CardDescription>20分钟以内视为正常</CardDescription>

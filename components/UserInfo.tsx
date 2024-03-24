@@ -106,13 +106,13 @@ export function UserInfo({ info }: { info: UserInfo }) {
 
   return (
     <>
-      <Tabs defaultValue="profile" className="w-[400px]">
+      <Tabs defaultValue="profile" className="w-[350px] sm:w-[500px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="profile">用户信息</TabsTrigger>
           <TabsTrigger value="password">修改信息</TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
-          <Card className={cn("w-[380px]")}>
+          <Card className={cn("w-[350px] sm:w-[500px]")}>
             <CardHeader>
               <CardTitle>{info.role_name}，你好！</CardTitle>
             </CardHeader>

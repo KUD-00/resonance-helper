@@ -18,7 +18,7 @@ export default async function ProtectedPage() {
   } = await supabase.from("profiles").select()
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-10 items-center">
+    <div className="flex-1 w-full flex flex-col gap-10 items-center m-4">
       {data && <UserInfo info={data[0]} />}
     </div>
   );
