@@ -56,7 +56,7 @@ export function Navi() {
                       主页
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      总览(未完成)
+                      总览
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -68,7 +68,7 @@ export function Navi() {
                 倒什么详情
               </ListItem>
               <ListItem href="/prefer/makery" title="商品制作利润">
-                疲劳值MAX，别搓太多了
+                都是菜鸡，不如倒货
               </ListItem>
             </ul>
           </NavigationMenuContent>

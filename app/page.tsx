@@ -42,7 +42,7 @@ export default async function Index() {
         const sourceStationName = getStationName(stationId);
         const targetStationName = getStationName(firstRoute.targetStationId);
 
-        chartDefinition += `${sourceStationName} -->| ${firstRoute.totalProfit * (firstRoute.book + 1)}| ${targetStationName};\n`;
+        chartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock} / ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
       }
     }
 
@@ -57,7 +57,7 @@ export default async function Index() {
         <CardHeader>
           <CardTitle>推荐路线</CardTitle>
           <CardDescription>根据用户的设置(默认最大使用进货书/默认最低单位仓储利润)来推荐的哦</CardDescription>
-          <CardDescription>没出现的话刷新一下</CardDescription>
+          <CardDescription>数字为单位仓储利润/单位疲劳利润</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className="mermaid">
