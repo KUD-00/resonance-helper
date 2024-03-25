@@ -1,7 +1,6 @@
 import React from "react";
-import mermaid from "mermaid";
 import { getProfile, getStationInfo, isLogin } from "./actions";
-import { cn, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
+import { cn, generateMermaidChartDefinition, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
 import {
   Card,
   CardContent,
@@ -37,22 +36,6 @@ export default async function Index() {
       filteredTrades[key] = filtered;
     }
   });
-
-  function generateMermaidChartDefinition(data: OptimizedProfitTable): string {
-    let chartDefinition = 'graph LR;\n';
-
-    for (const [stationId, routes] of Object.entries(data)) {
-      if (routes.length > 0) {
-        const firstRoute = routes[0];
-        const sourceStationName = getStationName(stationId);
-        const targetStationName = getStationName(firstRoute.targetStationId);
-
-        chartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock} / ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
-      }
-    }
-
-    return chartDefinition;
-  }
 
   const chartDefinition = generateMermaidChartDefinition(filteredTrades);
 
