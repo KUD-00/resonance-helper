@@ -5,9 +5,10 @@
 - 建立在前两者基础上的倒货推荐路线
 
 联系我：qq2570351247
-<img src="public/homepage-showcase.png" width="500">
-<img src="public/guide-showcase.png" width="500">
-<img src="public/user-showcase.png" width="300">
+
+<img src="public/homepage-showcase.png" width="800">
+<img src="public/guide-showcase.png" width="800">
+<img src="public/user-showcase.png" width="500">
 
 ### API
 见/data/api中的说明
