@@ -1,5 +1,6 @@
+import React from "react";
 import { getProfile, getStationInfo, isLogin } from "./actions";
-import { cn, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
+import { cn, generateMermaidChartDefinition, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
 import {
   Card,
   CardContent,
@@ -11,6 +12,7 @@ import {
 import { getStationName } from "@/config/stations";
 import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calculateStationSellBasicInfoDict, getProfitTables, getStationProfitTable, getStationTargetProfitTable, optimizeProfitTables } from "@/utils/calculate";
 import { defaultUser } from "@/config/others";
+import Mermaid from "@/components/Mermaid";
 
 interface StationInfo {
   station_id: string
@@ -84,13 +86,9 @@ export default async function Index() {
         </CardHeader>
         <CardContent className="grid gap-4">
           <CardDescription>单位仓储利润图</CardDescription>
-          <div className="mermaid">
-            {perStockProfitChartDefinition}
-          </div>
+          <Mermaid text={perStockProfitChartDefinition} />
           <CardDescription>单位疲劳利润图</CardDescription>
-          <div className="mermaid">
-            {perStaminProfitChartDefinition}
-          </div>
+          <Mermaid text={perStaminProfitChartDefinition} />
         </CardContent>
         <CardFooter>
         </CardFooter>

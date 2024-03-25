@@ -52,7 +52,7 @@ export default function Login({
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full sm:max-w-md gap-2">
+    <div className="flex-1 flex flex-col w-2/3 sm:max-w-md gap-2">
       <p className="text-sm text-gray-500 mb-4">注册暂无邮箱验证</p>
       <form className="animate-in flex-1 flex flex-col w-full gap-2 text-foreground">
         <label className="text-md" htmlFor="email">

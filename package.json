@@ -29,6 +29,7 @@
     "embla-carousel-react": "^8.0.0",
     "geist": "^1.2.1",
     "lucide-react": "^0.344.0",
+    "mermaid": "^10.9.0",
     "next": "latest",
     "next-themes": "^0.2.1",
     "postcss": "8.4.33",
