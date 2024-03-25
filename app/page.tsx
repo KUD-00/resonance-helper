@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { getStationName } from "@/config/stations";
-import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calculateStationSellBasicInfoDict, getProfitTables, getStationProfitTable, getStationTargetProfitTable, optimizeProfitTables } from "@/utils/calculate";
+import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calculateStationSellBasicInfoDict, getProfitTables, getStationTargetProfitTable, optimizeProfitTables } from "@/utils/calculate";
 import { defaultUser } from "@/config/others";
 import Mermaid from "@/components/Mermaid";
 

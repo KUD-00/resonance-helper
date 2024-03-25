@@ -153,7 +153,7 @@ export const getStationProfitTable = (buyDataDict: TransformedResponseData, sell
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
   const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
-  return getProfitTables(stationTargetProfitTable, userInfo);
+  return optimizeProfitTables(getProfitTables(stationTargetProfitTable, userInfo));
 }
 
 export const getStationTargetProfitTable = (stationProfitTable: StationProfitTable) => {
