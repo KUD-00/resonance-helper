@@ -23,9 +23,15 @@
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/react-table": "^8.13.2",
+    "@visx/group": "^3.3.0",
+    "@visx/mock-data": "^3.3.0",
+    "@visx/scale": "^3.5.0",
+    "@visx/shape": "^3.5.0",
+    "@visx/text": "^3.3.0",
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "d3-force": "^3.0.0",
     "embla-carousel-react": "^8.0.0",
     "geist": "^1.2.1",
     "lucide-react": "^0.344.0",
@@ -43,6 +49,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/d3-force": "^3.0.9",
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",

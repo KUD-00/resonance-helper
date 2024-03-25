@@ -11,6 +11,7 @@ import {
 import { getStationName } from "@/config/stations";
 import { getStationProfitTable } from "@/utils/calculate";
 import { defaultUser } from "@/config/others";
+import StationGraph from "@/components/StationGraph";
 
 interface StationInfo {
   station_id: string
@@ -19,6 +20,7 @@ interface StationInfo {
 
 export default async function Index() {
   const stationInfos: StationInfo[] = await getStationInfo()
+
   const [sellDataDict, buyDataDict] = await getTransformedDataDict();
 
   const profile: UserInfo[] = await getProfile();
@@ -27,31 +29,12 @@ export default async function Index() {
   const user = isUserLoggedIn ? profile[0] : defaultUser as UserInfo
   const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, user)
   const filteredTrades: OptimizedProfitTable = {};
-
   Object.keys(optimizedProfitTables).forEach(key => {
     const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock >= user.default_per_stock_profit && trade.book <= user.default_book);
     if (filtered.length > 0) {
       filteredTrades[key] = filtered;
     }
   });
-
-  function generateMermaidChartDefinition(data: OptimizedProfitTable): string {
-    let chartDefinition = 'graph LR;\n';
-
-    for (const [stationId, routes] of Object.entries(data)) {
-      if (routes.length > 0) {
-        const firstRoute = routes[0];
-        const sourceStationName = getStationName(stationId);
-        const targetStationName = getStationName(firstRoute.targetStationId);
-
-        chartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock} / ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
-      }
-    }
-
-    return chartDefinition;
-  }
-
-  const chartDefinition = generateMermaidChartDefinition(filteredTrades);
 
   return (
     <div className="flex flex-col gap-8 items-center m-4">
@@ -62,9 +45,7 @@ export default async function Index() {
           <CardDescription>数字为单位仓储利润/单位疲劳利润</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="mermaid">
-            {chartDefinition}
-          </div>
+          <StationGraph data={optimizedProfitTables} width={600} height={300}/>
         </CardContent>
         <CardFooter>
         </CardFooter>
