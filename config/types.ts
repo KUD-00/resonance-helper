@@ -165,6 +165,7 @@ interface BestProfitTable {
 } 
 
 interface ProfitTable { 
+  startStationId: string,
   targetStationId: string,
   goods: ProfitTableCell[],
   totalProfit: number,

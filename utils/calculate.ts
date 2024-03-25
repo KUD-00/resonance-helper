@@ -4,7 +4,11 @@ import { modifiers } from "@/config/others";
 import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
 
 export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number, bargainUp: number, bargainDown: number): number => {
-  return sell * amount * bargainUp * (1 - sell_tax) - buy * amount * (1 + buy_tax) * bargainDown
+  const sells = sell * amount * bargainUp
+  const buys = buy * amount * bargainDown
+  const buyTax = buy * amount * buy_tax
+  const sellTax = (sells - buyTax) * sell_tax
+  return sells - buys - buyTax - sellTax
 };
 
 export const calculateTax = (stationId: string, reputation: number): number => {
@@ -149,7 +153,7 @@ export const getStationProfitTable = (buyDataDict: TransformedResponseData, sell
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
   const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
-  return optimizeProfitTables(getProfitTables(stationTargetProfitTable, userInfo));
+  return getProfitTables(stationTargetProfitTable, userInfo);
 }
 
 export const getStationTargetProfitTable = (stationProfitTable: StationProfitTable) => {
@@ -176,6 +180,7 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
         const sumStock = combination.reduce((acc, curr) => acc + curr.stock, 0);
         const book = Math.floor(userInfo.default_stock / sumStock - 1);
         result[stationId].push({
+          startStationId: stationId,
           targetStationId,
           goods: combination,
           totalProfit,
@@ -191,8 +196,11 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
 };
 
 export const optimizeProfitTables = (profitTables: OptimizedProfitTable): OptimizedProfitTable => {
-  Object.keys(profitTables).forEach(stationId => {
-    const profitTableArray = profitTables[stationId];
+  // 创建 profitTables 的深拷贝
+  const profitTablesCopy: OptimizedProfitTable = JSON.parse(JSON.stringify(profitTables));
+
+  Object.keys(profitTablesCopy).forEach(stationId => {
+    const profitTableArray = profitTablesCopy[stationId];
     const goodsCountMap = new Map<number, ProfitTable>();
 
     profitTableArray.forEach(profitTable => {
@@ -206,8 +214,8 @@ export const optimizeProfitTables = (profitTables: OptimizedProfitTable): Optimi
       }
     });
 
-    profitTables[stationId] = Array.from(goodsCountMap.values());
+    profitTablesCopy[stationId] = Array.from(goodsCountMap.values());
   });
 
-  return profitTables;
+  return profitTablesCopy;
 };

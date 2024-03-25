@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { getStationName } from "@/config/stations";
-import { getStationProfitTable } from "@/utils/calculate";
+import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calculateStationSellBasicInfoDict, getProfitTables, getStationProfitTable, getStationTargetProfitTable, optimizeProfitTables } from "@/utils/calculate";
 import { defaultUser } from "@/config/others";
 
 interface StationInfo {
@@ -25,8 +25,22 @@ export default async function Index() {
   const isUserLoggedIn = await isLogin();
 
   const user = isUserLoggedIn ? profile[0] : defaultUser as UserInfo
-  const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, user)
+
+  const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, user);
+  const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
+  const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
+  const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
+  const profitTable = getProfitTables(stationTargetProfitTable, user);
+  const optimizedProfitTables = optimizeProfitTables(profitTable)
   const filteredTrades: OptimizedProfitTable = {};
+
+  const getCorrespondBestRoute = (route: ProfitTable) => {
+    const routes = profitTable[route.targetStationId]
+      .filter(r => r.targetStationId == route.startStationId)
+      .filter(trade => trade.profitPerStock >= user.default_per_stock_profit && trade.book <= user.default_book);
+
+    return routes[0]
+  }
 
   Object.keys(optimizedProfitTables).forEach(key => {
     const filtered = optimizedProfitTables[key].filter(trade => trade.profitPerStock >= user.default_per_stock_profit && trade.book <= user.default_book);
@@ -35,23 +49,30 @@ export default async function Index() {
     }
   });
 
-  function generateMermaidChartDefinition(data: OptimizedProfitTable): string {
-    let chartDefinition = 'graph LR;\n';
+  function generateMermaidChartDefinition(data: OptimizedProfitTable): string[] {
+    let perStockProfitChartDefinition = 'graph LR;\n';
+    let perStaminProfitChartDefinition = 'graph LR;\n';
 
     for (const [stationId, routes] of Object.entries(data)) {
       if (routes.length > 0) {
         const firstRoute = routes[0];
+        const correspondRote = getCorrespondBestRoute(firstRoute);
         const sourceStationName = getStationName(stationId);
         const targetStationName = getStationName(firstRoute.targetStationId);
 
-        chartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock} / ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
+        perStockProfitChartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock}| ${targetStationName};\n`;
+        perStaminProfitChartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
+        if (correspondRote && correspondRote.targetStationId != data[correspondRote.startStationId][0].targetStationId) {
+          perStockProfitChartDefinition += `${targetStationName} -.->| ${correspondRote.profitPerStock}| ${sourceStationName};\n`;
+          perStaminProfitChartDefinition += `${targetStationName} -.->| ${correspondRote.profitPerStamin}| ${sourceStationName};\n`;
+        }
       }
     }
 
-    return chartDefinition;
+    return [perStockProfitChartDefinition, perStaminProfitChartDefinition]
   }
 
-  const chartDefinition = generateMermaidChartDefinition(filteredTrades);
+  const [perStockProfitChartDefinition, perStaminProfitChartDefinition]= generateMermaidChartDefinition(filteredTrades);
 
   return (
     <div className="flex flex-col gap-8 items-center m-4">
@@ -59,11 +80,16 @@ export default async function Index() {
         <CardHeader>
           <CardTitle>推荐路线</CardTitle>
           <CardDescription>根据用户的设置(默认最大使用进货书/默认最低单位仓储利润)来推荐的哦</CardDescription>
-          <CardDescription>数字为单位仓储利润/单位疲劳利润</CardDescription>
+          <CardDescription>实线箭头指向当前站最好的倒货路线，虚线箭头为倒回来的参考利润</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
+          <CardDescription>单位仓储利润图</CardDescription>
           <div className="mermaid">
-            {chartDefinition}
+            {perStockProfitChartDefinition}
+          </div>
+          <CardDescription>单位疲劳利润图</CardDescription>
+          <div className="mermaid">
+            {perStaminProfitChartDefinition}
           </div>
         </CardContent>
         <CardFooter>
