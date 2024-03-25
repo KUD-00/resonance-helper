@@ -11495,7 +11495,11 @@ const calculateStamin= (data: StationMap): StationMap => {
   Object.keys(data).forEach(stationId => {
     result[stationId] = {};
     Object.keys(data[stationId]).forEach(neighborId => {
-      result[stationId][neighborId] = 24 + Math.floor(data[stationId][neighborId] / 1600);
+      if (data[stationId][neighborId] < 10000) {
+        result[stationId][neighborId] = 24
+      } else {
+        result[stationId][neighborId] = 24 + Math.round((data[stationId][neighborId] - 10000) / 1000);
+      }
     });
   });
 
