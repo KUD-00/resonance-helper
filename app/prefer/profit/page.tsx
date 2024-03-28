@@ -5,10 +5,15 @@ import { calculateStationModifiedSellInfoDict, calculateStationProfitTable, calc
 import { getProfile, isLogin } from "@/app/actions";
 
 export default async function Index() {
-  const [sellDataDict, buyDataDict] = await getTransformedDataDict();
+  const [transformedDataDicts, profile, isUserLoggedIn] = await Promise.all([
+    getTransformedDataDict(),
+    getProfile(),
+    isLogin(),
+  ]);
 
-  const profile: UserInfo[] = await getProfile();
-  const isUserLoggedIn = await isLogin();
+  // 从transformedDataDicts中解构出sellDataDict和buyDataDict
+  const [sellDataDict, buyDataDict] = transformedDataDicts;
+
   const stationSellBasicInfo = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfo);
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);

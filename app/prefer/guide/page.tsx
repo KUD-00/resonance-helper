@@ -3,13 +3,17 @@ import { defaultUser } from "@/config/others";
 import { getStationProfitTable } from "@/utils/calculate";
 import { ProfitGuide } from "@/components/ProfitGuide";
 import { getProfile, isLogin } from "../../actions";
-import Image from "next/image";
 
 export default async function Index() {
-  const [sellDataDict, buyDataDict] = await getTransformedDataDict();
+  const [transformedDataDicts, profile, isUserLoggedIn] = await Promise.all([
+    getTransformedDataDict(),
+    getProfile(),
+    isLogin(),
+  ]);
 
-  const profile: UserInfo[] = await getProfile();
-  const isUserLoggedIn = await isLogin();
+  // 从transformedDataDicts中解构出sellDataDict和buyDataDict
+  const [sellDataDict, buyDataDict] = transformedDataDicts;
+
   const optimizedProfitTables = getStationProfitTable(buyDataDict, sellDataDict, isUserLoggedIn ? profile[0] : defaultUser as UserInfo)
 
   return (

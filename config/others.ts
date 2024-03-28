@@ -28,6 +28,6 @@ export const modifiers = [
       }
     },
     messageTitle: "红茶战争",
-    messageContent: "现阶段红茶库存增加50%，红茶税率-5%"
+    messageContent: "现阶段红茶库存+50%，红茶税率-5%"
   }
 ]

@@ -20,15 +20,16 @@ interface StationInfo {
 }
 
 export default async function Index() {
-  const stationInfos: StationInfo[] = await getStationInfo()
-  const [sellDataDict, buyDataDict] = await getTransformedDataDict();
-
-  const profile: UserInfo[] = await getProfile();
-  const isUserLoggedIn = await isLogin();
+  const [stationInfos, transformedDataDicts, profile, isUserLoggedIn] = await Promise.all([
+    getStationInfo(),
+    getTransformedDataDict().then(([sellDataDict, buyDataDict]) => ({ sellDataDict, buyDataDict })),
+    getProfile(),
+    isLogin(),
+  ]);
 
   const user = isUserLoggedIn ? profile[0] : defaultUser as UserInfo
 
-  const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(buyDataDict, sellDataDict, user);
+  const stationSellBasicInfoDict = calculateStationSellBasicInfoDict(transformedDataDicts.buyDataDict, transformedDataDicts.sellDataDict, user);
   const modifiedSellBasicInfoDict = calculateStationModifiedSellInfoDict(stationSellBasicInfoDict);
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
   const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);

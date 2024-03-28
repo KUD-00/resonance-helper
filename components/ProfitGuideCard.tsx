@@ -66,7 +66,9 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
         <p className="text-sm text-muted-foreground">单位仓储利润：{profitTable.profitPerStock}</p>
         <Separator />
         <p className="text-sm text-muted-foreground">消耗进货书：{profitTable.book}</p>
-        <p className="text-sm text-muted-foreground">单位进货书利润：{profitTable.totalProfit}</p>
+        {profitTable.book > 0 &&
+          <p className="text-sm text-muted-foreground">单位进货书利润：{profitTable.totalProfit}</p>
+        }
         <Separator />
         <p className="text-sm text-muted-foreground">行驶疲劳值：{stationStamin}</p>
         <p className="text-sm text-muted-foreground">砍价期望疲劳值：暂时固定60</p>
