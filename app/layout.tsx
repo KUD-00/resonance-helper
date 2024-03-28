@@ -8,6 +8,8 @@ import Image from "next/image";
 import { modifiers } from "@/config/others";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const defaultUrl = process.env.BASE_URL
   ? `https://${process.env.BASE_URL}`
@@ -55,6 +57,8 @@ export default function RootLayout({
             ))}
             {children}
           </Suspense>
+          <Analytics />
+          <SpeedInsights />
         </main>
       </body>
     </html>
