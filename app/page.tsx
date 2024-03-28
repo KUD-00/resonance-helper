@@ -34,6 +34,7 @@ export default async function Index() {
   const stationProfitTable = calculateStationProfitTable(modifiedSellBasicInfoDict);
   const stationTargetProfitTable = getStationTargetProfitTable(stationProfitTable);
   const profitTable = getProfitTables(stationTargetProfitTable, user);
+  console.log(profitTable)
   const optimizedProfitTables = optimizeProfitTables(profitTable)
   const filteredTrades: OptimizedProfitTable = {};
 
@@ -51,10 +52,11 @@ export default async function Index() {
       filteredTrades[key] = filtered;
     }
   });
-
+  
   function generateMermaidChartDefinition(data: OptimizedProfitTable): string[] {
     let perStockProfitChartDefinition = 'graph LR;\n';
     let perStaminProfitChartDefinition = 'graph LR;\n';
+    let perBookProfitChartDefinition = 'graph LR;\n';
 
     for (const [stationId, routes] of Object.entries(data)) {
       if (routes.length > 0) {
@@ -65,17 +67,19 @@ export default async function Index() {
 
         perStockProfitChartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStock}| ${targetStationName};\n`;
         perStaminProfitChartDefinition += `${sourceStationName} -->| ${firstRoute.profitPerStamin}| ${targetStationName};\n`;
+        perBookProfitChartDefinition += `${sourceStationName} -->| ${firstRoute.totalProfit}| ${targetStationName};\n`;
         if (correspondRote && correspondRote.targetStationId != data[correspondRote.startStationId][0].targetStationId) {
           perStockProfitChartDefinition += `${targetStationName} -.->| ${correspondRote.profitPerStock}| ${sourceStationName};\n`;
           perStaminProfitChartDefinition += `${targetStationName} -.->| ${correspondRote.profitPerStamin}| ${sourceStationName};\n`;
+          perBookProfitChartDefinition += `${targetStationName} -.->| ${correspondRote.totalProfit}| ${sourceStationName};\n`;
         }
       }
     }
 
-    return [perStockProfitChartDefinition, perStaminProfitChartDefinition]
+    return [perStockProfitChartDefinition, perStaminProfitChartDefinition, perBookProfitChartDefinition]
   }
 
-  const [perStockProfitChartDefinition, perStaminProfitChartDefinition] = generateMermaidChartDefinition(filteredTrades);
+  const [perStockProfitChartDefinition, perStaminProfitChartDefinition, perBookProfitChartDefinition] = generateMermaidChartDefinition(filteredTrades);
 
   return (
     <div className="flex flex-col gap-8 items-center m-4">
@@ -90,6 +94,8 @@ export default async function Index() {
           <Mermaid text={perStockProfitChartDefinition} />
           <CardDescription>单位疲劳利润图</CardDescription>
           <Mermaid text={perStaminProfitChartDefinition} />
+          <CardDescription>单位进货书利润图</CardDescription>
+          <Mermaid text={perBookProfitChartDefinition} />
         </CardContent>
         <CardFooter>
         </CardFooter>

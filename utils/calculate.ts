@@ -2,6 +2,7 @@ import { getGoodBaseStock, getGoodBuyPrice, getGoodName, getGoodSellInfos, getGo
 import { stationStaminMap } from "@/config/lines";
 import { modifiers } from "@/config/others";
 import { filteredStationIds, getAttatchedToCity, getStationName } from "@/config/stations";
+import { User } from "@supabase/supabase-js";
 
 export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell_tax: number, amount: number, bargainUp: number, bargainDown: number): number => {
   const sells = sell * amount * bargainUp
@@ -178,6 +179,8 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
         const totalProfit = combination.reduce((acc, curr) => acc + curr.allProfit, 0);
         const sumStock = combination.reduce((acc, curr) => acc + curr.stock, 0);
         const book = Math.floor(userInfo.default_stock / sumStock - 1);
+        const bargainStamina = calculateBargainStamina(stationId, targetStationId, userInfo).sum;
+        const totalStamina = stationStaminMap[stationId][targetStationId] + bargainStamina;
         result[stationId].push({
           startStationId: stationId,
           targetStationId,
@@ -185,8 +188,9 @@ export const getProfitTables = (stationTargetProfitTable: Record<string, Record<
           totalProfit,
           sumStock,
           book,
+          bargainStamina,
           profitPerStock: Math.floor(totalProfit * (book+1) / sumStock),
-          profitPerStamin: Math.floor(totalProfit * (book+1) / (stationStaminMap[stationId][targetStationId] + 60)),
+          profitPerStamin: Math.floor(totalProfit * (book+1) / totalStamina),
         });
       }
     });
@@ -218,3 +222,45 @@ export const optimizeProfitTables = (profitTables: OptimizedProfitTable): Optimi
 
   return profitTablesCopy;
 };
+
+export const calculateBargainStamina = (buyStationId: string, sellStationId: string, userInfo: UserInfo): { bargain: number; raise: number; sum: number } => {
+  const buyStationReputation = userInfo.reputations[getAttatchedToCity(buyStationId)] || 0;
+  const sellStationReputation = userInfo.reputations[getAttatchedToCity(sellStationId)] || 0;
+  const tradeLevel = userInfo.trade_level;
+
+  const baseSuccessProbability = 0.67;
+  const staminaPerAttempt = 8;
+  const baseBargainIncrease = 0.03;
+  const baseRaiseIncrease = 0.02;
+  const tradeLevelBonus = 0.001 * tradeLevel;
+  const bargainReputationBonus = 0.005 * buyStationReputation;
+  const raiseReputationBonus = 0.005 * sellStationReputation;
+  
+  let bargainSuccessProbability = baseSuccessProbability + bargainReputationBonus;
+  let raiseSuccessProbability = baseSuccessProbability + raiseReputationBonus;
+  let bargainRate = baseBargainIncrease + tradeLevelBonus;
+  let raiseRate = baseRaiseIncrease + tradeLevelBonus;
+  
+  const targetIncrease = 0.20;
+
+  const calculateAttempts = (rate: number, successProbability: number): number => {
+    let totalIncrease = 0;
+    let attempts = 0;
+    while (totalIncrease < targetIncrease) {
+      totalIncrease += rate * successProbability; // Increase per successful attempt
+      successProbability = Math.max(successProbability - 0.10, 0); // Decrease success probability by 10% after each attempt, not falling below 0
+      attempts++;
+    }
+    return attempts;
+  };
+
+  const bargainAttempts = calculateAttempts(bargainRate, bargainSuccessProbability);
+  const raiseAttempts = calculateAttempts(raiseRate, raiseSuccessProbability);
+
+  const totalBargainStamina = bargainAttempts * staminaPerAttempt;
+  const totalRaiseStamina = raiseAttempts * staminaPerAttempt;
+
+  return { bargain: totalBargainStamina, raise: totalRaiseStamina, sum: totalBargainStamina + totalRaiseStamina };
+};
+
+// 写一个函数，得到两两城市间的三种利润

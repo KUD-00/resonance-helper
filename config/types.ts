@@ -172,6 +172,7 @@ interface ProfitTable {
   sumStock: number
   profitPerStock: number,
   profitPerStamin: number,
+  bargainStamina: number,
   book: number
 } 
 

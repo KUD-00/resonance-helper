@@ -71,7 +71,7 @@ export const ProfitGuideCard = React.memo(function ProfitGuideCard({ selectedSta
         }
         <Separator />
         <p className="text-sm text-muted-foreground">行驶疲劳值：{stationStamin}</p>
-        <p className="text-sm text-muted-foreground">砍价期望疲劳值：暂时固定60</p>
+        <p className="text-sm text-muted-foreground">砍抬价疲劳期望值：{profitTable.bargainStamina}</p>
         <p className="text-sm text-muted-foreground">单位疲劳值利润：{profitTable.profitPerStamin}</p>
       </CardContent>
     </Card>
