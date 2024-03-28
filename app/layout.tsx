@@ -57,12 +57,6 @@ export default function RootLayout({
           </Suspense>
         </main>
       </body>
-      <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `mermaid.initialize({startOnLoad: true});`,
-        }}
-      />
     </html>
   );
 }

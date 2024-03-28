@@ -14,7 +14,7 @@ export const calculateProfit = (buy: number, sell: number, buy_tax: number, sell
 export const calculateTax = (stationId: string, reputation: number): number => {
   const attachedCity = getAttatchedToCity(stationId);
 
-  if (attachedCity == "83000020") {
+  if (attachedCity == "83000020") { // 只有7号自由港的税率起征点不同
     return (7.5 - Math.ceil(reputation * 0.5) * 0.5) * 0.01;
   } else {
     return (10 - Math.ceil(reputation * 0.5) * 0.5) * 0.01;
@@ -60,7 +60,6 @@ function calculateProfitEntry(buyGood: DataResponse, sellGood: DataResponse, goo
     targetStationName: getStationName(sellStationId),
   };
 }
-
 
 export const calculateStationSellBasicInfoDict = (
   buyDataDict: TransformedResponseData, 

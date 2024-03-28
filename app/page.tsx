@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Profiler } from "react";
 import { getProfile, getStationInfo, isLogin } from "./actions";
-import { cn, generateMermaidChartDefinition, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
+import { cn, getTransformedDataDict, isOutdated, linuxTimeToMinutesAgo } from "@/utils/utils"
 import {
   Card,
   CardContent,
@@ -74,7 +74,7 @@ export default async function Index() {
     return [perStockProfitChartDefinition, perStaminProfitChartDefinition]
   }
 
-  const [perStockProfitChartDefinition, perStaminProfitChartDefinition]= generateMermaidChartDefinition(filteredTrades);
+  const [perStockProfitChartDefinition, perStaminProfitChartDefinition] = generateMermaidChartDefinition(filteredTrades);
 
   return (
     <div className="flex flex-col gap-8 items-center m-4">
